@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import codecs
-import json
 from os import walk
 from os.path import basename, join, splitext
 import re
@@ -12,6 +10,7 @@ from mutagen.mp3 import MP3
 
 from modules.logger import get_logger
 from settings import DB_DIR, MUSIC_DIR
+from tools.json_tools import dump_to_json, load_from_json
 
 LOG_NAME = splitext(basename(__file__))[0]
 PARSINGS = (
@@ -133,15 +132,3 @@ def get_tracks():
     Return a list with the indexed tracks
     """
     return load_from_json(join(DB_DIR, 'tracks.json'))
-
-
-def dump_to_json(obj, filepath):
-    with codecs.open(filepath, 'w', 'utf-8') as file:
-        json.dump(obj, file, ensure_ascii=False, indent=4, sort_keys=True)
-
-
-def load_from_json(filepath):
-    with open(filepath) as file:
-        obj = json.load(file)
-
-    return obj
