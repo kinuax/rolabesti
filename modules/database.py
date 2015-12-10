@@ -39,10 +39,9 @@ def build_index():
     count = 0
 
     logger = get_logger(LOG_NAME)
-    info = 'building new database index'
+    info = 'building new index'
     logger.info(info)
-
-    print info
+    print '[database] ' + info
 
     for dirpath, dirnames, filenames in walk(MUSIC_DIR):
         if 'Places' in dirpath or 'Genres' in dirpath:
@@ -72,7 +71,7 @@ def build_index():
                     logger.info(info)
 
                     if count in COUNTS:
-                        print '%d tracks indexed' % count
+                        print u'[database] indexing %d tracks' % count
 
     dump_to_json(sorted(places), join(DB_DIR, 'places.json'))
     dump_to_json(sorted(genres), join(DB_DIR, 'genres.json'))
@@ -80,10 +79,13 @@ def build_index():
     dump_to_json(sorted(albums), join(DB_DIR, 'albums.json'))
     dump_to_json(tracks, join(DB_DIR, 'tracks.json'))
 
-    info = 'database index built : %d tracks indexed' % count
+    info = 'new index built'
     logger.info(info)
+    print '[database] ' + info
 
-    print info
+    info = '%d tracks indexed' % count
+    logger.info(info)
+    print '[database] ' + info
 
 
 def build_track(trackpath):
