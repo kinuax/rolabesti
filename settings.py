@@ -8,7 +8,6 @@ BASE_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)))
 # directories
 DB_DIR = os.path.join(BASE_DIR, 'database')
 LOG_DIR = os.path.join(BASE_DIR, 'log')
-MODULES_DIR = os.path.join(BASE_DIR, 'modules')
 MUSIC_DIR = '/path/to/music/directory'
 
 # default search
