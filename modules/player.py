@@ -5,11 +5,7 @@ from tools.process import execute, running_process
 
 
 def play(tracks, length):
-    command = ['vlc']
     count = len(tracks)
-
-    for track in tracks:
-        command.append(track['path'])
 
     if not running_process('vlc'):
         count -= 1
@@ -18,9 +14,14 @@ def play(tracks, length):
         print '[system] opening vlc'
         print u'[vlc] playing ' + tracks[0]['path']
 
-    execute(command)
-
     if count:
-        print '[vlc] %d track%s enqueued' % (count, 's'[count == 1:])
+        print '[vlc] enqueuing %d track%s' % (count, 's'[count == 1:])
+
+    command = ['vlc']
+
+    for track in tracks:
+        command.append(track['path'])
+
+    execute(command)
 
     print '[vlc] tracklist length is ' + length
