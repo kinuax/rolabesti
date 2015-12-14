@@ -49,9 +49,19 @@ def build_index():
                           for filename in filenames if filename.endswith('.mp3')]
 
             for trackpath in trackpaths:
-                track = build_track(trackpath)
+                track = parse(trackpath)
 
                 if track:
+                    try:
+                        track['length'] = get_length(trackpath)
+                    except:
+                        error = sys.exc_info()
+                        error = u'getting track length | %s - %s | %s' % \
+                            (str(error[0]), str(error[1]), trackpath)
+                        logger.error(error)
+
+                        continue
+
                     tracks.append(track)
                     count += 1
 
@@ -67,11 +77,15 @@ def build_index():
                     if 'album' in track and track['album'] not in albums:
                         albums.append(track['album'])
 
-                    info = u'track indexed : %s' % track['path']
+                    info = u'track indexed | %s' % track['path']
                     logger.info(info)
 
                     if count in COUNTS:
-                        print u'[database] indexing %d tracks' % count
+                        print '[database] indexing %d tracks' % count
+
+                else:
+                    warning = u'track parsing not found | %s' % trackpath
+                    logger.warning(warning)
 
     dump_to_json(sorted(places), join(DB_DIR, 'places.json'))
     dump_to_json(sorted(genres), join(DB_DIR, 'genres.json'))
@@ -88,13 +102,7 @@ def build_index():
     print '[database] ' + info
 
 
-def build_track(trackpath):
-    """
-    Build the track index
-    """
-    logger = get_logger(LOG_NAME)
-
-    # get track parsing
+def parse(trackpath):
     for parsing in PARSINGS:
         match = re.search(parsing[0], trackpath)
 
@@ -106,27 +114,13 @@ def build_track(trackpath):
                 if field != 'other':
                     track[field] = values[i]
 
-            break
+            return track
 
-    if not match:
-        warning = u'track parsing not found : %s' % trackpath
-        logger.warning(warning)
 
-        return {}
+def get_length(trackpath):
+    audio = MP3(trackpath)
 
-    # get track length
-    try:
-        audio = MP3(trackpath)
-        track['length'] = audio.info.length
-    except:
-        error = sys.exc_info()
-        error = u'getting track length : %s - %s : %s' % \
-            (str(error[0]), str(error[1]), trackpath)
-        logger.error(error)
-
-        return {}
-
-    return track
+    return audio.info.length
 
 
 def get_tracks():
