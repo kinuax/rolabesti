@@ -1,27 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from math import modf
-
-
-def format_length(length):
-    length = int(modf(length)[1])
-
-    if length < 60:
-        return '%d seconds' % length
-    elif length < 3600:
-        minutes = length / 60
-        seconds = length % 60
-
-        return '%s:%s minutes' % (format(minutes, '02'), format(seconds, '02'))
-    else:
-        hours = length / 3600
-        minutes = (length % 3600) / 60
-        seconds = (length % 3600) % 60
-
-        return '%d:%s:%s hours' % (hours,
-                                   format(minutes, '02'),
-                                   format(seconds, '02'))
+from tools.misc import format_length
 
 
 def limit(tracks, total_length):
