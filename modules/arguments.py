@@ -29,6 +29,9 @@ def get_arguments():
 
     check_arguments(parsed_args)
 
+    if parsed_args.max > parsed_args.total_length:
+        parsed_args.max = parsed_args.total_length
+
     arguments = {}
     arguments['method'] = parsed_args.method.decode('utf-8')
     arguments['sorting'] = parsed_args.sorting.decode('utf-8')

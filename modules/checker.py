@@ -105,11 +105,6 @@ def check_arguments(arguments):
         error += 'max must be greater than or equal to min'
         sys.exit(error)
 
-    if arguments.max > arguments.total_length:
-        error = '[checker] error | invalid arguments | '
-        error += 'total_length must be greater than or equal to max'
-        sys.exit(error)
-
     if arguments.method == 'copy':
         if not arguments.destiny:
             error = '[checker] error | missing argument | '
