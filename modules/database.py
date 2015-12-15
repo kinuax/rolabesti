@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from os import walk
-from os.path import basename, join, splitext
+from os.path import basename, exists, join, splitext
 import re
 import sys
 
@@ -125,6 +125,17 @@ def get_length(trackpath):
 
 def get_tracks():
     """
-    Return a list with the indexed tracks
+    Return a list with existing indexed tracks.
     """
-    return load_from_json(join(DB_DIR, 'tracks.json'))
+    logger = get_logger(LOG_NAME)
+    indexed_tracks = load_from_json(join(DB_DIR, 'tracks.json'))
+    tracks = []
+
+    for track in indexed_tracks:
+        if exists(track['path']):
+            tracks.append(track)
+        else:
+            warning = u'indexed track does not exist in file system | %s' % track['path']
+            logger.warning(warning)
+
+    return tracks

@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from os.path import basename, exists, splitext
+from os.path import basename, splitext
 
 from modules.database import get_tracks
-from modules.logger import get_logger
 
 LOG_NAME = splitext(basename(__file__))[0]
 SEARCH_FIELDS = ('place', 'genre', 'artist', 'album')
@@ -18,17 +17,6 @@ def filtered_by_fields(track, fields):
     return True
 
 
-def track_exists(trackpath):
-    if exists(trackpath):
-        return True
-    else:
-        logger = get_logger(LOG_NAME)
-        warning = u'indexed track does not exist in file system | %s' % trackpath
-        logger.info(warning)
-
-        return False
-
-
 def search(arguments):
     tracks = []
     fields = {field: value for field, value in arguments.iteritems()
@@ -40,13 +28,11 @@ def search(arguments):
         for track in get_tracks():
             if arguments['min'] <= track['length'] <= arguments['max']:
                 if filtered_by_fields(track, fields):
-                    if track_exists(track['path']):
-                        tracks.append(track)
+                    tracks.append(track)
     else:
         for track in get_tracks():
             if arguments['min'] <= track['length'] <= arguments['max']:
-                if track_exists(track['path']):
-                    tracks.append(track)
+                tracks.append(track)
 
     if not tracks:
         print '[searcher] no track found'
