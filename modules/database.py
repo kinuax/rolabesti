@@ -14,15 +14,15 @@ from tools.json_tools import dump_to_json, load_from_json
 
 LOG_NAME = splitext(basename(__file__))[0]
 PARSINGS = (
-    (r'/Places/(.+?)/Genres/(.+?)/Albums/(.+?)/(.+/)*(.+)\.mp3$', ('place', 'genre', 'album', 'other', 'filename')),
-    (r'/Places/(.+?)/Genres/(.+?)/(.+?)/(.+?)/(.+/)*(.+)\.mp3$', ('place', 'genre', 'artist', 'album', 'other', 'filename')),
-    (r'/Places/(.+?)/Genres/(.+?)/(.+?)/(.+)\.mp3$', ('place', 'genre', 'artist', 'filename')),
-    (r'/Places/(.+?)/Albums/(.+?)/(.+/)*(.+)\.mp3$', ('place', 'album', 'other', 'filename')),
-    (r'/Places/(.+?)/(.+?)/(.+?)/(.+/)*(.+)\.mp3$', ('place', 'artist', 'album', 'other', 'filename')),
-    (r'/Places/(.+?)/(.+?)/(.+)\.mp3$', ('place', 'artist', 'filename')),
-    (r'/Genres/(.+?)/Albums/(.+?)/(.+/)*(.+)\.mp3$', ('genre', 'album', 'other', 'filename')),
-    (r'/Genres/(.+?)/(.+?)/(.+?)/(.+/)*(.+)\.mp3$', ('genre', 'artist', 'album', 'other', 'filename')),
-    (r'/Genres/(.+?)/(.+?)/(.+)\.mp3$', ('genre', 'artist', 'filename')),
+    (r'/Places/(.+?)/Genres/(.+?)/Albums/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('place', 'genre', 'album', 'other', 'filename')),
+    (r'/Places/(.+?)/Genres/(.+?)/(.+?)/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('place', 'genre', 'artist', 'album', 'other', 'filename')),
+    (r'/Places/(.+?)/Genres/(.+?)/(.+?)/(.+)\.[mM][pP]3$', ('place', 'genre', 'artist', 'filename')),
+    (r'/Places/(.+?)/Albums/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('place', 'album', 'other', 'filename')),
+    (r'/Places/(.+?)/(.+?)/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('place', 'artist', 'album', 'other', 'filename')),
+    (r'/Places/(.+?)/(.+?)/(.+)\.[mM][pP]3$', ('place', 'artist', 'filename')),
+    (r'/Genres/(.+?)/Albums/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('genre', 'album', 'other', 'filename')),
+    (r'/Genres/(.+?)/(.+?)/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('genre', 'artist', 'album', 'other', 'filename')),
+    (r'/Genres/(.+?)/(.+?)/(.+)\.[mM][pP]3$', ('genre', 'artist', 'filename')),
 )
 COUNTS = (50, 100, 500, 1000, 2000, 5000, 10000, 15000, 20000, 25000, 30000, 40000, 50000)
 
@@ -44,9 +44,9 @@ def build_index():
     print '[database] ' + info
 
     for dirpath, dirnames, filenames in walk(MUSIC_DIR):
-        if 'Places' in dirpath or 'Genres' in dirpath:
+        if re.search(r'/Places/|/Genres/', dirpath):
             trackpaths = [join(dirpath, filename).decode('utf-8')
-                          for filename in filenames if filename.endswith('.mp3')]
+                          for filename in filenames if re.search(r'\.[mM][pP]3$', filename)]
 
             for trackpath in trackpaths:
                 track = parse(trackpath)
