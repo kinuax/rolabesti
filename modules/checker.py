@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from os.path import exists
+from os.path import exists, join
 import sys
 from sorter import SORTINGS
+
+from settings import DB_DIR
 
 
 def check_definition(variable):
@@ -115,3 +117,15 @@ def check_arguments(arguments):
             error = '[checker] error | invalid argument | '
             error += 'destiny must be an existing directory'
             sys.exit(error)
+
+
+def check_empty_database():
+    """
+    Exit with error if the database index is not built.
+    """
+    trackfile = join(DB_DIR, 'tracks.json')
+
+    if not exists(trackfile):
+        error = '[checker] database index not found | '
+        error += 'build method must be run'
+        sys.exit(error)
