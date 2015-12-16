@@ -25,6 +25,7 @@ PARSINGS = (
     (r'/Genres/(.+?)/(.+?)/(.+)\.[mM][pP]3$', ('genre', 'artist', 'filename')),
 )
 COUNTS = (50, 100, 500, 1000, 2000, 5000, 10000, 15000, 20000, 25000, 30000, 40000, 50000)
+SEARCH_FIELDS = ('place', 'genre', 'artist', 'album')
 
 
 def build_index():
@@ -123,19 +124,32 @@ def get_length(trackpath):
     return audio.info.length
 
 
-def get_tracks():
-    """
-    Return a list with existing indexed tracks.
-    """
-    logger = get_logger(LOG_NAME)
-    indexed_tracks = load_from_json(join(DB_DIR, 'tracks.json'))
-    tracks = []
+def filtered_by_fields(track, fields):
+    for field, value in fields.items():
+        if field not in track or value.lower() not in track[field].lower():
+            return False
 
-    for track in indexed_tracks:
-        if exists(track['path']):
-            tracks.append(track)
-        else:
-            warning = u'indexed track does not exist in file system | %s' % track['path']
-            logger.warning(warning)
+    return True
+
+
+def search(arguments):
+    tracks = []
+    fields = {field: value for field, value in arguments.iteritems()
+              if field in SEARCH_FIELDS}
+    logger = get_logger(LOG_NAME)
+
+    print '[database] searching tracks'
+
+    for track in load_from_json(join(DB_DIR, 'tracks.json')):
+        if arguments['min'] <= track['length'] <= arguments['max']:
+            if filtered_by_fields(track, fields):
+                if exists(track['path']):
+                    tracks.append(track)
+                else:
+                    warning = u'indexed track does not exist in file system | %s' % track['path']
+                    logger.warning(warning)
+
+    if not tracks:
+        print '[database] no track found'
 
     return tracks

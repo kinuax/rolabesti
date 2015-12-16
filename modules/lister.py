@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from searcher import SEARCH_FIELDS
+from database import SEARCH_FIELDS
 from tools.misc import format_length
 
 
