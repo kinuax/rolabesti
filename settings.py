@@ -10,8 +10,13 @@ DB_DIR = os.path.join(BASE_DIR, 'database')
 LOG_DIR = os.path.join(BASE_DIR, 'log')
 MUSIC_DIR = '/path/to/music/directory'
 
-# default search
+# default method
+METHOD = 'play'
+
+# default tracklist options
 SORTING = 'random'
 TOTAL_LENGTH = 60
+
+# default track options
 MIN_TRACK_LENGTH = 0
 MAX_TRACK_LENGTH = TOTAL_LENGTH

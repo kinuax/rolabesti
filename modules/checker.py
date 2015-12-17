@@ -4,7 +4,7 @@
 from os.path import exists, join
 import sys
 
-from arguments import SORTINGS
+from arguments import METHODS, SORTINGS
 from settings import DB_DIR
 
 
@@ -18,7 +18,7 @@ def check_definition(variable):
     try:
         exec code
     except ImportError:
-        error = '[settings] error | invalid settings | '
+        error = '[settings] error | missing settings | '
         error += '%s must be defined' % variable
         sys.exit(error)
 
@@ -45,6 +45,13 @@ def check_settings():
         directory = check_definition(directory)
 
         check_existence(directory)
+
+    method = check_definition('METHOD')
+
+    if method not in METHODS:
+        error = '[settings] error | invalid settings | '
+        error += 'METHOD must have a valid value'
+        sys.exit(error)
 
     sorting = check_definition('SORTING')
 

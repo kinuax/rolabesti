@@ -4,7 +4,7 @@
 import argparse
 import sys
 
-from settings import SORTING, TOTAL_LENGTH, MIN_TRACK_LENGTH, MAX_TRACK_LENGTH
+from settings import METHOD, SORTING, TOTAL_LENGTH, MIN_TRACK_LENGTH, MAX_TRACK_LENGTH
 
 METHODS = ('build', 'play', 'copy', 'list')
 SORTINGS = ('asc', 'desc', 'random')
@@ -13,9 +13,9 @@ SORTINGS = ('asc', 'desc', 'random')
 def get_arguments():
     parser = argparse.ArgumentParser(description='command-line program to manage a music library')
 
-    parser.add_argument('-m', '--method', help='method to run, default is play', choices=METHODS, default='play')
-    parser.add_argument('-s', '--sorting', help='track sorting, default is %s' % SORTING, choices=SORTINGS, default=SORTING)
-    parser.add_argument('-t', '--total_length', help='maximum track list length in minutes, default is %s' % TOTAL_LENGTH, type=int, default=TOTAL_LENGTH)
+    parser.add_argument('-m', '--method', help='method to run, default is %s' % METHOD, choices=METHODS, default=METHOD)
+    parser.add_argument('-s', '--sorting', help='tracklist sorting, default is %s' % SORTING, choices=SORTINGS, default=SORTING)
+    parser.add_argument('-t', '--total_length', help='maximum tracklist length in minutes, default is %s' % TOTAL_LENGTH, type=int, default=TOTAL_LENGTH)
     parser.add_argument('--min', help='minimum track length in minutes, default is %s' % MIN_TRACK_LENGTH, type=int, default=MIN_TRACK_LENGTH)
     parser.add_argument('--max', help='maximum track length in minutes, default is %s' % MAX_TRACK_LENGTH, type=int, default=MAX_TRACK_LENGTH)
     parser.add_argument('-p', '--place', help='track place')
