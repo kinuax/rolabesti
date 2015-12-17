@@ -4,11 +4,10 @@
 import argparse
 import sys
 
-from checker import check_arguments
 from settings import SORTING, TOTAL_LENGTH, MIN_TRACK_LENGTH, MAX_TRACK_LENGTH
-from sorter import SORTINGS
 
 METHODS = ('build', 'play', 'copy', 'list')
+SORTINGS = ('asc', 'desc', 'random')
 
 
 def get_arguments():
@@ -55,3 +54,39 @@ def get_arguments():
         arguments['destiny'] = parsed_args.destiny.decode('utf-8')
 
     return arguments
+
+
+def check_arguments(arguments):
+    """
+    Exit with error if invalid arguments.
+    """
+    if arguments.total_length <= 0:
+        error = '[arguments] error | invalid argument | '
+        error += 'total_length must be a positive integer'
+        sys.exit(error)
+
+    if arguments.min < 0:
+        error = '[arguments] error | invalid argument | '
+        error += 'min must be a non-negative integer'
+        sys.exit(error)
+
+    if arguments.max <= 0:
+        error = '[arguments] error | invalid argument | '
+        error += 'max must be a positive integer'
+        sys.exit(error)
+
+    if arguments.min > arguments.max:
+        error = '[arguments] error | invalid arguments | '
+        error += 'max must be greater than or equal to min'
+        sys.exit(error)
+
+    if arguments.method == 'copy':
+        if not arguments.destiny:
+            error = '[arguments] error | missing argument | '
+            error += 'destiny is required with copy method'
+            sys.exit(error)
+
+        if not exists(arguments.destiny.decode('utf-8')):
+            error = '[arguments] error | invalid argument | '
+            error += 'destiny must be an existing directory'
+            sys.exit(error)

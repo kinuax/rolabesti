@@ -153,3 +153,14 @@ def search(arguments):
         print '[database] no track found'
 
     return tracks
+
+
+def check_empty_database():
+    """
+    Exit with error if the database index is not built.
+    """
+    trackfile = join(DB_DIR, 'tracks.json')
+
+    if not exists(trackfile):
+        error = '[database] index not found | first run build method'
+        sys.exit(error)
