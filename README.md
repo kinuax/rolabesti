@@ -18,7 +18,7 @@ The main motivation is to answer a question that music fans, DJs, bartenders and
 Description
 ----------
 
-**rolabesti** is a command-line program to manage a music library, achieving operations like indexing, searching, playing, copying and listing mp3 files.
+**rolabesti** is a command-line program to manage a music library, achieving operations like indexing, searching, playing, copying, listing and tagging mp3 files.
 
     ./rolabesti.py [OPTIONS]
 
@@ -65,7 +65,7 @@ Configuration
 - `DB_DIR`: path to store the database.
 - `LOG_DIR`: path to store the logs.
 - `MUSIC_DIR`: path to the music directory.
-- `METHOD`: default method to run, corresponding to the METHOD option; choices are build (build the database index), play (open vlc to play and enqueue found tracks), copy (copy found tracks to destiny folder) and list (show found tracks and summary).
+- `METHOD`: default method to run, corresponding to the METHOD option; choices are build (build the database index), play (open vlc to play and enqueue found tracks), copy (copy found tracks to destiny folder), list (show found tracks and summary) and tag (write ID3 tags).
 - `SORTING`: default tracklist sorting, corresponding to the SORTING option; choices are asc (ascending), desc (descending) and random.
 - `TOTAL_LENGTH`: default maximum tracklist length in minutes, corresponding to the TOTAL_LENGTH option.
 - `MIN_TRACK_LENGTH`: default minimum track length in minutes, corresponding to the MIN option.

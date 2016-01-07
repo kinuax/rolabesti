@@ -11,6 +11,7 @@ from modules.limiter import limit
 from modules.lister import list_tracks
 from modules.player import play
 from modules.sorter import sort
+from modules.tagger import tag
 
 
 if __name__ == '__main__':
@@ -27,6 +28,8 @@ if __name__ == '__main__':
         if tracks:
             if method == 'list':
                 list_tracks(tracks)
+            elif method == 'tag':
+                tag(tracks)
             else:
                 tracks = sort(tracks, arguments['sorting'])
                 tracks, length = limit(tracks, arguments['total_length'])

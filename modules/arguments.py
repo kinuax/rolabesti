@@ -6,7 +6,7 @@ import sys
 
 from settings import METHOD, SORTING, TOTAL_LENGTH, MIN_TRACK_LENGTH, MAX_TRACK_LENGTH
 
-METHODS = ('build', 'play', 'copy', 'list')
+METHODS = ('build', 'play', 'copy', 'list', 'tag')
 SORTINGS = ('asc', 'desc', 'random')
 
 
