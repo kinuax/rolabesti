@@ -65,7 +65,7 @@ def tag(tracks):
 def get_tags(trackpath):
     try:
         return EasyID3(trackpath)
-    except mutagen.id3._util.ID3NoHeaderError:
+    except ID3NoHeaderError:
         EasyID3().save(trackpath)
 
         return EasyID3(trackpath)
