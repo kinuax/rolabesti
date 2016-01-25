@@ -27,7 +27,7 @@ Requirements
 
 - Unix environment.
 - Python 2.7.
-- mutagen library.
+- mutagen 1.31+ library.
 - vlc player.
 
 Installation
