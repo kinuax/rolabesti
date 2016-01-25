@@ -8,23 +8,23 @@ import sys
 
 from mutagen.mp3 import MP3
 
-from modules.logger import get_logger
+from logger import get_logger
 from settings import DB_DIR, MUSIC_DIR
 from tools.json_tools import dump_to_json, load_from_json
 
 LOG_NAME = splitext(basename(__file__))[0]
 PARSINGS = (
-    (r'/Places/(.+?)/Genres/(.+?)/Albums/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('place', 'genre', 'album', 'other', 'filename')),
-    (r'/Places/(.+?)/Genres/(.+?)/(.+?)/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('place', 'genre', 'artist', 'album', 'other', 'filename')),
+    (r'/Places/(.+?)/Genres/(.+?)/Albums/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('place', 'genre', 'album', 'side', 'filename')),
+    (r'/Places/(.+?)/Genres/(.+?)/(.+?)/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('place', 'genre', 'artist', 'album', 'side', 'filename')),
     (r'/Places/(.+?)/Genres/(.+?)/(.+?)/(.+)\.[mM][pP]3$', ('place', 'genre', 'artist', 'filename')),
-    (r'/Places/(.+?)/Albums/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('place', 'album', 'other', 'filename')),
-    (r'/Places/(.+?)/(.+?)/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('place', 'artist', 'album', 'other', 'filename')),
+    (r'/Places/(.+?)/Albums/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('place', 'album', 'side', 'filename')),
+    (r'/Places/(.+?)/(.+?)/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('place', 'artist', 'album', 'side', 'filename')),
     (r'/Places/(.+?)/(.+?)/(.+)\.[mM][pP]3$', ('place', 'artist', 'filename')),
-    (r'/Genres/(.+?)/Albums/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('genre', 'album', 'other', 'filename')),
-    (r'/Genres/(.+?)/(.+?)/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('genre', 'artist', 'album', 'other', 'filename')),
+    (r'/Genres/(.+?)/Albums/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('genre', 'album', 'side', 'filename')),
+    (r'/Genres/(.+?)/(.+?)/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('genre', 'artist', 'album', 'side', 'filename')),
     (r'/Genres/(.+?)/(.+?)/(.+)\.[mM][pP]3$', ('genre', 'artist', 'filename')),
 )
-COUNTS = (50, 100, 500, 1000, 2000, 5000, 10000, 15000, 20000, 25000, 30000, 40000, 50000)
+COUNTS = (5, 10, 50, 100, 500, 1000, 2000, 5000, 10000, 15000, 20000, 25000, 30000, 40000, 50000)
 SEARCH_FIELDS = ('place', 'genre', 'artist', 'album')
 
 
@@ -112,7 +112,7 @@ def parse(trackpath):
             values = match.groups()
 
             for i, field in enumerate(parsing[1]):
-                if field != 'other':
+                if field != 'side':
                     track[field] = values[i]
 
             return track
@@ -149,7 +149,9 @@ def search(arguments):
                     warning = u'indexed track does not exist in file system | %s' % track['path']
                     logger.warning(warning)
 
-    if not tracks:
+    if tracks:
+        print '[database] %s track%s found' % (len(tracks), 's'[len(tracks) == 1:])
+    else:
         print '[database] no track found'
 
     return tracks
