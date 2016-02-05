@@ -37,7 +37,9 @@ def tag(tracks):
             save = True
 
         if 'artist' in track and ('artist' not in tags or
-                    (tags['artist'] or [''])[0].strip().lower() in VALUES):
+                    (tags['artist'] or [''])[0].strip().lower() in VALUES or
+                    ((tags['artist'] or [''])[0] != track['artist'] and
+                    (tags['artist'] or [''])[0].strip().lower() == track['artist'].lower())):
             tags['artist'] = track['artist']
             save = True
 
