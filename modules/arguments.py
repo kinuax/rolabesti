@@ -3,6 +3,7 @@
 
 import argparse
 import sys
+from os.path import exists
 
 from settings import METHOD, SORTING, TOTAL_LENGTH, MIN_TRACK_LENGTH, MAX_TRACK_LENGTH
 
