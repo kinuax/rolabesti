@@ -6,7 +6,7 @@ check_settings()
 
 from modules.arguments import get_arguments
 from modules.copier import copy
-from modules.database import build_index, search, check_empty_database
+from modules.database import build, search, check_existing_tracks
 from modules.limiter import limit
 from modules.lister import list_tracks
 from modules.player import play
@@ -19,9 +19,9 @@ if __name__ == '__main__':
     method = arguments['method']
 
     if method == 'build':
-        build_index()
+        build()
     else:
-        check_empty_database()
+        check_existing_tracks()
 
         tracks = search(arguments)
 

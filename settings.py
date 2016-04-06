@@ -6,11 +6,10 @@ import os
 BASE_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)))
 
 # directories
-DB_DIR = os.path.join(BASE_DIR, 'database')
 LOG_DIR = os.path.join(BASE_DIR, 'log')
 MUSIC_DIR = '/path/to/music/directory'
 
-# default method
+# default method option
 METHOD = 'play'
 
 # default tracklist options
@@ -20,3 +19,9 @@ TOTAL_LENGTH = 60
 # default track options
 MIN_TRACK_LENGTH = 0
 MAX_TRACK_LENGTH = TOTAL_LENGTH
+
+# MongoDB settings
+MONGO_HOST = 'localhost'
+MONGO_PORT = 27017
+MONGO_DBNAME = 'rolabesti'
+MONGO_COLNAME = 'tracks'

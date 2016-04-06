@@ -7,10 +7,10 @@ import re
 import sys
 
 from mutagen.mp3 import MP3
+from pymongo import MongoClient
 
 from logger import get_logger
-from settings import DB_DIR, MUSIC_DIR
-from tools.json_tools import dump_to_json, load_from_json
+from settings import MUSIC_DIR, MONGO_HOST, MONGO_PORT, MONGO_DBNAME, MONGO_COLNAME
 
 LOG_NAME = splitext(basename(__file__))[0]
 PARSINGS = (
@@ -28,19 +28,22 @@ COUNTS = (5, 10, 50, 100, 500, 1000, 2000, 5000, 10000, 15000, 20000, 25000, 300
 SEARCH_FIELDS = ('place', 'genre', 'artist', 'album')
 
 
-def build_index():
+def get_collection():
+    client = MongoClient(host=MONGO_HOST, port=MONGO_PORT)
+
+    return client[MONGO_DBNAME][MONGO_COLNAME]
+
+
+def build():
     """
-    Build the database index
+    Parse mp3 files under MUSIC_DIR and build the collection
     """
-    places = []
-    genres = []
-    artists = []
-    albums = []
-    tracks = []
+    collection = get_collection()
+    collection.remove({})
     count = 0
 
     logger = get_logger(LOG_NAME)
-    info = 'building new index'
+    info = 'building new database'
     logger.info(info)
     print '[database] ' + info
 
@@ -63,42 +66,17 @@ def build_index():
 
                         continue
 
-                    tracks.append(track)
+                    collection.insert_one(track)
                     count += 1
 
-                    if 'genre' in track and track['genre'] not in genres:
-                        genres.append(track['genre'])
-
-                    if 'place' in track and track['place'] not in places:
-                        places.append(track['place'])
-
-                    if 'artist' in track and track['artist'] not in artists:
-                        artists.append(track['artist'])
-
-                    if 'album' in track and track['album'] not in albums:
-                        albums.append(track['album'])
-
-                    info = u'track indexed | %s' % track['path']
-                    logger.info(info)
-
                     if count in COUNTS:
-                        print '[database] indexing %d tracks' % count
+                        print '[database] loading %d tracks' % count
 
                 else:
                     warning = u'track parsing not found | %s' % trackpath
                     logger.warning(warning)
 
-    dump_to_json(sorted(places), join(DB_DIR, 'places.json'))
-    dump_to_json(sorted(genres), join(DB_DIR, 'genres.json'))
-    dump_to_json(sorted(artists), join(DB_DIR, 'artists.json'))
-    dump_to_json(sorted(albums), join(DB_DIR, 'albums.json'))
-    dump_to_json(tracks, join(DB_DIR, 'tracks.json'))
-
-    info = 'new index built'
-    logger.info(info)
-    print '[database] ' + info
-
-    info = '%d tracks indexed' % count
+    info = 'new database built : %d tracks loaded' % count
     logger.info(info)
     print '[database] ' + info
 
@@ -134,20 +112,21 @@ def filtered_by_fields(track, fields):
 
 def search(arguments):
     tracks = []
-    fields = {field: value for field, value in arguments.iteritems()
-              if field in SEARCH_FIELDS}
     logger = get_logger(LOG_NAME)
+    collection = get_collection()
+    query = {'length': {'$gte': arguments['min'], '$lte': arguments['max']}}
+    query.update({field: re.compile(value, re.IGNORECASE)
+                 for field, value in arguments.iteritems()
+                 if field in SEARCH_FIELDS})
 
     print '[database] searching tracks'
 
-    for track in load_from_json(join(DB_DIR, 'tracks.json')):
-        if arguments['min'] <= track['length'] <= arguments['max']:
-            if filtered_by_fields(track, fields):
-                if exists(track['path'].encode('utf-8')):
-                    tracks.append(track)
-                else:
-                    warning = u'indexed track does not exist in file system | %s' % track['path']
-                    logger.warning(warning)
+    for track in collection.find(query):
+        if exists(track['path'].encode('utf-8')):
+            tracks.append(track)
+        else:
+            warning = u'loaded track does not exist in file system | %s' % track['path']
+            logger.warning(warning)
 
     if tracks:
         print '[database] %s track%s found' % (len(tracks), 's'[len(tracks) == 1:])
@@ -157,12 +136,13 @@ def search(arguments):
     return tracks
 
 
-def check_empty_database():
+def check_existing_tracks():
     """
-    Exit with error if the database index is not built.
+    Exit with message if there is no track in the collection
     """
-    trackfile = join(DB_DIR, 'tracks.json')
+    collection = get_collection()
 
-    if not exists(trackfile):
-        error = '[database] index not found | first run build method'
+    if not collection.find().count():
+        error = '[database] there is no track loaded in the database'
+        error += ' | run build method to load tracks'
         sys.exit(error)

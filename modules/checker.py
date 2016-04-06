@@ -5,7 +5,6 @@ from os.path import exists, join
 import sys
 
 from arguments import METHODS, SORTINGS
-from settings import DB_DIR
 
 
 def check_definition(variable):
@@ -39,7 +38,7 @@ def check_settings():
     """
     Check if the settings are valid
     """
-    directories = ['BASE_DIR', 'DB_DIR', 'LOG_DIR', 'MUSIC_DIR']
+    directories = ['BASE_DIR', 'LOG_DIR', 'MUSIC_DIR']
 
     for directory in directories:
         directory = check_definition(directory)
