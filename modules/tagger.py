@@ -20,7 +20,7 @@ def tag(tracks):
 
     for track in tracks:
         try:
-            tags = get_tags(track['path'])
+            tags = get_tags(track['path'].encode('utf-8'))
         except:
             error = sys.exc_info()
             error = u'tagging track | %s - %s | %s' % \

@@ -54,7 +54,7 @@ def build_index():
 
                 if track:
                     try:
-                        track['length'] = get_length(trackpath)
+                        track['length'] = get_length(trackpath.encode('utf-8'))
                     except:
                         error = sys.exc_info()
                         error = u'getting track length | %s - %s | %s' % \
@@ -143,7 +143,7 @@ def search(arguments):
     for track in load_from_json(join(DB_DIR, 'tracks.json')):
         if arguments['min'] <= track['length'] <= arguments['max']:
             if filtered_by_fields(track, fields):
-                if exists(track['path']):
+                if exists(track['path'].encode('utf-8')):
                     tracks.append(track)
                 else:
                     warning = u'indexed track does not exist in file system | %s' % track['path']
