@@ -11,7 +11,7 @@ from logger import get_logger
 from database import COUNTS
 
 LOG_NAME = splitext(basename(__file__))[0]
-VALUES = ('', 'unknown', 'other', 'default', 'no artist', 'no title', 'genre')
+VALUES = ('', 'unknown', 'other', 'default', 'no artist', 'no title', 'genre', 'title')
 
 
 def tag(tracks):
