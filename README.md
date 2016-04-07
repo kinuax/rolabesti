@@ -24,7 +24,7 @@ Requirements
 ------------
 
 - Unix environment.
-- Python 2.7.
+- Python 2.7. Isolated Python environment `virtualenv` is recommended.
 - MongoDB.
 - vlc player.
 
@@ -37,12 +37,15 @@ Installation
 
 2) Install Python packages.
 
+    cd rolabesti
     pip install -r requirements.txt
 
 Configuration
 -------------
 
-1) Organize the music library. Choose a music directory (MUSIC_DIR) and locate the audio files applying any of these paths, where \<place\>, \<genre\>, \<artist\>, \<album\>, \<side\> and \<track\> are placeholders and square brackets denote optional element:
+1) Configure `vlc` to have only one running instance. Preferences/Interface/Playlist and Instances/Allow only one instance: enabled.
+
+2) Organize the music library. Choose a music directory (MUSIC_DIR) and locate the audio files applying any of these paths, where \<place\>, \<genre\>, \<artist\>, \<album\>, \<side\> and \<track\> are placeholders and square brackets denote optional element:
 
 - MUSIC_DIR/Places/\<place\>/Genres/\<genre\>/Albums/\<album\>/[\<side\>/]\<track\>.mp3
 - MUSIC_DIR/Places/\<place\>/Genres/\<genre\>/\<artist>/\<album\>/[\<side\>/]\<track\>.mp3
@@ -54,9 +57,8 @@ Configuration
 - MUSIC_DIR/Genres/\<genre\>/\<artist>/\<album\>/[\<side\>/]\<track\>.mp3
 - MUSIC_DIR/Genres/\<genre\>/\<artist>/\<track\>.mp3
 
-2) Customize `settings.py`. At least `MUSIC_DIR` should me updated with the chosen directory:
+3) Customize `settings.py`. At least `MUSIC_DIR` should be updated with the chosen directory:
 
-- `DB_DIR`: path to store the database.
 - `LOG_DIR`: path to store the logs.
 - `MUSIC_DIR`: path to the music directory.
 - `METHOD`: default method to run, corresponding to the METHOD option; choices are build (build the database), play (play and enqueue tracks with vlc), copy (copy tracks to the destiny folder), list (show tracks information and summary) and tag (write ID3 tags).
@@ -69,9 +71,8 @@ Configuration
 - `MONGO_DBNAME`: MongoDB database name.
 - `MONGO_COLNAME`: MongoDB collection name.
 
-3) Build the database.
+4) Build the database.
 
-    cd rolabesti
     python rolabesti.py -m build
 
 Usage

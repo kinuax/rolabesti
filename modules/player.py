@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import sys
+
 from tools.process import execute, running_process
 
 
@@ -17,7 +19,13 @@ def play(tracks, length):
     if count:
         print '[vlc] enqueuing %d track%s' % (count, 's'[count == 1:])
 
-    command = ['vlc']
+    if sys.platform == 'linux2':
+        command = ['vlc']
+    elif sys.platform == 'darwin':
+        command = ['/Applications/VLC.app/Contents/MacOS/VLC']
+    else:
+        error = '[system] platform not supported'
+        sys.exit(error)
 
     for track in tracks:
         command.append(track['path'])
