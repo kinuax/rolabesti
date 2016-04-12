@@ -12,6 +12,8 @@ def limit(tracks, total_length):
     tracklist = []
     length = 0.0
 
+    print '[rolabesti] creating tracklist'
+
     for track in tracks:
         if track['length'] <= total_length - length:
             length += track['length']

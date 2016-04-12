@@ -45,7 +45,7 @@ def build():
     logger = get_logger(LOG_NAME)
     info = 'building new database'
     logger.info(info)
-    print '[database] ' + info
+    print '[mongo] ' + info
 
     for dirpath, dirnames, filenames in walk(MUSIC_DIR):
         if re.search(r'/Places/|/Genres/', dirpath):
@@ -70,7 +70,7 @@ def build():
                     count += 1
 
                     if count in COUNTS:
-                        print '[database] loading %d tracks' % count
+                        print '[mongo] loading %d tracks' % count
 
                 else:
                     warning = u'track parsing not found | %s' % trackpath
@@ -78,7 +78,7 @@ def build():
 
     info = 'new database built : %d tracks loaded' % count
     logger.info(info)
-    print '[database] ' + info
+    print '[mongo] ' + info
 
 
 def parse(trackpath):
@@ -119,7 +119,7 @@ def search(arguments):
                  for field, value in arguments.iteritems()
                  if field in SEARCH_FIELDS})
 
-    print '[database] searching tracks'
+    print '[mongo] searching tracks'
 
     for track in collection.find(query):
         if exists(track['path'].encode('utf-8')):
@@ -129,9 +129,9 @@ def search(arguments):
             logger.warning(warning)
 
     if tracks:
-        print '[database] %s track%s found' % (len(tracks), 's'[len(tracks) == 1:])
+        print '[mongo] %s track%s found' % (len(tracks), 's'[len(tracks) == 1:])
     else:
-        print '[database] no track found'
+        print '[mongo] no track found'
 
     return tracks
 
@@ -143,6 +143,6 @@ def check_existing_tracks():
     collection = get_collection()
 
     if not collection.find().count():
-        error = '[database] there is no track loaded in the database'
+        error = '[mongo] there is no track loaded in the database'
         error += ' | run build method to load tracks'
         sys.exit(error)
