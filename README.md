@@ -26,7 +26,7 @@ Requirements
 - Unix environment.
 - Python 2.7. Isolated Python environment `virtualenv` is recommended.
 - MongoDB.
-- vlc player.
+- vlc player. Optional, only required if `PLAYING_MODE` setting is vlc.
 
 Installation
 ------------
@@ -43,9 +43,7 @@ Installation
 Configuration
 -------------
 
-1) Configure `vlc` to have only one running instance. Preferences/Interface/Playlist and Instances/Allow only one instance: enabled.
-
-2) Organize the music library. Choose a music directory (MUSIC_DIR) and locate the audio files applying any of these paths, where \<place\>, \<genre\>, \<artist\>, \<album\>, \<side\> and \<track\> are placeholders and square brackets denote optional element:
+1) Organize the music library. Choose a music directory (MUSIC_DIR) and locate the audio files applying any of these paths, where \<place\>, \<genre\>, \<artist\>, \<album\>, \<side\> and \<track\> are placeholders and square brackets denote optional element:
 
 - MUSIC_DIR/Places/\<place\>/Genres/\<genre\>/Albums/\<album\>/[\<side\>/]\<track\>.mp3
 - MUSIC_DIR/Places/\<place\>/Genres/\<genre\>/\<artist>/\<album\>/[\<side\>/]\<track\>.mp3
@@ -57,23 +55,29 @@ Configuration
 - MUSIC_DIR/Genres/\<genre\>/\<artist>/\<album\>/[\<side\>/]\<track\>.mp3
 - MUSIC_DIR/Genres/\<genre\>/\<artist>/\<track\>.mp3
 
-3) Customize `settings.py`. At least `MUSIC_DIR` should be updated with the chosen directory:
+2) Customize `settings.py`. At least `MUSIC_DIR` should be updated with the chosen directory:
 
 - `LOG_DIR`: path to store the logs.
 - `MUSIC_DIR`: path to the music directory.
-- `METHOD`: default method to run, corresponding to the METHOD option; choices are build (build the database), play (play and enqueue tracks with vlc), copy (copy tracks to the destiny folder), list (show tracks information and summary) and tag (write ID3 tags).
+- `METHOD`: default method to run, corresponding to the METHOD option; choices are build (build the database), play (play and enqueue tracks), copy (copy tracks to the destiny folder), list (show tracks information and summary) and tag (write parsed fields to ID3 tags).
 - `SORTING`: default tracklist sorting, corresponding to the SORTING option; choices are asc (ascending), desc (descending) and random.
 - `TOTAL_LENGTH`: default maximum tracklist length in minutes, corresponding to the TOTAL_LENGTH option.
 - `MIN_TRACK_LENGTH`: default minimum track length in minutes, corresponding to the MIN option.
 - `MAX_TRACK_LENGTH`: default maximum track length in minutes, corresponding to the MAX option.
+- `PLAYING_MODE`: playing mode; choices are shell (play tracks from the shell) and vlc (play tracks from the vlc player, opening it if necessary).
+- `OVERLAP_LENGTH`: length in seconds to overlap previous and following tracks, in the range [0, 30].
 - `MONGO_HOST`: MongoDB host.
 - `MONGO_PORT`: MongoDB port.
 - `MONGO_DBNAME`: MongoDB database name.
 - `MONGO_COLNAME`: MongoDB collection name.
 
-4) Build the database.
+3) Build the database.
 
     python rolabesti.py -m build
+
+4) If `PLAYING_MODE` setting is vlc, `vlc` player has to be configured as one running instance.
+- Preferences/Interface/Playlist and Instances/Allow only one instance: enabled.
+- Preferences/Interface/Playlist and Instances/Enqueue items into playlist in one instance mode: enabled.
 
 Usage
 -----

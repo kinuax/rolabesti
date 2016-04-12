@@ -20,6 +20,10 @@ TOTAL_LENGTH = 60
 MIN_TRACK_LENGTH = 0
 MAX_TRACK_LENGTH = TOTAL_LENGTH
 
+# playing settings
+PLAYING_MODE = 'shell'
+OVERLAP_LENGTH = 5
+
 # MongoDB settings
 MONGO_HOST = 'localhost'
 MONGO_PORT = 27017
