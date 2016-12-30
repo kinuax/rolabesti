@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 from os import walk
@@ -9,7 +9,7 @@ import sys
 from mutagen.mp3 import MP3
 from pymongo import MongoClient
 
-from logger import get_logger
+from .logger import get_logger
 from settings import MUSIC_DIR, MONGO_HOST, MONGO_PORT, MONGO_DBNAME, MONGO_COLNAME
 
 LOG_NAME = splitext(basename(__file__))[0]
@@ -25,7 +25,7 @@ PARSINGS = (
     (r'/Genres/(.+?)/(.+?)/(.+)\.[mM][pP]3$', ('genre', 'artist', 'filename')),
 )
 COUNTS = (5, 10, 50, 100, 500, 1000, 2000, 5000, 10000, 15000, 20000, 25000, 30000, 40000, 50000)
-SEARCH_FIELDS = ('place', 'genre', 'artist', 'album')
+SEARCH_FIELDS = ('artist', 'album', 'genre', 'place')
 
 
 def get_collection():
@@ -45,22 +45,21 @@ def build():
     logger = get_logger(LOG_NAME)
     info = 'building new database'
     logger.info(info)
-    print '[mongo] ' + info
+    print('[mongo]', info)
 
     for dirpath, dirnames, filenames in walk(MUSIC_DIR):
         if re.search(r'/Places/|/Genres/', dirpath):
-            trackpaths = [join(dirpath, filename).decode('utf-8')
-                          for filename in filenames if re.search(r'\.[mM][pP]3$', filename)]
+            trackpaths = [join(dirpath, filename) for filename in filenames if re.search(r'\.[mM][pP]3$', filename)]
 
             for trackpath in trackpaths:
                 track = parse(trackpath)
 
                 if track:
                     try:
-                        track['length'] = get_length(trackpath.encode('utf-8'))
+                        track['length'] = get_length(trackpath)
                     except:
                         error = sys.exc_info()
-                        error = u'getting track length | %s - %s | %s' % \
+                        error = 'getting track length | %s - %s | %s' % \
                             (str(error[0]), str(error[1]), trackpath)
                         logger.error(error)
 
@@ -70,15 +69,15 @@ def build():
                     count += 1
 
                     if count in COUNTS:
-                        print '[mongo] loading %d tracks' % count
+                        print('[mongo] loading %d tracks' % count)
 
                 else:
-                    warning = u'track parsing not found | %s' % trackpath
+                    warning = 'track parsing not found | %s' % trackpath
                     logger.warning(warning)
 
     info = 'new database built : %d tracks loaded' % count
     logger.info(info)
-    print '[mongo] ' + info
+    print('[mongo]', info)
 
 
 def parse(trackpath):
@@ -116,22 +115,21 @@ def search(arguments):
     collection = get_collection()
     query = {'length': {'$gte': arguments['min'], '$lte': arguments['max']}}
     query.update({field: re.compile(value, re.IGNORECASE)
-                 for field, value in arguments.iteritems()
-                 if field in SEARCH_FIELDS})
+                 for field, value in arguments.items() if field in SEARCH_FIELDS})
 
-    print '[mongo] searching tracks'
+    print('[mongo] searching tracks')
 
     for track in collection.find(query):
-        if exists(track['path'].encode('utf-8')):
+        if exists(track['path']):
             tracks.append(track)
         else:
-            warning = u'loaded track does not exist in file system | %s' % track['path']
+            warning = 'loaded track does not exist in file system | %s' % track['path']
             logger.warning(warning)
 
     if tracks:
-        print '[mongo] %s track%s found' % (len(tracks), 's'[len(tracks) == 1:])
+        print('[mongo] %s track%s found' % (len(tracks), 's'[len(tracks) == 1:]))
     else:
-        print '[mongo] no track found'
+        print('[mongo] no track found')
 
     return tracks
 

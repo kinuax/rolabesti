@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 from tools.misc import format_length
@@ -12,7 +12,7 @@ def limit(tracks, total_length):
     tracklist = []
     length = 0.0
 
-    print '[rolabesti] creating tracklist'
+    print('[rolabesti] creating tracklist')
 
     for track in tracks:
         if track['length'] <= total_length - length:

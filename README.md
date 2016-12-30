@@ -1,4 +1,4 @@
-rolabesti - Music library manager
+rolabesti - Music Library Manager
 =================================
 
 - [Motivation](#motivation)
@@ -18,15 +18,15 @@ The main motivation is to answer a question that music fans, DJs, bartenders and
 Description
 ----------
 
-**rolabesti** is a command-line program to manage a music library, achieving the following operations on mp3 files: parsing, searching, playing, enqueueing, copying, listing and tagging.
+**rolabesti** is a command-line application to manage a music library, performing the following actions on mp3 files: parsing, searching, playing, enqueueing, copying, and tagging.
 
 Requirements
 ------------
 
 - Unix environment.
-- Python 2.7. Isolated Python environment `virtualenv` is recommended.
-- MongoDB.
-- vlc player. Optional, only required if `PLAYING_MODE` setting is vlc.
+- Python 3.x. An isolated virtual environment is very recommended. More info about virtualenv [here](https://github.com/pypa/virtualenv).
+- MongoDB running instance.
+- vlc player. Optional, only required if `PLAYING_MODE` setting is `vlc`.
 
 Installation
 ------------
@@ -55,7 +55,7 @@ Configuration
 - MUSIC_DIR/Genres/\<genre\>/\<artist>/\<album\>/[\<side\>/]\<track\>.mp3
 - MUSIC_DIR/Genres/\<genre\>/\<artist>/\<track\>.mp3
 
-2) Customize `settings.py`. At least `MUSIC_DIR` should be updated with the chosen directory:
+2) Edit `settings.py`.
 
 - `LOG_DIR`: path to store the logs.
 - `MUSIC_DIR`: path to the music directory.
@@ -73,26 +73,26 @@ Configuration
 
 3) Build the database.
 
-    python rolabesti.py -m build
+    python3 rolabesti.py -m build
 
-4) If `PLAYING_MODE` setting is vlc, `vlc` player has to be configured as one running instance.
-- Preferences/Interface/Playlist and Instances/Allow only one instance: enabled.
-- Preferences/Interface/Playlist and Instances/Enqueue items into playlist in one instance mode: enabled.
+4) If `PLAYING_MODE` setting is `vlc`, vlc player has to be configured as one running instance.
+- Preferences/Interface/Playlist and Instances/Allow only one instance: `enabled`
+- Preferences/Interface/Playlist and Instances/Enqueue items into playlist in one instance mode: `enabled`
 
 Usage
 -----
 
-    python rolabesti.py [OPTIONS]
+    python3 rolabesti.py [OPTIONS]
 
 Some usage examples.
 
 To play two hours of rock music, limiting the track length to 10 minutes, with random sorting:
 
-    python rolabesti.py -m play -t 120 -g rock --max 10 -s random
+    python3 rolabesti.py -m play -t 120 -g rock --max 10 -s random
 
 To play an hour of rap music from Iceland, skipping intro and outro tracks (less than 2 minutes length), with ascending sorting:
 
-    python rolabesti.py -m play -t 60 -g rap -p iceland --min 2 -s asc
+    python3 rolabesti.py -m play -t 60 -g rap -p iceland --min 2 -s asc
 
 Options
 -------

@@ -1,10 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 from os.path import exists, join
 import sys
 
-from arguments import METHODS, SORTINGS
+from .arguments import METHODS, SORTINGS
 
 PLAYING_MODES = ('shell', 'vlc')
 MINIMUM_OVERLAP_LENGTH = 0
@@ -29,7 +29,7 @@ def check_definition(variable):
     code = 'from settings import %s' % variable
 
     try:
-        exec code
+        exec(code)
     except ImportError:
         error = '[rolabesti] error | missing settings | '
         error += '%s must be defined' % variable

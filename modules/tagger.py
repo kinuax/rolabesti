@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 from os.path import basename, splitext
@@ -7,8 +7,8 @@ import sys
 from mutagen.easyid3 import EasyID3
 from mutagen.id3._util import ID3NoHeaderError
 
-from logger import get_logger
-from database import COUNTS
+from .database import COUNTS
+from .logger import get_logger
 
 LOG_NAME = splitext(basename(__file__))[0]
 VALUES = ('', 'unknown', 'other', 'default', 'no artist', 'no title', 'genre', 'title')
@@ -20,11 +20,10 @@ def tag(tracks):
 
     for track in tracks:
         try:
-            tags = get_tags(track['path'].encode('utf-8'))
+            tags = get_tags(track['path'])
         except:
             error = sys.exc_info()
-            error = u'tagging track | %s - %s | %s' % \
-                (str(error[0]), str(error[1]), track['path'])
+            error = 'tagging track | %s - %s | %s' % (str(error[0]), str(error[1]), track['path'])
             logger.error(error)
 
             continue
@@ -59,9 +58,9 @@ def tag(tracks):
             count += 1
 
             if count in COUNTS:
-                print '[mutagen] tagging %d tracks' % count
+                print('[mutagen] tagging %d tracks' % count)
 
-    print '[mutagen] %d track%s tagged' % (count, 's'[count == 1:])
+    print('[mutagen] %d track%s tagged' % (count, 's'[count == 1:]))
 
 
 def get_tags(trackpath):

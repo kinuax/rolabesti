@@ -1,7 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from math import modf
 from os import remove, walk
 from os.path import join
 
@@ -18,23 +17,23 @@ def clean_repo(directory):
 
     map(remove, filepaths)
 
-    print 'repository cleaned'
+    print('repository cleaned')
 
 
 def format_length(length):
     """
     Return formatted length.
     """
-    length = int(modf(length)[1])
+    length = int(length)
 
     if length < 3600:
-        minutes = length / 60
+        minutes = length // 60
         seconds = length % 60
 
         return '%s:%s' % (format(minutes, '02'), format(seconds, '02'))
     else:
-        hours = length / 3600
-        minutes = (length % 3600) / 60
+        hours = length // 3600
+        minutes = (length % 3600) // 60
         seconds = (length % 3600) % 60
 
         return '%d:%s:%s' % (hours, format(minutes, '02'), format(seconds, '02'))

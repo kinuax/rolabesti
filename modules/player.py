@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import sys
@@ -6,7 +6,7 @@ from time import sleep
 
 import vlc
 
-from database import SEARCH_FIELDS
+from .database import SEARCH_FIELDS
 from settings import PLAYING_MODE, OVERLAP_LENGTH
 from tools.misc import format_length
 from tools.process import execute, running_process
@@ -17,13 +17,13 @@ def track_to_string(track):
 
     for field in SEARCH_FIELDS:
         if field in track:
-            value = track[field].encode('utf-8')
+            value = track[field]
             string.append(field.capitalize() + ' = ' + value)
 
     string.append('Filename = ' + track['filename'])
     string.append('Length = ' + format_length(track['length']))
 
-    return u' | '.join(string)
+    return ' | '.join(string)
 
 
 def play(tracks, length):
@@ -33,16 +33,16 @@ def play(tracks, length):
         if not running_process('vlc'):
             count -= 1
 
-            print '[system] vlc closed'
-            print '[system] opening vlc'
-            print u'[vlc] playing : ' + track_to_string(tracks[0])
+            print('[system] vlc closed')
+            print('[system] opening vlc')
+            print('[vlc] playing:', track_to_string(tracks[0]))
 
         if count:
-            print '[vlc] enqueuing %d track%s' % (count, 's'[count == 1:])
+            print('[vlc] enqueuing %d track%s' % (count, 's'[count == 1:]))
 
-        if sys.platform == 'linux2':
+        if sys.platform.startswith('linux'):
             command = ['vlc']
-        elif sys.platform == 'darwin':
+        elif sys.platform.startswith('darwin'):
             command = ['/Applications/VLC.app/Contents/MacOS/VLC']
         else:
             error = '[system] platform not supported'
@@ -53,25 +53,25 @@ def play(tracks, length):
 
         execute(command)
 
-        print '[vlc] tracklist length is ' + length
+        print('[vlc] tracklist length is', length)
     else:
         instance = vlc.Instance()
         player1 = instance.media_player_new()
         player2 = instance.media_player_new()
 
-        print '[rolabesti] tracklist length is ' + length
+        print('[rolabesti] tracklist length is', length)
 
         for i, track in enumerate(tracks):
-            print u'[rolabesti] playing : ' + track_to_string(track)
+            print('[rolabesti] playing : ', track_to_string(track))
 
             if i == 0 and count > 1:
-                print '[rolabesti] enqueuing %d track%s' % (count-1, 's'[count-1 == 1:])
-                print '[rolabesti] ----- ENQUEUED TRACKS -----'
+                print('[rolabesti] enqueuing %d track%s' % (count - 1, 's'[count - 1 == 1:]))
+                print('[rolabesti] ----- ENQUEUED TRACKS -----')
 
                 for track in tracks[1:]:
-                    print '            ' + track_to_string(track)
+                    print('           ', track_to_string(track))
 
-                print '[rolabesti] ---------------------------'
+                print('[rolabesti] ---------------------------')
 
             media = instance.media_new(track['path'])
 

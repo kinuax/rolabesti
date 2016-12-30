@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import argparse
@@ -33,26 +33,26 @@ def get_arguments():
         parsed_args.max = parsed_args.total_length
 
     arguments = {}
-    arguments['method'] = parsed_args.method.decode('utf-8')
-    arguments['sorting'] = parsed_args.sorting.decode('utf-8')
+    arguments['method'] = parsed_args.method
+    arguments['sorting'] = parsed_args.sorting
     arguments['total_length'] = parsed_args.total_length * 60
     arguments['min'] = parsed_args.min * 60
     arguments['max'] = parsed_args.max * 60
 
     if parsed_args.place:
-        arguments['place'] = parsed_args.place.decode('utf-8')
+        arguments['place'] = parsed_args.place
 
     if parsed_args.genre:
-        arguments['genre'] = parsed_args.genre.decode('utf-8')
+        arguments['genre'] = parsed_args.genre
 
     if parsed_args.artist:
-        arguments['artist'] = parsed_args.artist.decode('utf-8')
+        arguments['artist'] = parsed_args.artist
 
     if parsed_args.album:
-        arguments['album'] = parsed_args.album.decode('utf-8')
+        arguments['album'] = parsed_args.album
 
     if parsed_args.destiny:
-        arguments['destiny'] = parsed_args.destiny.decode('utf-8')
+        arguments['destiny'] = parsed_args.destiny
 
     return arguments
 
@@ -87,7 +87,7 @@ def check_arguments(arguments):
             error += 'destiny is required with copy method'
             sys.exit(error)
 
-        if not exists(arguments.destiny.decode('utf-8')):
+        if not exists(arguments.destiny):
             error = '[arguments] error | invalid argument | '
             error += 'destiny must be an existing directory'
             sys.exit(error)
