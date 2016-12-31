@@ -2,17 +2,17 @@
 # -*- coding: utf-8 -*-
 
 import argparse
-import sys
 from os.path import exists
+import sys
 
 from settings import METHOD, SORTING, TOTAL_LENGTH, MIN_TRACK_LENGTH, MAX_TRACK_LENGTH
 
-METHODS = ('build', 'play', 'copy', 'list', 'tag')
+METHODS = ('load', 'play', 'search', 'copy', 'tag')
 SORTINGS = ('asc', 'desc', 'random')
 
 
 def get_arguments():
-    parser = argparse.ArgumentParser(description='command-line program to manage a music library')
+    parser = argparse.ArgumentParser(description='Application to manage a music library.')
 
     parser.add_argument('-m', '--method', help='method to run, default is %s' % METHOD, choices=METHODS, default=METHOD)
     parser.add_argument('-s', '--sorting', help='tracklist sorting, default is %s' % SORTING, choices=SORTINGS, default=SORTING)
@@ -58,9 +58,7 @@ def get_arguments():
 
 
 def check_arguments(arguments):
-    """
-    Exit with error if invalid arguments.
-    """
+    """Exit with error if there are invalid arguments. Otherwise, return None."""
     if arguments.total_length <= 0:
         error = '[arguments] error | invalid argument | '
         error += 'total_length must be a positive integer'

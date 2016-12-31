@@ -1,36 +1,36 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from modules.checker import check_settings
+from checker import check_settings
 check_settings()
 
-from modules.arguments import get_arguments
-from modules.copier import copy
-from modules.database import build, search, check_existing_tracks
-from modules.limiter import limit
-from modules.lister import list_tracks
-from modules.player import play
-from modules.sorter import sort
-from modules.tagger import tag
+from arguments import get_arguments
+from copier import copy
+from database import load, search, check_existing_tracks
+from limiter import limit
+from player import play
+from printer import print_tracks
+from sorter import sort
+from tagger import tag
 
 
 if __name__ == '__main__':
     arguments = get_arguments()
     method = arguments['method']
 
-    if method == 'build':
-        build()
+    if method == 'load':
+        load()
     else:
         check_existing_tracks()
 
         tracks = search(arguments)
 
         if tracks:
-            if method == 'list':
-                list_tracks(tracks)
+            if method == 'search':
+                print_tracks(tracks)
             elif method == 'tag':
                 tag(tracks)
-            else:
+            else:  # method is play or copy
                 tracks = sort(tracks, arguments['sorting'])
                 tracks, length = limit(tracks, arguments['total_length'])
 

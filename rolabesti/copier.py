@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from tools.process import execute
+from utils import execute
 
 
 def copy(tracks, length, destiny):

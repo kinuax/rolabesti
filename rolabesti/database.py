@@ -9,8 +9,9 @@ import sys
 from mutagen.mp3 import MP3
 from pymongo import MongoClient
 
-from .logger import get_logger
+from logger import get_logger
 from settings import MUSIC_DIR, MONGO_HOST, MONGO_PORT, MONGO_DBNAME, MONGO_COLNAME
+from utils import get_tag
 
 LOG_NAME = splitext(basename(__file__))[0]
 PARSINGS = (
@@ -34,16 +35,14 @@ def get_collection():
     return client[MONGO_DBNAME][MONGO_COLNAME]
 
 
-def build():
-    """
-    Parse mp3 files under MUSIC_DIR and build the collection
-    """
+def load():
+    """Parse mp3 files under MUSIC_DIR and load the collection."""
     collection = get_collection()
     collection.remove({})
     count = 0
 
     logger = get_logger(LOG_NAME)
-    info = 'building new database'
+    info = 'loading new database from scratch'
     logger.info(info)
     print('[mongo]', info)
 
@@ -75,7 +74,7 @@ def build():
                     warning = 'track parsing not found | %s' % trackpath
                     logger.warning(warning)
 
-    info = 'new database built : %d tracks loaded' % count
+    info = 'new database loaded : %d tracks loaded' % count
     logger.info(info)
     print('[mongo]', info)
 
@@ -85,7 +84,10 @@ def parse(trackpath):
         match = re.search(parsing[0], trackpath)
 
         if match:
-            track = {'path': trackpath}
+            track = {
+                'path': trackpath,
+                'title': get_tag(trackpath, 'title'),
+            }
             values = match.groups()
 
             for i, field in enumerate(parsing[1]):
@@ -135,12 +137,10 @@ def search(arguments):
 
 
 def check_existing_tracks():
-    """
-    Exit with message if there is no track in the collection
-    """
+    """Exit with message if there is no track in the collection. Otherwise, return None."""
     collection = get_collection()
 
     if not collection.find().count():
         error = '[mongo] there is no track loaded in the database'
-        error += ' | run build method to load tracks'
+        error += ' | run load method to load tracks'
         sys.exit(error)

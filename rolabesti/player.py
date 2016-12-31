@@ -6,10 +6,9 @@ from time import sleep
 
 import vlc
 
-from .database import SEARCH_FIELDS
+from database import SEARCH_FIELDS
 from settings import PLAYING_MODE, OVERLAP_LENGTH
-from tools.misc import format_length
-from tools.process import execute, running_process
+from utils import execute, format_length, is_running
 
 
 def track_to_string(track):
@@ -30,7 +29,7 @@ def play(tracks, length):
     count = len(tracks)
 
     if PLAYING_MODE == 'vlc':
-        if not running_process('vlc'):
+        if not is_running('vlc'):
             count -= 1
 
             print('[system] vlc closed')
@@ -54,16 +53,16 @@ def play(tracks, length):
         execute(command)
 
         print('[vlc] tracklist length is', length)
-    else:
+    else:  # PLAYING_MODE = 'shell'
         instance = vlc.Instance()
-        player1 = instance.media_player_new()
-        player2 = instance.media_player_new()
+        players = {
+            0: instance.media_player_new(),
+            1: instance.media_player_new(),
+        }
 
         print('[rolabesti] tracklist length is', length)
 
         for i, track in enumerate(tracks):
-            print('[rolabesti] playing : ', track_to_string(track))
-
             if i == 0 and count > 1:
                 print('[rolabesti] enqueuing %d track%s' % (count - 1, 's'[count - 1 == 1:]))
                 print('[rolabesti] ----- ENQUEUED TRACKS -----')
@@ -73,13 +72,10 @@ def play(tracks, length):
 
                 print('[rolabesti] ---------------------------')
 
+            print('[rolabesti] playing :', track_to_string(track))
+
             media = instance.media_new(track['path'])
+            players[i % 2].set_media(media)
+            players[i % 2].play()
 
-            if i % 2 == 0:
-                player1.set_media(media)
-                player1.play()
-            else:
-                player2.set_media(media)
-                player2.play()
-
-            sleep(int(track['length']) - OVERLAP_LENGTH)
+            sleep(int(track['length']) - OVERLAP_LENGTH)  # Stop running until the next track begins
