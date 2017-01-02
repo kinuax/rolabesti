@@ -4,7 +4,7 @@
 from checker import check_settings
 check_settings()
 
-from arguments import get_arguments
+from arguments import parse_arguments, validate_arguments
 from copier import copy
 from database import load, search, check_existing_tracks
 from limiter import limit
@@ -15,12 +15,14 @@ from tagger import tag
 
 
 if __name__ == '__main__':
-    arguments = get_arguments()
+    arguments = parse_arguments()
     subcommand = arguments['subcommand']
 
     if subcommand == 'load':
         load()
     else:
+        validate_arguments(arguments)
+
         check_existing_tracks()
 
         tracks = search(arguments)
