@@ -16,9 +16,9 @@ from tagger import tag
 
 if __name__ == '__main__':
     arguments = get_arguments()
-    method = arguments['method']
+    subcommand = arguments['subcommand']
 
-    if method == 'load':
+    if subcommand == 'load':
         load()
     else:
         check_existing_tracks()
@@ -26,15 +26,15 @@ if __name__ == '__main__':
         tracks = search(arguments)
 
         if tracks:
-            if method == 'search':
+            if subcommand == 'search':
                 print_tracks(tracks)
-            elif method == 'tag':
+            elif subcommand == 'tag':
                 tag(tracks)
-            else:  # method is play or copy
+            else:  # subcommand is play or copy
                 tracks = sort(tracks, arguments['sorting'])
                 tracks, length = limit(tracks, arguments['total_length'])
 
-                if method == 'play':
+                if subcommand == 'play':
                     play(tracks, length)
                 else:
                     copy(tracks, length, arguments['destiny'])

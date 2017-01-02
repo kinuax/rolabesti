@@ -3,6 +3,8 @@
 
 import random
 
+SORTINGS = ('asc', 'desc', 'random')
+
 
 def sort(tracks, sorting):
     if sorting == 'asc':

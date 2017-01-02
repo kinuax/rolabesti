@@ -10,9 +10,6 @@ BASE_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)))
 LOG_DIR = os.path.join(BASE_DIR, 'log')
 MUSIC_DIR = '/home/{}/Music'.format(getpass.getuser())
 
-# default method option
-METHOD = 'play'
-
 # default tracklist options
 SORTING = 'random'
 TOTAL_LENGTH = 60

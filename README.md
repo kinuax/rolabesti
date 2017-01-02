@@ -7,7 +7,6 @@ rolabesti - Music Library Manager
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Usage](#usage)
-- [Options](#options)
 - [Comments](#comments)
 
 Motivation
@@ -18,7 +17,7 @@ The main motivation is to answer a question that music fans, DJs, bartenders and
 Description
 ----------
 
-**rolabesti** is a command-line application to manage a music library, performing the following actions on mp3 files: parsing, searching, playing, enqueueing, copying, and tagging.
+**rolabesti** is an application to manage a music library, performing the following actions on mp3 files: parsing, searching, playing, enqueueing, copying, and tagging.
 
 Requirements
 ------------
@@ -43,37 +42,36 @@ Installation
 Configuration
 -------------
 
-1) Organize the music library. Choose a music directory (MUSIC_DIR) and locate the audio files applying any of these paths, where \<place\>, \<genre\>, \<artist\>, \<album\>, \<side\> and \<track\> are placeholders and square brackets denote optional element:
+1) Organize the music library. Choose a music directory `MUSIC_DIR` and locate the audio files applying any of these paths, where `<place>`, `<genre>`, `<artist>`, `<album>`, `<side>` and `<track>` are placeholders and square brackets mean optional.
 
-- MUSIC_DIR/Places/\<place\>/Genres/\<genre\>/Albums/\<album\>/[\<side\>/]\<track\>.mp3
-- MUSIC_DIR/Places/\<place\>/Genres/\<genre\>/\<artist>/\<album\>/[\<side\>/]\<track\>.mp3
-- MUSIC_DIR/Places/\<place\>/Genres/\<genre\>/\<artist>/\<track\>.mp3
-- MUSIC_DIR/Places/\<place\>/Albums/\<album\>/[\<side\>/]\<track\>.mp3
-- MUSIC_DIR/Places/\<place\>/\<artist>/\<album\>/[\<side\>/]\<track\>.mp3
-- MUSIC_DIR/Places/\<place\>/\<artist>/\<track\>.mp3
-- MUSIC_DIR/Genres/\<genre\>/Albums/\<album\>/[\<side\>/]\<track\>.mp3
-- MUSIC_DIR/Genres/\<genre\>/\<artist>/\<album\>/[\<side\>/]\<track\>.mp3
-- MUSIC_DIR/Genres/\<genre\>/\<artist>/\<track\>.mp3
+- `MUSIC_DIR/Places/<place>/Genres/<genre>/Albums/<album>/[<side>/]<track>.mp3`
+- `MUSIC_DIR/Places/<place>/Genres/<genre>/<artist>/<album>/[<side>/]<track>.mp3`
+- `MUSIC_DIR/Places/<place>/Genres/<genre>/<artist>/<track>.mp3`
+- `MUSIC_DIR/Places/<place>/Albums/<album>/[<side>/]<track>.mp3`
+- `MUSIC_DIR/Places/<place>/<artist>/<album>/[<side>/]<track>.mp3`
+- `MUSIC_DIR/Places/<place>/<artist>/<track>.mp3`
+- `MUSIC_DIR/Genres/<genre>/Albums/<album>/[<side>/]<track>.mp3`
+- `MUSIC_DIR/Genres/<genre>/<artist>/<album>/[<side>/]<track>.mp3`
+- `MUSIC_DIR/Genres/<genre>/<artist>/<track>.mp3`
 
 2) Edit `settings.py`.
 
 - `LOG_DIR`: path to store the logs.
 - `MUSIC_DIR`: path to the music directory.
-- `METHOD`: default method to run, corresponding to the METHOD option; choices are build (build the database), play (play and enqueue tracks), copy (copy tracks to the destiny folder), list (show tracks information and summary) and tag (write parsed fields to ID3 tags).
-- `SORTING`: default tracklist sorting, corresponding to the SORTING option; choices are asc (ascending), desc (descending) and random.
 - `TOTAL_LENGTH`: default maximum tracklist length in minutes, corresponding to the TOTAL_LENGTH option.
 - `MIN_TRACK_LENGTH`: default minimum track length in minutes, corresponding to the MIN option.
 - `MAX_TRACK_LENGTH`: default maximum track length in minutes, corresponding to the MAX option.
-- `PLAYING_MODE`: playing mode; choices are shell (play tracks from the shell) and vlc (play tracks from the vlc player, opening it if necessary).
+- `SORTING`: default tracklist sorting, corresponding to the SORTING option; choices are asc (ascending), desc (descending) and random.
+- `PLAYING_MODE`: playing mode; choices are `shell` (play tracks on the shell) and `vlc` (play tracks on the vlc player, opening it if necessary).
 - `OVERLAP_LENGTH`: length in seconds to overlap previous and following tracks, in the range [0, 30].
 - `MONGO_HOST`: MongoDB host.
 - `MONGO_PORT`: MongoDB port.
 - `MONGO_DBNAME`: MongoDB database name.
 - `MONGO_COLNAME`: MongoDB collection name.
 
-3) Build the database.
+3) Load the database.
 
-    python3 rolabesti.py -m build
+    python3 rolabesti.py load
 
 4) If `PLAYING_MODE` setting is `vlc`, vlc player has to be configured as one running instance.
 - Preferences/Interface/Playlist and Instances/Allow only one instance: `enabled`
@@ -82,34 +80,24 @@ Configuration
 Usage
 -----
 
-    python3 rolabesti.py [OPTIONS]
+    python3 rolabesti.py [-h] SUBCOMMAND [ARGUMENTS]
 
-Some usage examples.
+You can check the arguments for each subcommand with:
+
+    python3 rolabesti.py SUBCOMMAND -h
+
+Let's see some usage examples.
 
 To play two hours of rock music, limiting the track length to 10 minutes, with random sorting:
 
-    python3 rolabesti.py -m play -t 120 -g rock --max 10 -s random
+    python3 rolabesti.py play -g rock -t 120 --max 10 -s random
 
 To play an hour of rap music from Iceland, skipping intro and outro tracks (less than 2 minutes length), with ascending sorting:
 
-    python3 rolabesti.py -m play -t 60 -g rap -p iceland --min 2 -s asc
+    python3 rolabesti.py play -g rap -t 60 -p Iceland --min 2 -s asc
 
-Options
--------
-
-    -h, --help                                      show this help message and exit
-    -m METHOD, --method METHOD                      method to run
-    -s SORTING, --sorting SORTING                   tracklist sorting
-    -t TOTAL_LENGTH, --total_length TOTAL_LENGTH    maximum tracklist length, in minutes
-    --min MIN                                       minimum track length to search, in minutes
-    --max MAX                                       maximum track length to search, in minutes
-    -p PLACE, --place PLACE                         track place to search
-    -g GENRE, --genre GENRE                         track genre to search
-    -ar ARTIST, --artist ARTIST                     track artist to search
-    -al ALBUM, --album ALBUM                        track album to search
-    -d DESTINY, --destiny DESTINY                   directory to copy tracks, required if method is copy
 
 Comments
 --------
 
-- Feedback, bugs and suggestions are very welcome.
+- Feedback, bugs and suggestions are very welcome. =)

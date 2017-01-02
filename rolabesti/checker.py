@@ -4,7 +4,7 @@
 from os.path import exists
 import sys
 
-from arguments import METHODS, SORTINGS
+from sorter import SORTINGS
 
 DIRECTORIES = ['BASE_DIR', 'LOG_DIR', 'MUSIC_DIR']
 MINIMUM_OVERLAP_LENGTH = 0
@@ -35,13 +35,6 @@ def check_settings():
             error = '[rolabesti] error | invalid settings | '
             error += '%s must be an existing directory' % directory
             sys.exit(error)
-
-    method = get_value('METHOD')
-
-    if method not in METHODS:
-        error = '[rolabesti] error | invalid settings | '
-        error += 'METHOD must have a valid value : %s' % ', '.join(METHODS)
-        sys.exit(error)
 
     sorting = get_value('SORTING')
 
