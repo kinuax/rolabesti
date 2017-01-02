@@ -6,7 +6,7 @@ check_settings()
 
 from arguments import parse_arguments, validate_arguments
 from copier import copy
-from database import load, search, check_existing_tracks
+from database import load, search, is_database_empty
 from limiter import limit
 from player import play
 from printer import print_tracks
@@ -23,8 +23,6 @@ if __name__ == '__main__':
     else:
         validate_arguments(arguments)
 
-        check_existing_tracks()
-
         tracks = search(arguments)
 
         if tracks:
@@ -40,3 +38,5 @@ if __name__ == '__main__':
                     play(tracks, length)
                 else:
                     copy(tracks, length, arguments['destiny'])
+        elif is_database_empty():
+            print('[rolabesti] there is no track in the database, load subcommand should be run first')

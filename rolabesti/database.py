@@ -69,7 +69,6 @@ def load():
 
                     if count in COUNTS:
                         print('[mongo] loading %d tracks' % count)
-
                 else:
                     warning = 'track parsing not found | %s' % trackpath
                     logger.warning(warning)
@@ -136,11 +135,6 @@ def search(arguments):
     return tracks
 
 
-def check_existing_tracks():
-    """Exit with message if there is no track in the collection. Otherwise, return None."""
-    collection = get_collection()
-
-    if not collection.find().count():
-        error = '[mongo] there is no track loaded in the database'
-        error += ' | run load method to load tracks'
-        sys.exit(error)
+def is_database_empty():
+    """Return True is there is at least one track in the collection. Otherwise, return False."""
+    return not get_collection().find().count()
