@@ -31,66 +31,49 @@ def get_arguments():
 
     copy_parser.add_argument('-d', '--destiny', required=True, help='directory to copy tracks, required')
     parsed_args = root_parser.parse_args()
+    arguments = {key: value for key, value in vars(parsed_args).items() if value is not None}
 
-    check_arguments(parsed_args)
+    check_arguments(arguments)
 
-    if parsed_args.max > parsed_args.total_length:
-        parsed_args.max = parsed_args.total_length
+    if arguments['max'] > arguments['total_length']:
+        arguments['max'] = arguments['total_length']
 
-    arguments = {}
-    arguments['subcommand'] = parsed_args.subcommand
-    arguments['sorting'] = parsed_args.sorting
-    arguments['total_length'] = parsed_args.total_length * 60
-    arguments['min'] = parsed_args.min * 60
-    arguments['max'] = parsed_args.max * 60
-
-    if parsed_args.place:
-        arguments['place'] = parsed_args.place
-
-    if parsed_args.genre:
-        arguments['genre'] = parsed_args.genre
-
-    if parsed_args.artist:
-        arguments['artist'] = parsed_args.artist
-
-    if parsed_args.album:
-        arguments['album'] = parsed_args.album
-
-    if parsed_args.subcommand == 'copy':
-        arguments['destiny'] = parsed_args.destiny
+    arguments['total_length'] *= 60
+    arguments['min'] *= 60
+    arguments['max'] *= 60
 
     return arguments
 
 
 def check_arguments(arguments):
     """Exit with error if there are invalid arguments. Otherwise, return None."""
-    if arguments.total_length <= 0:
+    if arguments['total_length'] <= 0:
         error = '[arguments] error | invalid argument | '
         error += 'total_length must be a positive integer'
         sys.exit(error)
 
-    if arguments.min < 0:
+    if arguments['min'] < 0:
         error = '[arguments] error | invalid argument | '
         error += 'min must be a non-negative integer'
         sys.exit(error)
 
-    if arguments.max <= 0:
+    if arguments['max'] <= 0:
         error = '[arguments] error | invalid argument | '
         error += 'max must be a positive integer'
         sys.exit(error)
 
-    if arguments.min > arguments.max:
+    if arguments['min'] > arguments['max']:
         error = '[arguments] error | invalid arguments | '
         error += 'max must be greater than or equal to min'
         sys.exit(error)
 
-    if arguments.subcommand == 'copy':
-        if not arguments.destiny:
+    if arguments['subcommand'] == 'copy':
+        if not arguments['destiny']:
             error = '[arguments] error | missing argument | '
             error += 'destiny is required with copy method'
             sys.exit(error)
 
-        if not exists(arguments.destiny):
+        if not exists(arguments['destiny']):
             error = '[arguments] error | invalid argument | '
             error += 'destiny must be an existing directory'
             sys.exit(error)
