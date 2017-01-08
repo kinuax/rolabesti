@@ -6,12 +6,11 @@ from os.path import basename, exists, join, splitext
 import re
 import sys
 
-from mutagen.mp3 import MP3
 from pymongo import MongoClient
 
 from logger import get_logger
 from settings import MUSIC_DIR, MONGO_HOST, MONGO_PORT, MONGO_DBNAME, MONGO_COLNAME
-from utils import get_tag
+from utils import get_length, get_tag
 
 LOG_NAME = splitext(basename(__file__))[0]
 PARSINGS = (
@@ -94,12 +93,6 @@ def parse(trackpath):
                     track[field] = values[i]
 
             return track
-
-
-def get_length(trackpath):
-    audio = MP3(trackpath)
-
-    return audio.info.length
 
 
 def filtered_by_fields(track, fields):

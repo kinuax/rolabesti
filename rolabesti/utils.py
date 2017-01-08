@@ -8,12 +8,14 @@ from os.path import basename, join, splitext
 import subprocess
 import sys
 
+from mutagen.mp3 import MP3
 from mutagen.easyid3 import EasyID3
 from mutagen.id3._util import ID3NoHeaderError
 
 from logger import get_logger
 
 LOG_NAME = splitext(basename(__file__))[0]
+logger = get_logger(LOG_NAME)
 
 
 def dump_to_json(obj, filepath):
@@ -27,14 +29,20 @@ def load_from_json(filepath):
             yield obj
 
 
-def get_tags(trackpath):
-    logger = get_logger(LOG_NAME)
+def get_length(trackpath):
+    try:
+        return MP3(trackpath).info.length
+    except:
+        error = sys.exc_info()
+        error = 'getting length | %s - %s | %s' % (str(error[0]), str(error[1]), trackpath)
+        logger.error(error)
 
+
+def get_tags(trackpath):
     try:
         return EasyID3(trackpath)
     except ID3NoHeaderError:
         EasyID3().save(trackpath)
-
         return EasyID3(trackpath)
     except:
         error = sys.exc_info()
@@ -103,5 +111,3 @@ def is_running(process):
     (output, error) = execute(command, shell=True, background=False)
 
     return True if output else False
-
-
