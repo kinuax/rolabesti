@@ -10,13 +10,11 @@ BASE_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)))
 LOG_DIR = os.path.join(BASE_DIR, 'log')
 MUSIC_DIR = '/home/{}/Music'.format(getpass.getuser())
 
-# default tracklist options
-SORTING = 'random'
-TOTAL_LENGTH = 60
-
-# default track options
+# default arguments
 MIN_TRACK_LENGTH = 0
-MAX_TRACK_LENGTH = TOTAL_LENGTH
+MAX_TRACK_LENGTH = 10
+MAX_TRACKLIST_LENGTH = 60
+SORTING = 'random'
 
 # playing settings
 PLAYING_MODE = 'vlc'

@@ -5,7 +5,7 @@ import argparse
 from os.path import exists
 import sys
 
-from settings import SORTING, TOTAL_LENGTH, MIN_TRACK_LENGTH, MAX_TRACK_LENGTH
+from settings import SORTING, MIN_TRACK_LENGTH, MAX_TRACK_LENGTH, MAX_TRACKLIST_LENGTH
 from sorter import SORTINGS
 
 
@@ -26,9 +26,9 @@ def parse_arguments():
         parser.add_argument('-al', '--album', help='track album')
         parser.add_argument('-g', '--genre', help='track genre')
         parser.add_argument('-p', '--place', help='track place')
-        parser.add_argument('-t', '--total_length', type=int, default=TOTAL_LENGTH, help='maximum tracklist length in minutes, default is %s' % TOTAL_LENGTH)
         parser.add_argument('--min', type=int, default=MIN_TRACK_LENGTH, help='minimum track length in minutes, default is %s' % MIN_TRACK_LENGTH)
         parser.add_argument('--max', type=int, default=MAX_TRACK_LENGTH, help='maximum track length in minutes, default is %s' % MAX_TRACK_LENGTH)
+        parser.add_argument('-l', '--max_tracklist_length', type=int, default=MAX_TRACKLIST_LENGTH, help='maximum tracklist length in minutes, default is %s' % MAX_TRACKLIST_LENGTH)
         parser.add_argument('-s', '--sorting', choices=SORTINGS, default=SORTING, help='tracklist sorting, default is %s' % SORTING)
 
     parsed_args = root_parser.parse_args()
@@ -38,9 +38,9 @@ def parse_arguments():
 
 def validate_arguments(arguments):
     """Exit with error if there are invalid arguments. Otherwise, update length related arguments."""
-    if arguments['total_length'] <= 0:
+    if arguments['max_tracklist_length'] <= 0:
         error = '[arguments] error | invalid argument | '
-        error += 'total_length must be a positive integer'
+        error += 'max_tracklist_length must be a positive integer'
         sys.exit(error)
 
     if arguments['min'] < 0:
@@ -69,9 +69,9 @@ def validate_arguments(arguments):
             error += 'destiny must be an existing directory'
             sys.exit(error)
 
-    if arguments['max'] > arguments['total_length']:
-        arguments['max'] = arguments['total_length']
+    if arguments['max'] > arguments['max_tracklist_length']:
+        arguments['max'] = arguments['max_tracklist_length']
 
-    arguments['total_length'] *= 60
+    arguments['max_tracklist_length'] *= 60
     arguments['min'] *= 60
     arguments['max'] *= 60

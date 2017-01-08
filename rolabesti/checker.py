@@ -43,13 +43,13 @@ def check_settings():
         error += 'SORTING must have a valid value : %s' % ', '.join(SORTINGS)
         sys.exit(error)
 
-    total_length = get_value('TOTAL_LENGTH')
     min_track_length = get_value('MIN_TRACK_LENGTH')
     max_track_length = get_value('MAX_TRACK_LENGTH')
+    max_tracklist_length = get_value('MAX_TRACKLIST_LENGTH')
 
-    if not('int' in str(type(total_length)) and total_length > 0):
+    if not('int' in str(type(max_tracklist_length)) and max_tracklist_length > 0):
         error = '[rolabesti] error | invalid settings | '
-        error += 'TOTAL_LENGTH must be a positive integer'
+        error += 'MAX_TRACKLIST_LENGTH must be a positive integer'
         sys.exit(error)
 
     if not('int' in str(type(min_track_length)) and min_track_length >= 0):
@@ -67,9 +67,9 @@ def check_settings():
         error += 'MAX_TRACK_LENGTH must be greater than or equal to MIN_TRACK_LENGTH'
         sys.exit(error)
 
-    if max_track_length > total_length:
+    if max_track_length > max_tracklist_length:
         error = '[rolabesti] error | invalid settings | '
-        error += 'TOTAL_LENGTH must be greater than or equal to MAX_TRACK_LENGTH'
+        error += 'MAX_TRACKLIST_LENGTH must be greater than or equal to MAX_TRACK_LENGTH'
         sys.exit(error)
 
     playing_mode = get_value('PLAYING_MODE')

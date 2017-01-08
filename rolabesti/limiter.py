@@ -4,18 +4,19 @@
 from utils import format_length
 
 
-def limit(tracks, total_length):
-    """Return (tracklist, length) tuple, where tracklist length is less than
-    or equal to total_length and length is the formatted tracklist length."""
+def limit(tracks, max_tracklist_length):
+    """Return (tracklist, length) tuple, where tracklist is the list of tracks with length
+    less than or equal to max_tracklist_length and length is the formatted tracklist length.
+    """
     tracklist = []
     length = 0.0
 
     print('[rolabesti] creating tracklist')
 
     for track in tracks:
-        if track['length'] <= total_length - length:
-            length += track['length']
+        if length + track['length'] <= max_tracklist_length:
             tracklist.append(track)
+            length += track['length']
         else:
             break
 

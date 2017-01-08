@@ -58,10 +58,10 @@ Configuration
 
 - `LOG_DIR`: path to store the logs.
 - `MUSIC_DIR`: path to the music directory.
-- `TOTAL_LENGTH`: default maximum tracklist length in minutes, corresponding to the TOTAL_LENGTH option.
-- `MIN_TRACK_LENGTH`: default minimum track length in minutes, corresponding to the MIN option.
-- `MAX_TRACK_LENGTH`: default maximum track length in minutes, corresponding to the MAX option.
-- `SORTING`: default tracklist sorting, corresponding to the SORTING option; choices are asc (ascending), desc (descending) and random.
+- `MIN_TRACK_LENGTH`: default minimum track length in minutes, corresponding to the MIN argument.
+- `MAX_TRACK_LENGTH`: default maximum track length in minutes, corresponding to the MAX argument.
+- `MAX_TRACKLIST_LENGTH`: default maximum tracklist length in minutes, corresponding to the MAX_TRACKLIST_LENGTH argument.
+- `SORTING`: default tracklist sorting, corresponding to the SORTING argument; choices are asc (ascending), desc (descending) and random.
 - `PLAYING_MODE`: playing mode; choices are `shell` (play tracks on the shell) and `vlc` (play tracks on the vlc player, opening it if necessary).
 - `OVERLAP_LENGTH`: length in seconds to overlap previous and following tracks, in the range [0, 30].
 - `MONGO_HOST`: MongoDB host.
@@ -90,11 +90,11 @@ Let's see some usage examples.
 
 To play two hours of rock music, limiting the track length to 10 minutes, with random sorting:
 
-    python3 rolabesti.py play -g rock -t 120 --max 10 -s random
+    python3 rolabesti.py play -g rock -l 120 --max 10 -s random
 
 To play an hour of rap music from Iceland, skipping intro and outro tracks (less than 2 minutes length), with ascending sorting:
 
-    python3 rolabesti.py play -g rap -t 60 -p Iceland --min 2 -s asc
+    python3 rolabesti.py play -g rap -l 60 -p Iceland --min 2 -s asc
 
 
 Comments
