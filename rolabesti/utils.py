@@ -2,6 +2,7 @@
 
 import codecs
 import json
+import logging
 from os import remove, walk
 from os.path import basename, join, splitext
 import subprocess
@@ -11,10 +12,7 @@ from mutagen.mp3 import MP3
 from mutagen.easyid3 import EasyID3
 from mutagen.id3._util import ID3NoHeaderError
 
-from logger import get_logger
-
-LOG_NAME = splitext(basename(__file__))[0]
-logger = get_logger(LOG_NAME)
+from settings import LOG_DIR
 
 
 def dump_to_json(obj, filepath):
@@ -29,6 +27,8 @@ def load_from_json(filepath):
 
 
 def get_length(trackpath):
+    logger = get_logger(__file__)
+
     try:
         return MP3(trackpath).info.length
     except:
@@ -38,6 +38,8 @@ def get_length(trackpath):
 
 
 def get_tags(trackpath):
+    logger = get_logger(__file__)
+
     try:
         return EasyID3(trackpath)
     except ID3NoHeaderError:
@@ -58,6 +60,21 @@ def get_tag(trackpath, tagname):
         return tags[tagname][0]
     else:
         return ''
+
+
+def get_logger(file):
+    name = splitext(basename(file))[0]
+    logger = logging.getLogger(name)
+
+    if not len(logger.handlers):
+        logger.setLevel(logging.INFO)
+        logpath = join(LOG_DIR, '{}.log'.format(name))
+        handler = logging.FileHandler(logpath, encoding='utf-8')
+        formatter = logging.Formatter('[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s')
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+
+    return logger
 
 
 def clean_repo(directory):

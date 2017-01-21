@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from os.path import basename, splitext
 import re
 
-from logger import get_logger
+from utils import get_logger
 
-LOG_NAME = splitext(basename(__file__))[0]
-logger = get_logger(LOG_NAME)
 PARSINGS = {
     r'/Places/(.+?)/Genres/(.+?)/Albums/(.+?)/(.+/)*(.+)\.[mM][pP]3$': ('place', 'genre', 'album', 'side', 'filename'),
     r'/Places/(.+?)/Genres/(.+?)/(.+?)/(.+?)/(.+/)*(.+)\.[mM][pP]3$': ('place', 'genre', 'artist', 'album', 'side', 'filename'),
@@ -22,6 +19,8 @@ PARSINGS = {
 
 def parse(filepath):
     """Return a dictionary with parsed fields. If no parsing is found, return None."""
+    logger = get_logger(__file__)
+
     for regex, fields in PARSINGS.items():
         match = re.search(regex, filepath)
 

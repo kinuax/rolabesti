@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 
 from os import walk
-from os.path import basename, exists, join, splitext
+from os.path import exists, join
 import re
 import sys
 
 from pymongo import MongoClient
 
-from logger import get_logger
 from parser import parse
 from settings import MUSIC_DIR, MONGO_HOST, MONGO_PORT, MONGO_DBNAME, MONGO_COLNAME
-from utils import get_length, get_tag
+from utils import get_length, get_logger, get_tag
 
-LOG_NAME = splitext(basename(__file__))[0]
 PARSINGS = (
     (r'/Places/(.+?)/Genres/(.+?)/Albums/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('place', 'genre', 'album', 'side', 'filename')),
     (r'/Places/(.+?)/Genres/(.+?)/(.+?)/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('place', 'genre', 'artist', 'album', 'side', 'filename')),
@@ -40,7 +38,7 @@ def load():
     collection.remove({})
     count = 0
 
-    logger = get_logger(LOG_NAME)
+    logger = get_logger(__file__)
     info = 'loading new database from scratch'
     logger.info(info)
     print('[mongo]', info)
@@ -82,7 +80,7 @@ def filtered_by_fields(track, fields):
 
 def search(arguments):
     tracks = []
-    logger = get_logger(LOG_NAME)
+    logger = get_logger(__file__)
     collection = get_collection()
     query = {'length': {'$gte': arguments['min'], '$lte': arguments['max']}}
     query.update({field: re.compile(value, re.IGNORECASE)
