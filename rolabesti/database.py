@@ -9,6 +9,7 @@ import sys
 from pymongo import MongoClient
 
 from logger import get_logger
+from parser import parse
 from settings import MUSIC_DIR, MONGO_HOST, MONGO_PORT, MONGO_DBNAME, MONGO_COLNAME
 from utils import get_length, get_tag
 
@@ -35,7 +36,7 @@ def get_collection():
 
 
 def load():
-    """Parse mp3 files under MUSIC_DIR and load the collection."""
+    """Load the collection with parsed mp3 files."""
     collection = get_collection()
     collection.remove({})
     count = 0
@@ -46,53 +47,30 @@ def load():
     print('[mongo]', info)
 
     for dirpath, dirnames, filenames in walk(MUSIC_DIR):
-        if re.search(r'/Places/|/Genres/', dirpath):
-            trackpaths = [join(dirpath, filename) for filename in filenames if re.search(r'\.[mM][pP]3$', filename)]
+        for filename in filenames:
+            filepath = join(dirpath, filename)
+            track = parse(filepath)
 
-            for trackpath in trackpaths:
-                track = parse(trackpath)
+            if track:
+                try:
+                    track['length'] = get_length(filepath)
+                except:
+                    error = sys.exc_info()
+                    error = 'getting track length | %s - %s | %s' % (str(error[0]), str(error[1]), filepath)
+                    logger.error(error)
 
-                if track:
-                    try:
-                        track['length'] = get_length(trackpath)
-                    except:
-                        error = sys.exc_info()
-                        error = 'getting track length | %s - %s | %s' % \
-                            (str(error[0]), str(error[1]), trackpath)
-                        logger.error(error)
+                    continue
 
-                        continue
+                track['title'] = get_tag(filepath, 'title')
+                collection.insert_one(track)
+                count += 1
 
-                    collection.insert_one(track)
-                    count += 1
-
-                    if count in COUNTS:
-                        print('[mongo] loading %d tracks' % count)
-                else:
-                    warning = 'track parsing not found | %s' % trackpath
-                    logger.warning(warning)
+                if count in COUNTS:
+                    print('[mongo] loading %d tracks' % count)
 
     info = 'new database loaded : %d tracks loaded' % count
     logger.info(info)
     print('[mongo]', info)
-
-
-def parse(trackpath):
-    for parsing in PARSINGS:
-        match = re.search(parsing[0], trackpath)
-
-        if match:
-            track = {
-                'path': trackpath,
-                'title': get_tag(trackpath, 'title'),
-            }
-            values = match.groups()
-
-            for i, field in enumerate(parsing[1]):
-                if field != 'side':
-                    track[field] = values[i]
-
-            return track
 
 
 def filtered_by_fields(track, fields):
