@@ -11,17 +11,6 @@ from parser import parse
 from settings import MUSIC_DIR, MONGO_HOST, MONGO_PORT, MONGO_DBNAME, MONGO_COLNAME
 from utils import get_length, get_logger, get_tag
 
-PARSINGS = (
-    (r'/Places/(.+?)/Genres/(.+?)/Albums/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('place', 'genre', 'album', 'side', 'filename')),
-    (r'/Places/(.+?)/Genres/(.+?)/(.+?)/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('place', 'genre', 'artist', 'album', 'side', 'filename')),
-    (r'/Places/(.+?)/Genres/(.+?)/(.+?)/(.+)\.[mM][pP]3$', ('place', 'genre', 'artist', 'filename')),
-    (r'/Places/(.+?)/Albums/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('place', 'album', 'side', 'filename')),
-    (r'/Places/(.+?)/(.+?)/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('place', 'artist', 'album', 'side', 'filename')),
-    (r'/Places/(.+?)/(.+?)/(.+)\.[mM][pP]3$', ('place', 'artist', 'filename')),
-    (r'/Genres/(.+?)/Albums/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('genre', 'album', 'side', 'filename')),
-    (r'/Genres/(.+?)/(.+?)/(.+?)/(.+/)*(.+)\.[mM][pP]3$', ('genre', 'artist', 'album', 'side', 'filename')),
-    (r'/Genres/(.+?)/(.+?)/(.+)\.[mM][pP]3$', ('genre', 'artist', 'filename')),
-)
 COUNTS = (5, 10, 50, 100, 500, 1000, 2000, 5000, 10000, 15000, 20000, 25000, 30000, 40000, 50000)
 SEARCH_FIELDS = ('artist', 'album', 'genre', 'place')
 
