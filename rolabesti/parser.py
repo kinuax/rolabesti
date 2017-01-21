@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
+from collections import OrderedDict
 import re
 
 from utils import get_logger
 
-PARSINGS = {
+PARSINGS = OrderedDict({
     r'/Places/(.+?)/Genres/(.+?)/Albums/(.+?)/(.+/)*(.+)\.[mM][pP]3$': ('place', 'genre', 'album', 'side', 'filename'),
     r'/Places/(.+?)/Genres/(.+?)/(.+?)/(.+?)/(.+/)*(.+)\.[mM][pP]3$': ('place', 'genre', 'artist', 'album', 'side', 'filename'),
     r'/Places/(.+?)/Genres/(.+?)/(.+?)/(.+)\.[mM][pP]3$': ('place', 'genre', 'artist', 'filename'),
@@ -14,7 +15,7 @@ PARSINGS = {
     r'/Genres/(.+?)/Albums/(.+?)/(.+/)*(.+)\.[mM][pP]3$': ('genre', 'album', 'side', 'filename'),
     r'/Genres/(.+?)/(.+?)/(.+?)/(.+/)*(.+)\.[mM][pP]3$': ('genre', 'artist', 'album', 'side', 'filename'),
     r'/Genres/(.+?)/(.+?)/(.+)\.[mM][pP]3$': ('genre', 'artist', 'filename'),
-}
+})
 
 
 def parse(filepath):
