@@ -26,9 +26,24 @@ def load_from_json(filepath):
             yield obj
 
 
-def get_length(trackpath):
-    logger = get_logger(__file__)
+def get_logger(file):
+    name = splitext(basename(file))[0]
+    logger = logging.getLogger(name)
 
+    if not len(logger.handlers):
+        logger.setLevel(logging.INFO)
+        logpath = join(LOG_DIR, '{}.log'.format(name))
+        handler = logging.FileHandler(logpath, encoding='utf-8')
+        formatter = logging.Formatter('[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s')
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+
+    return logger
+
+logger = get_logger(__file__)
+
+
+def get_length(trackpath):
     try:
         return MP3(trackpath).info.length
     except:
@@ -38,8 +53,6 @@ def get_length(trackpath):
 
 
 def get_tags(trackpath):
-    logger = get_logger(__file__)
-
     try:
         return EasyID3(trackpath)
     except ID3NoHeaderError:
@@ -60,21 +73,6 @@ def get_tag(trackpath, tagname):
         return tags[tagname][0]
     else:
         return ''
-
-
-def get_logger(file):
-    name = splitext(basename(file))[0]
-    logger = logging.getLogger(name)
-
-    if not len(logger.handlers):
-        logger.setLevel(logging.INFO)
-        logpath = join(LOG_DIR, '{}.log'.format(name))
-        handler = logging.FileHandler(logpath, encoding='utf-8')
-        formatter = logging.Formatter('[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s')
-        handler.setFormatter(formatter)
-        logger.addHandler(handler)
-
-    return logger
 
 
 def clean_repo(directory):
