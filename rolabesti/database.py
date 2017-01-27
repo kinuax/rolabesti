@@ -3,7 +3,6 @@
 from os import walk
 from os.path import exists, join
 import re
-import sys
 
 from pymongo import MongoClient
 
@@ -13,6 +12,7 @@ from utils import get_length, get_logger, get_tag
 
 COUNTS = (5, 10, 50, 100, 500, 1000, 2000, 5000, 10000, 15000, 20000, 25000, 30000, 40000, 50000)
 SEARCH_FIELDS = ('artist', 'album', 'genre', 'place')
+logger = get_logger(__file__)
 
 
 def get_collection():
@@ -27,7 +27,6 @@ def load():
     collection.remove({})
     count = 0
 
-    logger = get_logger(__file__)
     info = 'loading new database from scratch'
     logger.info(info)
     print('[mongo]', info)
@@ -36,26 +35,19 @@ def load():
         for filename in filenames:
             if filename.lower().endswith('.mp3'):
                 trackpath = join(dirpath, filename)
-                track = parse(trackpath)
+                length = get_length(trackpath)
 
-                if track:
-                    try:
-                        track['length'] = get_length(trackpath)
-                    except:
-                        error = sys.exc_info()
-                        error = 'getting track length | %s - %s | %s' % (str(error[0]), str(error[1]), trackpath)
-                        logger.error(error)
-
-                        continue
-
+                if length:
+                    track = {'path': trackpath, 'length': length}
+                    track.update(parse(trackpath))
                     track['title'] = get_tag(trackpath, 'title')
                     collection.insert_one(track)
                     count += 1
 
                     if count in COUNTS:
-                        print('[mongo] loading %d tracks' % count)
+                        print('[mongo] loading {} tracks'.format(count))
 
-    info = 'new database loaded : %d tracks loaded' % count
+    info = 'new database loaded : {} tracks loaded'.format(count)
     logger.info(info)
     print('[mongo]', info)
 
@@ -70,7 +62,6 @@ def filtered_by_fields(track, fields):
 
 def search(arguments):
     tracks = []
-    logger = get_logger(__file__)
     collection = get_collection()
     query = {'length': {'$gte': arguments['min'], '$lte': arguments['max']}}
     query.update({field: re.compile(value, re.IGNORECASE)
@@ -82,11 +73,11 @@ def search(arguments):
         if exists(track['path']):
             tracks.append(track)
         else:
-            warning = 'loaded track does not exist in file system | %s' % track['path']
+            warning = 'loaded track does not exist in file system | {}'.format(track['path'])
             logger.warning(warning)
 
     if tracks:
-        print('[mongo] %s track%s found' % (len(tracks), 's'[len(tracks) == 1:]))
+        print('[mongo] {} track{} found'.format(len(tracks), 's'[len(tracks) == 1:]))
     else:
         print('[mongo] no track found')
 
