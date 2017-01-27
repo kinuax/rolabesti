@@ -34,25 +34,26 @@ def load():
 
     for dirpath, dirnames, filenames in walk(MUSIC_DIR):
         for filename in filenames:
-            filepath = join(dirpath, filename)
-            track = parse(filepath)
+            if filename.lower().endswith('.mp3'):
+                trackpath = join(dirpath, filename)
+                track = parse(trackpath)
 
-            if track:
-                try:
-                    track['length'] = get_length(filepath)
-                except:
-                    error = sys.exc_info()
-                    error = 'getting track length | %s - %s | %s' % (str(error[0]), str(error[1]), filepath)
-                    logger.error(error)
+                if track:
+                    try:
+                        track['length'] = get_length(trackpath)
+                    except:
+                        error = sys.exc_info()
+                        error = 'getting track length | %s - %s | %s' % (str(error[0]), str(error[1]), trackpath)
+                        logger.error(error)
 
-                    continue
+                        continue
 
-                track['title'] = get_tag(filepath, 'title')
-                collection.insert_one(track)
-                count += 1
+                    track['title'] = get_tag(trackpath, 'title')
+                    collection.insert_one(track)
+                    count += 1
 
-                if count in COUNTS:
-                    print('[mongo] loading %d tracks' % count)
+                    if count in COUNTS:
+                        print('[mongo] loading %d tracks' % count)
 
     info = 'new database loaded : %d tracks loaded' % count
     logger.info(info)

@@ -18,22 +18,22 @@ PARSINGS = OrderedDict({
 })
 
 
-def parse(filepath):
+def parse(trackpath):
     """Return a dictionary with parsed fields. If no parsing is found, return None."""
     logger = get_logger(__file__)
 
     for regex, fields in PARSINGS.items():
-        match = re.search(regex, filepath)
+        match = re.search(regex, trackpath)
 
         if match:
-            track = {'path': filepath}
+            track = {'path': trackpath}
 
             for field, value in zip(fields, match.groups()):
                 track[field] = value
 
             return track
 
-    info = 'parsing not found | {}'.format(filepath)
+    info = 'parsing not found | {}'.format(trackpath)
     logger.info(info)
 
     return None
