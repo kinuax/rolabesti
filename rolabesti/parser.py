@@ -16,24 +16,22 @@ PARSINGS = OrderedDict({
     r'/Genres/(.+?)/(.+?)/(.+?)/(.+/)*(.+)\.[mM][pP]3$': ('genre', 'artist', 'album', 'side', 'filename'),
     r'/Genres/(.+?)/(.+?)/(.+)\.[mM][pP]3$': ('genre', 'artist', 'filename'),
 })
+logger = get_logger(__file__)
 
 
 def parse(trackpath):
-    """Return a dictionary with parsed fields. If no parsing is found, return None."""
-    logger = get_logger(__file__)
+    """Match and parse trackpath against PARSINGS.
 
+    If there is a parsing to match, return a dictionary with parsed fields.
+    If there is no parsing to match, return an empty dictionary.
+    """
     for regex, fields in PARSINGS.items():
         match = re.search(regex, trackpath)
 
         if match:
-            track = {'path': trackpath}
-
-            for field, value in zip(fields, match.groups()):
-                track[field] = value
-
-            return track
+            return {field: value for field, value in zip(fields, match.groups())}
 
     info = 'parsing not found | {}'.format(trackpath)
     logger.info(info)
 
-    return None
+    return {}
