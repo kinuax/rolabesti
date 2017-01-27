@@ -52,14 +52,6 @@ def load():
     print('[mongo]', info)
 
 
-def filtered_by_fields(track, fields):
-    for field, value in fields.items():
-        if field not in track or value.lower() not in track[field].lower():
-            return False
-
-    return True
-
-
 def search(arguments):
     tracks = []
     collection = get_collection()

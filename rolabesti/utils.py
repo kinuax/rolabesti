@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import codecs
-import json
 import logging
-from os import remove, walk
 from os.path import basename, join, splitext
 import subprocess
 import sys
@@ -13,17 +10,6 @@ from mutagen.easyid3 import EasyID3
 from mutagen.id3._util import ID3NoHeaderError
 
 from settings import LOG_DIR
-
-
-def dump_to_json(obj, filepath):
-    with codecs.open(filepath, 'w', 'utf-8') as file:
-        json.dump(obj, file, ensure_ascii=False)
-
-
-def load_from_json(filepath):
-    with open(filepath) as file:
-        for obj in json.load(file):
-            yield obj
 
 
 def get_logger(file):
@@ -73,19 +59,6 @@ def get_tag(trackpath, tagname):
         return tags[tagname][0]
     else:
         return ''
-
-
-def clean_repo(directory):
-    """Remove *.pyc files from directory."""
-    filepaths = []
-
-    for dirpath, dirnames, filenames in walk(directory):
-        filepaths.extend([join(dirpath, filename).decode('utf-8') for filename
-                         in filenames if filename.endswith('.pyc')])
-
-    map(remove, filepaths)
-
-    print('repository cleaned')
 
 
 def format_length(length):
