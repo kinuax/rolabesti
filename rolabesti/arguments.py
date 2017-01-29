@@ -25,6 +25,7 @@ def parse_arguments():
         parser.add_argument('-al', '--album', help='track album')
         parser.add_argument('-g', '--genre', help='track genre')
         parser.add_argument('-p', '--place', help='track place')
+        parser.add_argument('-t', '--title', help='track title')
         parser.add_argument('--min', type=int, default=MIN_TRACK_LENGTH, help='minimum track length in minutes, default is %s' % MIN_TRACK_LENGTH)
         parser.add_argument('--max', type=int, default=MAX_TRACK_LENGTH, help='maximum track length in minutes, default is %s' % MAX_TRACK_LENGTH)
         parser.add_argument('-l', '--max_tracklist_length', type=int, default=MAX_TRACKLIST_LENGTH, help='maximum tracklist length in minutes, default is %s' % MAX_TRACKLIST_LENGTH)

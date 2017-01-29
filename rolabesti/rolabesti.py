@@ -6,10 +6,10 @@ check_settings()
 
 from arguments import parse_arguments, validate_arguments
 from copier import copy
-from database import load, search, is_database_empty
+from database import load, search
 from limiter import limit
+from displayer import display
 from player import play
-from printer import print_tracks
 from sorter import sort
 from tagger import tag
 
@@ -22,21 +22,19 @@ if __name__ == '__main__':
         load()
     else:
         validate_arguments(arguments)
-
-        tracks = search(arguments)
+        tracks, length = search(arguments)
 
         if tracks:
             if subcommand == 'search':
-                print_tracks(tracks)
+                display(tracks, length)
             elif subcommand == 'tag':
                 tag(tracks)
             else:  # subcommand is play or copy
                 tracks = sort(tracks, arguments['sorting'])
                 tracks, length = limit(tracks, arguments['max_tracklist_length'])
+                display(tracks, length)
 
                 if subcommand == 'play':
                     play(tracks, length)
                 else:
                     copy(tracks, length, arguments['destiny'])
-        elif is_database_empty():
-            print('[rolabesti] there is no track in the database, load subcommand should be run first')

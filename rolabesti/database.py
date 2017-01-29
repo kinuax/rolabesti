@@ -1,17 +1,21 @@
 # -*- coding: utf-8 -*-
+"""
+rolabesti.database
+~~~~~~~~~~~~~~~~~~
 
+This module holds all the MongoDB related functionality.
+"""
 from os import walk
 from os.path import exists, join
 import re
 
 from pymongo import MongoClient
 
+from constants import TRACK_FIELDS, COUNTS
 from parser import parse
 from settings import MUSIC_DIR, MONGO_HOST, MONGO_PORT, MONGO_DBNAME, MONGO_COLNAME
-from utils import get_length, get_logger, get_tag
+from utils import add_prefix_to_dict, get_length, get_logger, get_id3_tags
 
-COUNTS = (5, 10, 50, 100, 500, 1000, 2000, 5000, 10000, 15000, 20000, 25000, 30000, 40000, 50000)
-SEARCH_FIELDS = ('artist', 'album', 'genre', 'place')
 logger = get_logger(__file__)
 
 
@@ -39,31 +43,38 @@ def load():
 
                 if length:
                     track = {'path': trackpath, 'length': length}
-                    track.update(parse(trackpath))
-                    track['title'] = get_tag(trackpath, 'title')
+                    track.update(add_prefix_to_dict(parse(trackpath), 'parsed'))
+                    track.update(add_prefix_to_dict(get_id3_tags(trackpath), 'id3'))
+
                     collection.insert_one(track)
                     count += 1
 
                     if count in COUNTS:
                         print('[mongo] loading {} tracks'.format(count))
 
-    info = 'new database loaded : {} tracks loaded'.format(count)
+    info = 'new database loaded : {} track{} loaded'.format(count, 's'[count == 1:])
     logger.info(info)
     print('[mongo]', info)
 
 
 def search(arguments):
     tracks = []
+    length = 0.0
     collection = get_collection()
-    query = {'length': {'$gte': arguments['min'], '$lte': arguments['max']}}
-    query.update({field: re.compile(value, re.IGNORECASE)
-                 for field, value in arguments.items() if field in SEARCH_FIELDS})
+    and_list = [{'length': {'$gte': arguments['min'], '$lte': arguments['max']}}]
 
     print('[mongo] searching tracks')
 
-    for track in collection.find(query):
+    for key_field, fields in TRACK_FIELDS.items():
+        if key_field in arguments:
+            value = re.compile(arguments[key_field], re.IGNORECASE)
+            or_list = [{field: value} for field in fields]
+            and_list.append({"$or": or_list})
+
+    for track in collection.find({"$and": and_list}):
         if exists(track['path']):
             tracks.append(track)
+            length += track['length']
         else:
             warning = 'loaded track does not exist in file system | {}'.format(track['path'])
             logger.warning(warning)
@@ -73,9 +84,7 @@ def search(arguments):
     else:
         print('[mongo] no track found')
 
-    return tracks
+        if not get_collection().find().count():
+            print('[mongo] there is no track loaded to the database, load subcommand should be run first')
 
-
-def is_database_empty():
-    """Return True is there is at least one track in the collection. Otherwise, return False."""
-    return not get_collection().find().count()
+    return tracks, length
