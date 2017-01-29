@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
+"""
+rolabesti.parser
+~~~~~~~~~~~~~~~~
 
+This module holds all the supported parsings and the parse function.
+"""
 from collections import OrderedDict
 import re
 
