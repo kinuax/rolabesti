@@ -1,20 +1,25 @@
 # -*- coding: utf-8 -*-
+"""
+rolabesti.arguments
+~~~~~~~~~~~~~~~~~~~
 
+This module contains the functionality related to user arguments.
+"""
 import argparse
 from os.path import exists
 import sys
 
-from settings import SORTING, MIN_TRACK_LENGTH, MAX_TRACK_LENGTH, MAX_TRACKLIST_LENGTH
+from settings import MAX_TRACKLIST_LENGTH, MAX_TRACK_LENGTH, MIN_TRACK_LENGTH, SORTING
 from sorter import SORTINGS
 
 
 def parse_arguments():
     """Parse command-line arguments and return them as a dictionary."""
-    root_parser = argparse.ArgumentParser(description='Application to manage a music library.')
+    root_parser = argparse.ArgumentParser(description='Command-line application to manage a music library of mp3 tracks.')
     subparsers = root_parser.add_subparsers(title='subcommands', dest='subcommand')
     subparsers.required = True
     play_parser = subparsers.add_parser('play', help='play and enqueue tracks')
-    search_parser = subparsers.add_parser('search', help='search and output tracks')
+    search_parser = subparsers.add_parser('search', help='search and display tracks')
     subparsers.add_parser('load', help='parse and load tracks to the database')
     copy_parser = subparsers.add_parser('copy', help='copy tracks to destiny')
     copy_parser.add_argument('-d', '--destiny', required=True, help='directory to copy tracks, required')
@@ -22,14 +27,14 @@ def parse_arguments():
 
     for parser in [play_parser, search_parser, copy_parser, tag_parser]:
         parser.add_argument('-ar', '--artist', help='track artist')
+        parser.add_argument('-t', '--title', help='track title')
         parser.add_argument('-al', '--album', help='track album')
         parser.add_argument('-g', '--genre', help='track genre')
         parser.add_argument('-p', '--place', help='track place')
-        parser.add_argument('-t', '--title', help='track title')
-        parser.add_argument('--min', type=int, default=MIN_TRACK_LENGTH, help='minimum track length in minutes, default is %s' % MIN_TRACK_LENGTH)
-        parser.add_argument('--max', type=int, default=MAX_TRACK_LENGTH, help='maximum track length in minutes, default is %s' % MAX_TRACK_LENGTH)
-        parser.add_argument('-l', '--max_tracklist_length', type=int, default=MAX_TRACKLIST_LENGTH, help='maximum tracklist length in minutes, default is %s' % MAX_TRACKLIST_LENGTH)
-        parser.add_argument('-s', '--sorting', choices=SORTINGS, default=SORTING, help='tracklist sorting, default is %s' % SORTING)
+        parser.add_argument('--min', type=int, default=MIN_TRACK_LENGTH, help='minimum track length in minutes, default is {}'.format(MIN_TRACK_LENGTH))
+        parser.add_argument('--max', type=int, default=MAX_TRACK_LENGTH, help='maximum track length in minutes, default is {}'.format(MAX_TRACK_LENGTH))
+        parser.add_argument('-l', '--max_tracklist_length', type=int, default=MAX_TRACKLIST_LENGTH, help='maximum tracklist length in minutes, default is {}'.format(MAX_TRACKLIST_LENGTH))
+        parser.add_argument('-s', '--sorting', choices=SORTINGS, default=SORTING, help='tracklist sorting, default is {}'.format(SORTING))
 
     parsed_args = root_parser.parse_args()
 
