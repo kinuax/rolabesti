@@ -19,4 +19,4 @@ def slice_tracks(tracks, max_tracklist_length):
         else:
             break
 
-    return tracks[:i], length
+    return tracks[:i + 1], length
