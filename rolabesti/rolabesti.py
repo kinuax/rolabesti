@@ -4,7 +4,7 @@
 from checker import check_settings
 check_settings()
 
-from arguments import parse_arguments, validate_arguments
+from arguments import parse_arguments, prepare_arguments, validate_arguments
 from copier import copy
 from displayer import display
 from mongo import load, search
@@ -22,6 +22,7 @@ if __name__ == '__main__':
         load()
     else:
         validate_arguments(arguments)
+        prepare_arguments(arguments)
         tracks, length = search(arguments)
 
         if tracks:

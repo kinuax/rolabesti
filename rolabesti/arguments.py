@@ -42,7 +42,7 @@ def parse_arguments():
 
 
 def validate_arguments(arguments):
-    """Exit with error if there are invalid arguments. Otherwise, update length related arguments."""
+    """Exit with error if there are invalid arguments."""
     if arguments['max_tracklist_length'] <= 0:
         error = '[arguments] error | invalid argument | '
         error += 'max_tracklist_length must be a positive integer'
@@ -74,6 +74,9 @@ def validate_arguments(arguments):
             error += 'destiny must be an existing directory'
             sys.exit(error)
 
+
+def prepare_arguments(arguments):
+    """Set proper maximum track length. Convert length arguments to seconds."""
     if arguments['max'] > arguments['max_tracklist_length']:
         arguments['max'] = arguments['max_tracklist_length']
 
