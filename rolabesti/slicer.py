@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
+"""
+rolabesti.slicer
+~~~~~~~~~~~~~~~~
+
+This module contains the functionality to slice a list of tracks based on maximum length.
+"""
 
 
-def limit(tracks, max_tracklist_length):
+def slice_tracks(tracks, max_tracklist_length):
     """Return a (tracks, length) tuple, where tracks is the list of tracks with length
-    less than or equal to max_tracklist_length and length is the tracks length.
+    less than or equal to max_tracklist_length and length is the length of tracks.
     """
     length = 0.0
 

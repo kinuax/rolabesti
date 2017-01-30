@@ -7,9 +7,9 @@ check_settings()
 from arguments import parse_arguments, validate_arguments
 from copier import copy
 from database import load, search
-from limiter import limit
 from displayer import display
 from player import play
+from slicer import slice_tracks
 from sorter import sort
 from tagger import tag
 
@@ -31,7 +31,7 @@ if __name__ == '__main__':
                 tag(tracks)
             else:  # subcommand is play or copy
                 tracks = sort(tracks, arguments['sorting'])
-                tracks, length = limit(tracks, arguments['max_tracklist_length'])
+                tracks, length = slice_tracks(tracks, arguments['max_tracklist_length'])
                 display(tracks, length)
 
                 if subcommand == 'play':
