@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-rolabesti.database
-~~~~~~~~~~~~~~~~~~
+rolabesti.mongo
+~~~~~~~~~~~~~~~
 
-This module holds all the MongoDB related functionality.
+This module contains all the MongoDB related functionality.
 """
 from os import walk
 from os.path import exists, join

@@ -6,8 +6,8 @@ check_settings()
 
 from arguments import parse_arguments, validate_arguments
 from copier import copy
-from database import load, search
 from displayer import display
+from mongo import load, search
 from player import play
 from slicer import slice_tracks
 from sorter import sort
