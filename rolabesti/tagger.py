@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from database import COUNTS
+from constants import COUNTS
 from utils import get_id3_obj
 
 VALUES = ('', 'unknown', 'other', 'default', 'no artist', 'no title', 'genre', 'title')
