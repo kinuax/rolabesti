@@ -8,7 +8,6 @@ from sorter import SORTINGS
 DIRECTORIES = ['BASE_DIR', 'LOG_DIR', 'MUSIC_DIR']
 MINIMUM_OVERLAP_LENGTH = 0
 MAXIMUM_OVERLAP_LENGTH = 30
-PLAYING_MODES = ('shell', 'vlc')
 
 
 def get_value(variable):
@@ -69,13 +68,6 @@ def check_settings():
     if max_track_length > max_tracklist_length:
         error = '[rolabesti] error | invalid settings | '
         error += 'MAX_TRACKLIST_LENGTH must be greater than or equal to MAX_TRACK_LENGTH'
-        sys.exit(error)
-
-    playing_mode = get_value('PLAYING_MODE')
-
-    if playing_mode not in PLAYING_MODES:
-        error = '[rolabesti] error | invalid settings | '
-        error += 'PLAYING_MODE must have a valid value : %s' % ', '.join(PLAYING_MODES)
         sys.exit(error)
 
     overlap_length = get_value('OVERLAP_LENGTH')

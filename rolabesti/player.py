@@ -10,16 +10,16 @@ from time import sleep
 
 import vlc
 
-from settings import OVERLAP_LENGTH, PLAYING_MODE
+from settings import OVERLAP_LENGTH
 from utils import execute, is_running, track_to_string
 
 PLAYERS = ('shell', 'vlc')
 
 
-def play(tracks, length):
+def play(tracks, player):
     count = len(tracks)
 
-    if PLAYING_MODE == 'shell':
+    if player == 'shell':
         instance = vlc.Instance()
         players = {0: instance.media_player_new(), 1: instance.media_player_new()}
 

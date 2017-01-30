@@ -9,7 +9,8 @@ import argparse
 from os.path import exists
 import sys
 
-from settings import MAX_TRACKLIST_LENGTH, MAX_TRACK_LENGTH, MIN_TRACK_LENGTH, SORTING
+from player import PLAYERS
+from settings import MAX_TRACKLIST_LENGTH, MAX_TRACK_LENGTH, MIN_TRACK_LENGTH, PLAYER, SORTING
 from sorter import SORTINGS
 
 
@@ -22,7 +23,6 @@ def parse_arguments():
     search_parser = subparsers.add_parser('search', help='search and display tracks')
     subparsers.add_parser('load', help='parse and load tracks to the database')
     copy_parser = subparsers.add_parser('copy', help='copy tracks to destiny')
-    copy_parser.add_argument('-d', '--destiny', required=True, help='directory to copy tracks, required')
     tag_parser = subparsers.add_parser('tag', help='tag tracks')
 
     for parser in [play_parser, search_parser, copy_parser, tag_parser]:
@@ -36,6 +36,8 @@ def parse_arguments():
         parser.add_argument('-l', '--max_tracklist_length', type=int, default=MAX_TRACKLIST_LENGTH, help='maximum tracklist length in minutes, default is {}'.format(MAX_TRACKLIST_LENGTH))
         parser.add_argument('-s', '--sorting', choices=SORTINGS, default=SORTING, help='tracklist sorting, default is {}'.format(SORTING))
 
+    play_parser.add_argument('--player', choices=PLAYERS, default=PLAYER, help='player to play and enqueue tracks, default is {}'.format(PLAYER))
+    copy_parser.add_argument('-d', '--destiny', required=True, help='directory to copy tracks, required')
     parsed_args = root_parser.parse_args()
 
     return {key: value for key, value in vars(parsed_args).items() if value is not None}

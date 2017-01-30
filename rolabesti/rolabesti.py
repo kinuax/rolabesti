@@ -36,6 +36,6 @@ if __name__ == '__main__':
                 display(tracks, length)
 
                 if subcommand == 'play':
-                    play(tracks, length)
+                    play(tracks, arguments['player'])
                 else:
                     copy(tracks, length, arguments['destiny'])
