@@ -3,17 +3,10 @@
 from utils import execute
 
 
-def copy(tracks, length, destiny):
-    count = len(tracks)
+def copy(tracks, destiny):
+    print('[copier] copying {} track{} to {}'.format(len(tracks), 's'[len(tracks) == 1:], destiny))
 
-    print('[copier] copying %d track%s to %s' % (count, 's'[count == 1:], destiny))
-
-    command = ['cp']
-
-    for track in tracks:
-        command.append(track['path'])
-
-    command.append(destiny)
+    command = ['cp'] + [track['path'] for track in tracks] + [destiny]
     execute(command, background=False)
 
-    print('[copier] length is', length)
+    print('[copier] {} track{} copied'.format(len(tracks), 's'[len(tracks) == 1:]))
