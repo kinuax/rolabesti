@@ -33,7 +33,7 @@ def parse_arguments():
         parser.add_argument('-p', '--place', help='track place')
         parser.add_argument('--min', type=int, default=MIN_TRACK_LENGTH, help='minimum track length in minutes, default is {}'.format(MIN_TRACK_LENGTH))
         parser.add_argument('--max', type=int, default=MAX_TRACK_LENGTH, help='maximum track length in minutes, default is {}'.format(MAX_TRACK_LENGTH))
-        parser.add_argument('-l', '--max_tracklist_length', type=int, default=MAX_TRACKLIST_LENGTH, help='maximum tracklist length in minutes, default is {}'.format(MAX_TRACKLIST_LENGTH))
+        parser.add_argument('-l', '--max_tracklist_length', type=int, default=MAX_TRACKLIST_LENGTH, help='maximum tracklist length in minutes, 0 denotes no tracklist length limit, default is {}'.format(MAX_TRACKLIST_LENGTH))
         parser.add_argument('-s', '--sorting', choices=SORTINGS, default=SORTING, help='tracklist sorting, default is {}'.format(SORTING))
 
     play_parser.add_argument('--player', choices=PLAYERS, default=PLAYER, help='player to play and enqueue tracks, default is {}'.format(PLAYER))
@@ -45,9 +45,9 @@ def parse_arguments():
 
 def validate_arguments(arguments):
     """Exit with error if there are invalid arguments."""
-    if arguments['max_tracklist_length'] <= 0:
+    if arguments['max_tracklist_length'] < 0:
         error = '[arguments] error | invalid argument | '
-        error += 'max_tracklist_length must be a positive integer'
+        error += 'max_tracklist_length must be a non negative integer'
         sys.exit(error)
 
     if arguments['min'] < 0:
@@ -79,7 +79,7 @@ def validate_arguments(arguments):
 
 def prepare_arguments(arguments):
     """Set proper maximum track length. Convert length arguments to seconds."""
-    if arguments['max'] > arguments['max_tracklist_length']:
+    if 0 < arguments['max_tracklist_length'] < arguments['max']:
         arguments['max'] = arguments['max_tracklist_length']
 
     arguments['max_tracklist_length'] *= 60

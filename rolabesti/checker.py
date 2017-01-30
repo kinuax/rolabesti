@@ -45,9 +45,9 @@ def check_settings():
     max_track_length = get_value('MAX_TRACK_LENGTH')
     max_tracklist_length = get_value('MAX_TRACKLIST_LENGTH')
 
-    if not('int' in str(type(max_tracklist_length)) and max_tracklist_length > 0):
+    if not('int' in str(type(max_tracklist_length)) and max_tracklist_length >= 0):
         error = '[rolabesti] error | invalid settings | '
-        error += 'MAX_TRACKLIST_LENGTH must be a positive integer'
+        error += 'MAX_TRACKLIST_LENGTH must be a non negative integer'
         sys.exit(error)
 
     if not('int' in str(type(min_track_length)) and min_track_length >= 0):

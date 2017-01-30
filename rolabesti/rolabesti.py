@@ -32,7 +32,10 @@ if __name__ == '__main__':
                 tag(tracks)
             else:  # subcommand is play or copy
                 tracks = sort(tracks, arguments['sorting'])
-                tracks, length = slice_tracks(tracks, arguments['max_tracklist_length'])
+
+                if arguments['max_tracklist_length'] > 0:
+                    tracks, length = slice_tracks(tracks, arguments['max_tracklist_length'])
+
                 display(tracks, length)
 
                 if subcommand == 'play':
