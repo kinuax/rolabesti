@@ -3,6 +3,7 @@
 from os.path import exists
 import sys
 
+from . import settings
 from .sorter import SORTINGS
 
 DIRECTORIES = ['BASE_DIR', 'LOG_DIR', 'MUSIC_DIR']
@@ -12,20 +13,15 @@ MAXIMUM_OVERLAP_LENGTH = 30
 
 def get_value(variable):
     """Return its value if variable is defined in settings. Otherwise, exit with error."""
-    code = 'from settings import %s' % variable
-
     try:
-        exec(code)
-    except ImportError:
-        error = '[rolabesti] error | missing settings | '
-        error += '%s must be defined' % variable
+        return getattr(settings, variable)
+    except AttributeError:
+        error = '[rolabesti] error | missing settings | {} must be defined'.format(variable)
         sys.exit(error)
 
-    return locals()[variable]
 
-
-def check_settings():
-    """Check if the settings are valid."""
+def validate_settings():
+    """Exit with error if there are invalid settings."""
     for directory in DIRECTORIES:
         directory = get_value(directory)
 

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from .checker import check_settings
-check_settings()
+from .checker import validate_settings
+validate_settings()
 
 from .arguments import parse_arguments, prepare_arguments, validate_arguments
 from .copier import copy
