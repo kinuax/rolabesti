@@ -11,14 +11,14 @@ import re
 from .utils import get_logger
 
 PARSINGS = OrderedDict()
-PARSINGS[r'/Places/(.+?)/Genres/(.+?)/Albums/(.+?)/(.+/)*(.+)\.[mM][pP]3$'] = ('place', 'genre', 'album', 'side', 'filename')
-PARSINGS[r'/Places/(.+?)/Genres/(.+?)/(.+?)/(.+?)/(.+/)*(.+)\.[mM][pP]3$'] = ('place', 'genre', 'artist', 'album', 'side', 'filename')
+PARSINGS[r'/Places/(.+?)/Genres/(.+?)/Albums/(.+?)/(?:(.+?)/)?(.+)\.[mM][pP]3$'] = ('place', 'genre', 'album', 'side', 'filename')
+PARSINGS[r'/Places/(.+?)/Genres/(.+?)/(.+?)/(.+?)/(?:(.+?)/)?(.+)\.[mM][pP]3$'] = ('place', 'genre', 'artist', 'album', 'side', 'filename')
 PARSINGS[r'/Places/(.+?)/Genres/(.+?)/(.+?)/(.+)\.[mM][pP]3$'] = ('place', 'genre', 'artist', 'filename')
-PARSINGS[r'/Places/(.+?)/Albums/(.+?)/(.+/)*(.+)\.[mM][pP]3$'] = ('place', 'album', 'side', 'filename')
-PARSINGS[r'/Places/(.+?)/(.+?)/(.+?)/(.+/)*(.+)\.[mM][pP]3$'] = ('place', 'artist', 'album', 'side', 'filename')
+PARSINGS[r'/Places/(.+?)/Albums/(.+?)/(?:(.+?)/)?(.+)\.[mM][pP]3$'] = ('place', 'album', 'side', 'filename')
+PARSINGS[r'/Places/(.+?)/(.+?)/(.+?)/(?:(.+?)/)?(.+)\.[mM][pP]3$'] = ('place', 'artist', 'album', 'side', 'filename')
 PARSINGS[r'/Places/(.+?)/(.+?)/(.+)\.[mM][pP]3$'] = ('place', 'artist', 'filename')
-PARSINGS[r'/Genres/(.+?)/Albums/(.+?)/(.+/)*(.+)\.[mM][pP]3$'] = ('genre', 'album', 'side', 'filename')
-PARSINGS[r'/Genres/(.+?)/(.+?)/(.+?)/(.+/)*(.+)\.[mM][pP]3$'] = ('genre', 'artist', 'album', 'side', 'filename')
+PARSINGS[r'/Genres/(.+?)/Albums/(.+?)/(?:(.+?)/)?(.+)\.[mM][pP]3$'] = ('genre', 'album', 'side', 'filename')
+PARSINGS[r'/Genres/(.+?)/(.+?)/(.+?)/(?:(.+?)/)?(.+)\.[mM][pP]3$'] = ('genre', 'artist', 'album', 'side', 'filename')
 PARSINGS[r'/Genres/(.+?)/(.+?)/(.+)\.[mM][pP]3$'] = ('genre', 'artist', 'filename')
 logger = get_logger(__file__)
 
@@ -33,7 +33,7 @@ def parse(trackpath):
         match = re.search(regex, trackpath)
 
         if match:
-            return {field: value for field, value in zip(fields, match.groups())}
+            return {field: value for field, value in zip(fields, match.groups()) if value is not None}
 
     info = 'parsing not found | {}'.format(trackpath)
     logger.info(info)
