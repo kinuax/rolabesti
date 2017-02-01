@@ -3,7 +3,7 @@
 from os.path import exists
 import sys
 
-from sorter import SORTINGS
+from .sorter import SORTINGS
 
 DIRECTORIES = ['BASE_DIR', 'LOG_DIR', 'MUSIC_DIR']
 MINIMUM_OVERLAP_LENGTH = 0

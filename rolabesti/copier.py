@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from utils import execute
+from .utils import execute
 
 
 def copy(tracks, destiny):

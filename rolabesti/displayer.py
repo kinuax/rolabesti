@@ -5,8 +5,8 @@ rolabesti.displayer
 
 This module is in charge of printing tracks data to the standard output.
 """
-from constants import TRACK_FIELDS
-from utils import format_length
+from .constants import TRACK_FIELDS
+from .utils import format_length
 
 SUMMARY_FIELDS = ('artist', 'album', 'genre', 'place')
 

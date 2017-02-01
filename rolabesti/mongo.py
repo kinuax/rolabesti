@@ -11,10 +11,10 @@ import re
 
 from pymongo import MongoClient
 
-from constants import TRACK_FIELDS, COUNTS
-from parser import parse
-from settings import MUSIC_DIR, MONGO_HOST, MONGO_PORT, MONGO_DBNAME, MONGO_COLNAME
-from utils import add_prefix_to_dict, get_length, get_logger, get_id3_tags
+from .constants import TRACK_FIELDS, COUNTS
+from .parser import parse
+from .settings import MUSIC_DIR, MONGO_HOST, MONGO_PORT, MONGO_DBNAME, MONGO_COLNAME
+from .utils import add_prefix_to_dict, get_length, get_logger, get_id3_tags
 
 logger = get_logger(__file__)
 

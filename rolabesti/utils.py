@@ -9,8 +9,8 @@ from mutagen.mp3 import MP3
 from mutagen.easyid3 import EasyID3
 from mutagen.id3._util import ID3NoHeaderError
 
-from constants import TRACK_FIELDS
-from settings import LOG_DIR
+from .constants import TRACK_FIELDS
+from .settings import LOG_DIR
 
 ID3_TAGS = ('album', 'artist', 'genre', 'title')
 

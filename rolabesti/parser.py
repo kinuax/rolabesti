@@ -8,7 +8,7 @@ This module holds all the supported parsings and the parse function.
 from collections import OrderedDict
 import re
 
-from utils import get_logger
+from .utils import get_logger
 
 PARSINGS = OrderedDict()
 PARSINGS[r'/Places/(.+?)/Genres/(.+?)/Albums/(.+?)/(.+/)*(.+)\.[mM][pP]3$'] = ('place', 'genre', 'album', 'side', 'filename')
