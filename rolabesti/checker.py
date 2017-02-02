@@ -6,7 +6,7 @@ import sys
 from . import settings
 from .sorter import SORTINGS
 
-DIRECTORIES = ['BASE_DIR', 'LOG_DIR', 'MUSIC_DIR']
+DIRECTORIES = ['BASE_DIR', 'MUSIC_DIR']
 MINIMUM_OVERLAP_LENGTH = 0
 MAXIMUM_OVERLAP_LENGTH = 30
 

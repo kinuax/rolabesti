@@ -1,36 +1,16 @@
 # -*- coding: utf-8 -*-
 
-import logging
-from os.path import basename, join, splitext
+from logging import getLogger
 import subprocess
 import sys
 
-from mutagen.mp3 import MP3
 from mutagen.easyid3 import EasyID3
 from mutagen.id3._util import ID3NoHeaderError
+from mutagen.mp3 import MP3
 
 from .constants import TRACK_FIELDS
-from .settings import LOG_DIR
 
 ID3_TAGS = ('album', 'artist', 'genre', 'title')
-
-
-def get_logger(file):
-    """Return an instance of logging.Logger."""
-    name = splitext(basename(file))[0]
-    logger = logging.getLogger(name)
-
-    if not len(logger.handlers):
-        logger.setLevel(logging.INFO)
-        logpath = join(LOG_DIR, '{}.log'.format(name))
-        handler = logging.FileHandler(logpath, encoding='utf-8')
-        formatter = logging.Formatter('[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s')
-        handler.setFormatter(formatter)
-        logger.addHandler(handler)
-
-    return logger
-
-logger = get_logger(__file__)
 
 
 def get_length(trackpath):
@@ -43,7 +23,7 @@ def get_length(trackpath):
     except:
         error = sys.exc_info()
         error = 'getting length | {} - {} | {}'.format(str(error[0]), str(error[1]), trackpath)
-        logger.error(error)
+        getLogger(__name__).error(error)
 
 
 def get_id3_obj(trackpath):
@@ -59,7 +39,7 @@ def get_id3_obj(trackpath):
     except:
         error = sys.exc_info()
         error = 'getting EasyID3 | {} - {} | {}'.format(str(error[0]), str(error[1]), trackpath)
-        logger.error(error)
+        getLogger(__name__).error(error)
 
 
 def get_id3_tags(trackpath):

@@ -5,6 +5,7 @@ rolabesti.mongo
 
 This module contains all the MongoDB related functionality.
 """
+from logging import getLogger
 from os import walk
 from os.path import exists, join
 import re
@@ -14,9 +15,7 @@ from pymongo import MongoClient
 from .constants import TRACK_FIELDS, COUNTS
 from .parser import parse
 from .settings import MUSIC_DIR, MONGO_HOST, MONGO_PORT, MONGO_DBNAME, MONGO_COLNAME
-from .utils import add_prefix_to_dict, get_length, get_logger, get_id3_tags
-
-logger = get_logger(__file__)
+from .utils import add_prefix_to_dict, get_length, get_id3_tags
 
 
 def get_collection():
@@ -32,6 +31,7 @@ def load():
     count = 0
 
     info = 'loading new database from scratch'
+    logger = getLogger(__name__)
     logger.info(info)
     print('[mongo]', info)
 
@@ -62,6 +62,7 @@ def search(arguments):
     length = 0.0
     collection = get_collection()
     and_list = [{'length': {'$gte': arguments['min'], '$lte': arguments['max']}}]
+    logger = getLogger(__name__)
 
     print('[mongo] searching tracks')
 

@@ -1,5 +1,7 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
+import logging
+import sys
 
 from .checker import validate_settings
 validate_settings()
@@ -14,8 +16,20 @@ from .sorter import sort
 from .tagger import tag
 
 
-if __name__ == '__main__':
+def main(args=sys.argv[1:]):
+    """Entrypoint to the rolabesti command."""
     arguments = parse_arguments()
+    logger = logging.getLogger()
+
+    if arguments['log']:
+        logger.setLevel(logging.INFO)
+        handler = logging.StreamHandler()
+        formatter = logging.Formatter('[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s')
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+    else:
+        logger.addHandler(logging.NullHandler())
+
     subcommand = arguments['subcommand']
 
     if subcommand == 'load':
@@ -42,3 +56,7 @@ if __name__ == '__main__':
                     play(tracks, arguments['player'])
                 else:
                     copy(tracks, arguments['destiny'])
+
+
+if __name__ == '__main__':
+    main()

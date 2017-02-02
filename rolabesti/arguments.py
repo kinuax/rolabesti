@@ -9,6 +9,7 @@ import argparse
 from os.path import exists
 import sys
 
+from . import __description__
 from .player import PLAYERS
 from .settings import MAX_TRACKLIST_LENGTH, MAX_TRACK_LENGTH, MIN_TRACK_LENGTH, PLAYER, SORTING
 from .sorter import SORTINGS
@@ -16,14 +17,17 @@ from .sorter import SORTINGS
 
 def parse_arguments():
     """Parse command-line arguments and return them as a dictionary."""
-    root_parser = argparse.ArgumentParser(description='Command-line application to manage a music library of mp3 tracks.')
+    root_parser = argparse.ArgumentParser(description=__description__)
     subparsers = root_parser.add_subparsers(title='subcommands', dest='subcommand')
     subparsers.required = True
     play_parser = subparsers.add_parser('play', help='play and enqueue tracks')
     search_parser = subparsers.add_parser('search', help='search and display tracks')
-    subparsers.add_parser('load', help='parse and load tracks to the database')
+    load_parser = subparsers.add_parser('load', help='parse and load tracks to the database')
     copy_parser = subparsers.add_parser('copy', help='copy tracks to destiny')
     tag_parser = subparsers.add_parser('tag', help='tag tracks')
+
+    for parser in [play_parser, search_parser, load_parser, copy_parser, tag_parser]:
+        parser.add_argument('--log', action='store_true', help='enable logging')
 
     for parser in [play_parser, search_parser, copy_parser, tag_parser]:
         parser.add_argument('-ar', '--artist', help='track artist')

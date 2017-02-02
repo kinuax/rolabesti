@@ -5,7 +5,6 @@ import os
 
 # directories
 BASE_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)))
-LOG_DIR = os.path.join(BASE_DIR, 'log')
 MUSIC_DIR = '/home/{}/Music'.format(getpass.getuser())
 
 # default arguments
