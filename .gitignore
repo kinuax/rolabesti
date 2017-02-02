@@ -1,2 +1,5 @@
-rolabesti/log/*
+.cache/
+build/
+dist/
+rolabesti.egg-info
 *.pyc
