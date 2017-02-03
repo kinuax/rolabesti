@@ -3,7 +3,7 @@
 from os.path import exists
 import sys
 
-from . import settings
+from .conf import settings
 from .sorter import SORTINGS
 
 MINIMUM_OVERLAP_LENGTH = 0

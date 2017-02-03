@@ -10,7 +10,7 @@ from time import sleep
 
 import vlc
 
-from .settings import OVERLAP_LENGTH
+from .conf.settings import OVERLAP_LENGTH
 from .utils import execute, is_running, track_to_string
 
 PLAYERS = ('shell', 'vlc')

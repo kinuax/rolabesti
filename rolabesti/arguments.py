@@ -10,8 +10,8 @@ from os.path import exists
 import sys
 
 from . import __description__
+from .conf.settings import MAX_TRACKLIST_LENGTH, MAX_TRACK_LENGTH, MIN_TRACK_LENGTH, PLAYER, SORTING
 from .player import PLAYERS
-from .settings import MAX_TRACKLIST_LENGTH, MAX_TRACK_LENGTH, MIN_TRACK_LENGTH, PLAYER, SORTING
 from .sorter import SORTINGS
 
 

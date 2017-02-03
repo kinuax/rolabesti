@@ -12,9 +12,9 @@ import re
 
 from pymongo import MongoClient
 
+from .conf.settings import MUSIC_DIR, MONGO_HOST, MONGO_PORT, MONGO_DBNAME, MONGO_COLNAME
 from .constants import TRACK_FIELDS, COUNTS
 from .parser import parse
-from .settings import MUSIC_DIR, MONGO_HOST, MONGO_PORT, MONGO_DBNAME, MONGO_COLNAME
 from .utils import add_prefix_to_dict, get_length, get_id3_tags
 
 
