@@ -3,9 +3,6 @@
 import logging
 import sys
 
-from .validator import validate_settings
-validate_settings()
-
 from .arguments import parse_arguments, prepare_arguments, validate_arguments
 from .copier import copy
 from .displayer import display
@@ -14,10 +11,12 @@ from .player import play
 from .slicer import slice_tracks
 from .sorter import sort
 from .tagger import tag
+from .validator import validate_settings
 
 
 def main(args=sys.argv[1:]):
     """Entrypoint to the rolabesti command."""
+    validate_settings()
     arguments = parse_arguments()
     logger = logging.getLogger()
 
