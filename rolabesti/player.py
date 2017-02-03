@@ -13,6 +13,8 @@ import vlc
 from .conf.settings import OVERLAP_LENGTH
 from .utils import execute, is_running, track_to_string
 
+MAXIMUM_OVERLAP_LENGTH = 30
+MINIMUM_OVERLAP_LENGTH = 0
 PLAYERS = ('shell', 'vlc')
 
 
