@@ -3,7 +3,7 @@
 import logging
 import sys
 
-from .checker import validate_settings
+from .validator import validate_settings
 validate_settings()
 
 from .arguments import parse_arguments, prepare_arguments, validate_arguments

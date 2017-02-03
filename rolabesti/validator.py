@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+"""
+rolabesti.validator
+~~~~~~~~~~~~~~~~~~~
+
+This module contains validation related functionality.
+"""
 
 from os.path import exists
 import sys
