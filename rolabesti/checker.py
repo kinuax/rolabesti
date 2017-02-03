@@ -6,7 +6,6 @@ import sys
 from . import settings
 from .sorter import SORTINGS
 
-DIRECTORIES = ['BASE_DIR', 'MUSIC_DIR']
 MINIMUM_OVERLAP_LENGTH = 0
 MAXIMUM_OVERLAP_LENGTH = 30
 
@@ -22,13 +21,11 @@ def get_value(variable):
 
 def validate_settings():
     """Exit with error if there are invalid settings."""
-    for directory in DIRECTORIES:
-        directory = get_value(directory)
+    directory = get_value('MUSIC_DIR')
 
-        if not exists(directory):
-            error = '[rolabesti] error | invalid settings | '
-            error += '%s must be an existing directory' % directory
-            sys.exit(error)
+    if not exists(directory):
+        error = '[rolabesti] error | invalid settings | {} must be an existing directory'.format(directory)
+        sys.exit(error)
 
     sorting = get_value('SORTING')
 
