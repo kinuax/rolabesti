@@ -54,7 +54,7 @@ def get_id3_tags(trackpath):
 
     if id3:
         for tag, values in id3.items():
-            if tag in ID3_TAGS:
+            if values and tag in ID3_TAGS:
                 tags[tag] = values[0]
 
     return tags
