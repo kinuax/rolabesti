@@ -9,7 +9,7 @@ import argparse
 from os.path import exists
 import sys
 
-from . import __description__
+from . import __description__, __version__
 from .conf.settings import MAX_TRACKLIST_LENGTH, MAX_TRACK_LENGTH, MIN_TRACK_LENGTH, OVERLAP_LENGTH, PLAYER, SORTING
 from .player import MAXIMUM_OVERLAP_LENGTH, MINIMUM_OVERLAP_LENGTH, PLAYERS
 from .sorter import SORTINGS
@@ -23,8 +23,12 @@ def overlap_length_type(overlap_length):
 
 
 def parse_arguments():
-    """Parse command-line arguments and return them as a dictionary."""
+    """Parse command-line arguments and return them in a dictionary.
+
+    If no argument is given, show help message and exit.
+    """
     root_parser = argparse.ArgumentParser(description=__description__)
+    root_parser.add_argument('-v', '--version', action='version', version='%(prog)s {}'.format(__version__))
     subparsers = root_parser.add_subparsers(title='subcommands', dest='subcommand')
     subparsers.required = True
     play_parser = subparsers.add_parser('play', help='play and enqueue tracks')
@@ -32,6 +36,10 @@ def parse_arguments():
     load_parser = subparsers.add_parser('load', help='parse and load tracks to the database')
     copy_parser = subparsers.add_parser('copy', help='copy tracks to destiny')
     tag_parser = subparsers.add_parser('tag', help='tag tracks')
+
+    if len(sys.argv) == 1:
+        root_parser.print_help()
+        sys.exit(1)
 
     for parser in [play_parser, search_parser, load_parser, copy_parser, tag_parser]:
         parser.add_argument('--log', action='store_true', help='enable logging')
