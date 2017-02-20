@@ -5,6 +5,7 @@ rolabesti.mongo
 
 This module contains all the MongoDB related functionality.
 """
+
 from logging import getLogger
 from os import walk
 from os.path import exists, join
@@ -12,7 +13,7 @@ import re
 
 from pymongo import MongoClient
 
-from .conf.settings import MUSIC_DIR, MONGO_HOST, MONGO_PORT, MONGO_DBNAME, MONGO_COLNAME
+from .conf.settings import MONGO_HOST, MONGO_PORT, MONGO_DBNAME, MONGO_COLNAME
 from .constants import TRACK_FIELDS, COUNTS
 from .parser import parse
 from .utils import add_prefix_to_dict, get_length, get_id3_tags
@@ -24,18 +25,18 @@ def get_collection():
     return client[MONGO_DBNAME][MONGO_COLNAME]
 
 
-def load():
-    """Load the collection with parsed mp3 files."""
+def load(music_dir):
+    """Load the collection with parsed mp3 files from music_dir."""
     collection = get_collection()
     collection.remove({})
     count = 0
 
-    info = 'loading new database from scratch'
+    info = 'loading new database from scratch : MUSIC_DIR = {}'.format(music_dir)
     logger = getLogger(__name__)
     logger.info(info)
     print('[mongo]', info)
 
-    for dirpath, dirnames, filenames in walk(MUSIC_DIR):
+    for dirpath, dirnames, filenames in walk(music_dir):
         for filename in filenames:
             if filename.lower().endswith('.mp3'):
                 trackpath = join(dirpath, filename)

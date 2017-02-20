@@ -32,7 +32,7 @@ def main(args=sys.argv[1:]):
     subcommand = arguments['subcommand']
 
     if subcommand == 'load':
-        load()
+        load(arguments['music_dir'])
     else:
         validate_arguments(arguments)
         prepare_arguments(arguments)
@@ -54,7 +54,7 @@ def main(args=sys.argv[1:]):
                 if subcommand == 'play':
                     play(tracks, arguments['player'])
                 else:
-                    copy(tracks, arguments['destiny'])
+                    copy(tracks, arguments['directory'])
 
 
 if __name__ == '__main__':
