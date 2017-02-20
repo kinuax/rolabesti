@@ -31,7 +31,7 @@ setup(
     author='Kinuax',
     author_email='kinuax@gmail.com',
     url='https://github.com/kinuax/rolabesti/',
-    packages=['rolabesti'],
+    packages=['rolabesti', 'rolabesti.conf'],
     install_requires=['mutagen==1.31', 'pymongo==3.2.1', 'python-vlc==1.1.2'],
     entry_points={'console_scripts': ['rolabesti = rolabesti.__main__:main']},
     zip_safe=False,
