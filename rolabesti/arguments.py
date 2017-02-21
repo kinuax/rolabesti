@@ -140,9 +140,11 @@ def validate_arguments(arguments):
 
 def prepare_arguments(arguments):
     """Set proper maximum track length. Convert length arguments to seconds."""
-    if 0 < arguments['max_tracklist_length'] < arguments['max']:
-        arguments['max'] = arguments['max_tracklist_length']
+    if 'max_tracklist_length' in arguments:
+        if 0 < arguments['max_tracklist_length'] < arguments['max']:
+            arguments['max'] = arguments['max_tracklist_length']
 
-    arguments['max_tracklist_length'] *= 60
+        arguments['max_tracklist_length'] *= 60
+
     arguments['max'] *= 60
     arguments['min'] *= 60
