@@ -45,10 +45,12 @@ def parse_arguments():
         parser.add_argument('-al', '--album', type=str, help='track album')
         parser.add_argument('-g', '--genre', type=str, help='track genre')
         parser.add_argument('-p', '--place', type=str, help='track place')
-        parser.add_argument('-l', '--max_tracklist_length', type=non_negative_integer, default=MAX_TRACKLIST_LENGTH,
-                            help='maximum tracklist length in minutes, 0 denotes no tracklist length limit, default is {}'.format(MAX_TRACKLIST_LENGTH))
         parser.add_argument('--max', type=positive_integer, default=MAX_TRACK_LENGTH, help='maximum track length in minutes, default is {}'.format(MAX_TRACK_LENGTH))
         parser.add_argument('--min', type=non_negative_integer, default=MIN_TRACK_LENGTH, help='minimum track length in minutes, default is {}'.format(MIN_TRACK_LENGTH))
+
+    for parser in [play_parser, copy_parser]:
+        parser.add_argument('-l', '--max_tracklist_length', type=non_negative_integer, default=MAX_TRACKLIST_LENGTH,
+                            help='maximum tracklist length in minutes, 0 denotes no tracklist length limit, default is {}'.format(MAX_TRACKLIST_LENGTH))
         parser.add_argument('-s', '--sorting', choices=SORTINGS, default=SORTING, help='tracklist sorting, default is {}'.format(SORTING))
 
     play_parser.add_argument('--player', choices=PLAYERS, default=PLAYER, help='player to play and enqueue tracks, default is {}'.format(PLAYER))
