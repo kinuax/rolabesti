@@ -9,7 +9,7 @@ from collections import OrderedDict
 
 TRACK_FIELDS = OrderedDict()
 TRACK_FIELDS['artist'] = ('parsed_artist', 'id3_artist')
-TRACK_FIELDS['title'] = ('id3_title', 'parsed_filename')
+TRACK_FIELDS['title'] = ('id3_title', 'parsed_title')
 TRACK_FIELDS['album'] = ('parsed_album', 'id3_album')
 TRACK_FIELDS['genre'] = ('parsed_genre', 'id3_genre')
 TRACK_FIELDS['place'] = ('parsed_place',)

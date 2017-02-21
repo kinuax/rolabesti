@@ -32,8 +32,8 @@ def tag(tracks):
             id3['album'] = track['album']
             save = True
 
-        if 'filename' in track and ('title' not in id3 or (id3['title'] or [''])[0].strip().lower() in VALUES):
-            id3['title'] = track['filename']
+        if 'title' in track and ('title' not in id3 or (id3['title'] or [''])[0].strip().lower() in VALUES):
+            id3['title'] = track['title']
             save = True
 
         if save:
