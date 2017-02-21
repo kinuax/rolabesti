@@ -42,7 +42,7 @@ def main(args=sys.argv[1:]):
             if subcommand == 'search':
                 display(tracks, length)
             elif subcommand == 'tag':
-                tag(tracks)
+                tag(tracks, arguments['id3_tag'])
             else:  # subcommand is play or copy
                 tracks = sort(tracks, arguments['sorting'])
 

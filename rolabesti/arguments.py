@@ -15,6 +15,7 @@ from . import __description__, __version__
 from .conf.settings import MAX_TRACKLIST_LENGTH, MAX_TRACK_LENGTH, MIN_TRACK_LENGTH, MUSIC_DIR, OVERLAP_LENGTH, PLAYER, SORTING
 from .player import MAXIMUM_OVERLAP_LENGTH, MINIMUM_OVERLAP_LENGTH, PLAYERS
 from .sorter import SORTINGS
+from .tagger import ID3_TAGS
 
 
 def parse_arguments():
@@ -30,7 +31,7 @@ def parse_arguments():
     search_parser = subparsers.add_parser('search', help='search and display tracks')
     load_parser = subparsers.add_parser('load', help='parse and load tracks from a directory to the database')
     copy_parser = subparsers.add_parser('copy', help='copy tracks to a directory')
-    tag_parser = subparsers.add_parser('tag', help='tag tracks')
+    tag_parser = subparsers.add_parser('tag', help='update ID3 tags with parsed values')
 
     if len(sys.argv) == 1:
         root_parser.print_help()
@@ -58,6 +59,8 @@ def parse_arguments():
                              help='with shell player, overlap length in seconds between two consecutive tracks, minimum is {}, maximum is {}, default is {}'.format(MINIMUM_OVERLAP_LENGTH, MAXIMUM_OVERLAP_LENGTH, OVERLAP_LENGTH))
     load_parser.add_argument('-d', '--music_dir', type=readable_directory, default=MUSIC_DIR, help='path where the mp3 files are located, default is {}'.format(MUSIC_DIR))
     copy_parser.add_argument('-d', '--directory', type=writable_directory, default=os.getcwd(), help='path where the tracks will be copied, default is current directory {}'.format(os.getcwd()))
+    tag_parser.add_argument('--id3_tag', choices=ID3_TAGS, required=True, help='ID3 tag to be updated with corresponding parsed value, required')
+
     parsed_args = root_parser.parse_args()
 
     return {key: value for key, value in vars(parsed_args).items() if value is not None}

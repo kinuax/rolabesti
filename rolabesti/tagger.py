@@ -1,47 +1,47 @@
 # -*- coding: utf-8 -*-
+"""
+rolabesti.tagger
+~~~~~~~~~~~~~~~~
+
+This module contains the functionality to manage the ID3 tags of loaded tracks.
+"""
+
+from logging import getLogger
 
 from .constants import COUNTS
+from .mongo import update
 from .utils import get_id3_obj
 
-VALUES = ('', 'unknown', 'other', 'default', 'no artist', 'no title', 'genre', 'title')
+ID3_TAGS = ('artist', 'title', 'album', 'genre')
 
 
-def tag(tracks):
+def tag(tracks, id3_tag):
+    """Update tracks with new ID3 tag value given by corresponding parsed field,
+    both in system file and database.
+    """
+    logger = getLogger(__name__)
+    parsed_field = 'parsed_{}'.format(id3_tag)
+    id3_field = 'id3_{}'.format(id3_tag)
     count = 0
 
     for track in tracks:
-        id3 = get_id3_obj(track['path'])
+        if parsed_field in track and id3_field in track and track[id3_field] != track[parsed_field]:
+            id3 = get_id3_obj(track['path'])
 
-        if not id3:
-            continue
+            if not id3:
+                continue
 
-        save = False
-
-        if 'genre' in track and ('genre' not in id3 or (id3['genre'] or [''])[0].strip().lower() in VALUES):
-            id3['genre'] = track['genre']
-            save = True
-
-        if 'artist' in track and ('artist' not in id3 or
-                    (id3['artist'] or [''])[0].strip().lower() in VALUES or
-                    ((id3['artist'] or [''])[0] != track['artist'] and
-                    (id3['artist'] or [''])[0].strip().lower() == track['artist'].lower())):
-            id3['artist'] = track['artist']
-            save = True
-
-        if 'album' in track and ('album' not in id3 or (id3['album'] or [''])[0].strip().lower() in VALUES):
-            id3['album'] = track['album']
-            save = True
-
-        if 'title' in track and ('title' not in id3 or (id3['title'] or [''])[0].strip().lower() in VALUES):
-            id3['title'] = track['title']
-            save = True
-
-        if save:
+            id3[id3_tag] = track[parsed_field]
             id3.save()
+
+            update(track['_id'], id3_field, track[parsed_field])
+
+            info = 'track updated with new {} ID3 tag | {}'.format(id3_tag, track['path'])
+            logger.info(info)
 
             count += 1
 
             if count in COUNTS:
-                print('[mutagen] tagging %d tracks' % count)
+                print('[rolabesti] tagging {} tracks'.format(count))
 
-    print('[mutagen] %d track%s tagged' % (count, 's'[count == 1:]))
+    print('[rolabesti] %d track%s tagged' % (count, 's'[count == 1:]))

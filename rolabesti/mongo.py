@@ -19,14 +19,8 @@ from .parser import parse
 from .utils import add_prefix_to_dict, get_length, get_id3_tags
 
 
-def get_collection():
-    client = MongoClient(host=MONGO_HOST, port=MONGO_PORT)
-
-    return client[MONGO_DBNAME][MONGO_COLNAME]
-
-
 def load(music_dir):
-    """Load the collection with parsed mp3 files from music_dir."""
+    """Load the collection with mp3 files from music_dir."""
     collection = get_collection()
     collection.remove({})
     count = 0
@@ -90,3 +84,14 @@ def search(arguments):
             print('[mongo] there is no track loaded to the database, load subcommand should be run first')
 
     return tracks, length
+
+
+def update(_id, field, value):
+    """Update track with a new field."""
+    get_collection().update({"_id": _id}, {"$set": {field: value}})
+
+
+def get_collection():
+    client = MongoClient(host=MONGO_HOST, port=MONGO_PORT)
+
+    return client[MONGO_DBNAME][MONGO_COLNAME]
