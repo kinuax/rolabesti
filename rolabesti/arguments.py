@@ -66,13 +66,16 @@ def parse_arguments():
     return {key: value for key, value in vars(parsed_args).items() if value is not None}
 
 
-def non_negative_integer(arg):
-    error = 'should be a non negative integer'
-
+def integer(arg, error='should be an integer'):
     try:
-        arg = int(arg)
+        return int(arg)
     except ValueError:
         raise argparse.ArgumentTypeError(error)
+
+
+def non_negative_integer(arg):
+    error = 'should be a non negative integer'
+    arg = integer(arg, error)
 
     if arg < 0:
         raise argparse.ArgumentTypeError(error)
@@ -82,11 +85,7 @@ def non_negative_integer(arg):
 
 def positive_integer(arg):
     error = 'should be a positive integer'
-
-    try:
-        arg = int(arg)
-    except ValueError:
-        raise argparse.ArgumentTypeError(error)
+    arg = integer(arg, error)
 
     if arg <= 0:
         raise argparse.ArgumentTypeError(error)
@@ -96,11 +95,7 @@ def positive_integer(arg):
 
 def overlap_length(arg):
     error = 'should be an integer between {} and {}'.format(MINIMUM_OVERLAP_LENGTH, MAXIMUM_OVERLAP_LENGTH)
-
-    try:
-        arg = int(arg)
-    except ValueError:
-        raise argparse.ArgumentTypeError(error)
+    arg = integer(arg, error)
 
     if not(MINIMUM_OVERLAP_LENGTH <= arg <= MAXIMUM_OVERLAP_LENGTH):
         raise argparse.ArgumentTypeError(error)
