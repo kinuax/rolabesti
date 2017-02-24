@@ -4,7 +4,7 @@ rolabesti.conf.settings
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 This module contains the default rolabesti settings. These settings can be overriden
-by the user at the ~/.config/rolabesti/rolabesti.conf file.
+by the user in the ~/.config/rolabesti/rolabesti.conf file.
 """
 
 import configparser
@@ -22,8 +22,8 @@ MONGO_COLNAME = 'tracks'
 MUSIC_DIR = '/home/{}/Music'.format(getpass.getuser())
 
 # player module
-PLAYER = 'vlc'
 OVERLAP_LENGTH = 3
+PLAYER = 'vlc'
 
 # slicer module
 MAX_TRACKLIST_LENGTH = 60
@@ -36,13 +36,15 @@ conf_file = '/home/{}/.config/rolabesti/rolabesti.conf'.format(getpass.getuser()
 
 if exists(conf_file):
     SETTINGS = ('MAX_TRACK_LENGTH', 'MIN_TRACK_LENGTH', 'MONGO_HOST', 'MONGO_PORT', 'MONGO_DBNAME', 'MONGO_COLNAME', 'MUSIC_DIR',
-                'PLAYER', 'OVERLAP_LENGTH', 'MAX_TRACKLIST_LENGTH', 'SORTING')
+                'OVERLAP_LENGTH', 'PLAYER', 'MAX_TRACKLIST_LENGTH', 'SORTING')
     config = configparser.ConfigParser()
     config.read(conf_file)
 
     for setting, value in config.items('rolabesti'):
         if setting.upper() in SETTINGS:
             try:
-                setattr(sys.modules[__name__], setting.upper(), int(value))
+                value = int(value)
             except ValueError:
-                setattr(sys.modules[__name__], setting.upper(), value)
+                pass
+
+            setattr(sys.modules[__name__], setting.upper(), value)
