@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+"""
+rolabesti.sorter
+~~~~~~~~~~~~~~~~
+
+This module contains all the supported sortings and the sort function.
+"""
 
 import random
 

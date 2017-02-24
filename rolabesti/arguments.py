@@ -3,7 +3,7 @@
 rolabesti.arguments
 ~~~~~~~~~~~~~~~~~~~
 
-This module contains the functionality related to user arguments.
+This module contains the functionality related to the user arguments.
 """
 
 import argparse

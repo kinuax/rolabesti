@@ -3,8 +3,9 @@
 rolabesti.player
 ~~~~~~~~~~~~~~~~
 
-This module is in charge of playing tracks in the supported players.
+This module is in charge of playing and enqueueing tracks in the supported players.
 """
+
 import sys
 from time import sleep
 

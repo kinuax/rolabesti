@@ -3,7 +3,7 @@
 rolabesti.slicer
 ~~~~~~~~~~~~~~~~
 
-This module contains the functionality to slice a list of tracks based on maximum length.
+This module contains the functionality to slice a list of tracks based on maximum tracklist length.
 """
 
 

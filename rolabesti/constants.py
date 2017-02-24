@@ -3,8 +3,9 @@
 rolabesti.constants
 ~~~~~~~~~~~~~~~~~~~
 
-This module holds some readonly variables.
+This module contains some readonly variables.
 """
+
 from collections import OrderedDict
 
 TRACK_FIELDS = OrderedDict()

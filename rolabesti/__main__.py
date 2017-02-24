@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+"""
+rolabesti.__main__
+~~~~~~~~~~~~~~~~~~
+
+This module contains the entry point to the rolabesti command.
+"""
 
 import logging
 import sys
@@ -15,7 +21,7 @@ from .validator import validate_settings
 
 
 def main(args=sys.argv[1:]):
-    """Entrypoint to the rolabesti command."""
+    """Entry point to the rolabesti command."""
     validate_settings()
     arguments = parse_arguments()
     logger = logging.getLogger()

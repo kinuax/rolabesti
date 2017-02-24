@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+"""
+rolabesti.utils
+~~~~~~~~~~~~~~~
+
+This module contains some utility functions.
+"""
 
 from logging import getLogger
 import subprocess

@@ -3,8 +3,9 @@
 rolabesti.parser
 ~~~~~~~~~~~~~~~~
 
-This module holds all the supported parsings and the parse function.
+This module contains all the supported parsings and the parse function.
 """
+
 from logging import getLogger
 from collections import OrderedDict
 import re
