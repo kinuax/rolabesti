@@ -35,15 +35,15 @@ def validate_settings():
         error += 'MAX_TRACKLIST_LENGTH should be a non negative integer'
         sys.exit(error)
 
+    if not(type(max_track_length) is int and max_track_length >= 0):
+        error += 'MAX_TRACK_LENGTH should be a non negative integer'
+        sys.exit(error)
+
     if not(type(min_track_length) is int and min_track_length >= 0):
-        error += 'MIN_TRACK_LENGTH should be a non-negative integer'
+        error += 'MIN_TRACK_LENGTH should be a non negative integer'
         sys.exit(error)
 
-    if not(type(max_track_length) is int and max_track_length > 0):
-        error += 'MAX_TRACK_LENGTH should be a positive integer'
-        sys.exit(error)
-
-    if min_track_length > max_track_length:
+    if 0 < max_track_length < min_track_length:
         error += 'MAX_TRACK_LENGTH should be greater than or equal to MIN_TRACK_LENGTH'
         sys.exit(error)
 

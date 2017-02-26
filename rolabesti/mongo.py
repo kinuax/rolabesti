@@ -59,12 +59,18 @@ def search(arguments):
     tracks = []
     length = 0.0
     collection = get_collection()
+    and_list = [{}]
+    length_filters = {}
     logger = getLogger(__name__)
 
-    if arguments['min'] == 0:
-        and_list = [{'length': {'$lte': arguments['max']}}]
-    else:
-        and_list = [{'length': {'$gte': arguments['min'], '$lte': arguments['max']}}]
+    if arguments['max'] > 0:
+        length_filters['$lte'] = arguments['max']
+
+    if arguments['min'] > 0:
+        length_filters['$gte'] = arguments['min']
+
+    if length_filters:
+        and_list[0] = {'length': length_filters}
 
     print('[mongo] searching tracks')
 
