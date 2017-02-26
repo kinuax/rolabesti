@@ -53,11 +53,18 @@ def load(music_dir):
 
 
 def search(arguments):
+    """Return a (tracks, length) tuple, where tracks is the list of found tracks
+    based on arguments and length is the length of tracks.
+    """
     tracks = []
     length = 0.0
     collection = get_collection()
-    and_list = [{'length': {'$gte': arguments['min'], '$lte': arguments['max']}}]
     logger = getLogger(__name__)
+
+    if arguments['min'] == 0:
+        and_list = [{'length': {'$lte': arguments['max']}}]
+    else:
+        and_list = [{'length': {'$gte': arguments['min'], '$lte': arguments['max']}}]
 
     print('[mongo] searching tracks')
 
@@ -65,9 +72,9 @@ def search(arguments):
         if key_field in arguments:
             value = re.compile(arguments[key_field], re.IGNORECASE)
             or_list = [{field: value} for field in fields]
-            and_list.append({"$or": or_list})
+            and_list.append({'$or': or_list})
 
-    for track in collection.find({"$and": and_list}):
+    for track in collection.find({'$and': and_list}):
         if exists(track['path']):
             tracks.append(track)
             length += track['length']
