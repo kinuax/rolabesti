@@ -8,8 +8,7 @@ by the user in the ~/.config/rolabesti/rolabesti.conf file.
 """
 
 import configparser
-import getpass
-from os.path import exists
+from os.path import exists, expanduser
 import sys
 
 # mongo module
@@ -19,7 +18,7 @@ MONGO_HOST = 'localhost'
 MONGO_PORT = 27017
 MONGO_DBNAME = 'rolabesti'
 MONGO_COLNAME = 'tracks'
-MUSIC_DIR = '/home/{}/Music'.format(getpass.getuser())
+MUSIC_DIR = '{}/Music'.format(expanduser('~'))
 
 # player module
 OVERLAP_LENGTH = 3
@@ -32,7 +31,7 @@ MAX_TRACKLIST_LENGTH = 60
 SORTING = 'random'
 
 # Override settings
-conf_file = '/home/{}/.config/rolabesti/rolabesti.conf'.format(getpass.getuser())
+conf_file = '{}/.config/rolabesti/rolabesti.conf'.format(expanduser('~'))
 
 if exists(conf_file):
     SETTINGS = ('MAX_TRACK_LENGTH', 'MIN_TRACK_LENGTH', 'MONGO_HOST', 'MONGO_PORT', 'MONGO_DBNAME', 'MONGO_COLNAME', 'MUSIC_DIR',
