@@ -37,15 +37,18 @@ def load(music_dir):
                 length = get_length(trackpath)
 
                 if length:
-                    track = {'path': trackpath, 'length': length}
-                    track.update(add_prefix_to_dict(parse(trackpath), 'parsed'))
-                    track.update(add_prefix_to_dict(get_id3_tags(trackpath), 'id3'))
+                    parsed = parse(trackpath)
 
-                    collection.insert_one(track)
-                    count += 1
+                    if parsed:
+                        track = {'path': trackpath, 'length': length}
+                        track.update(add_prefix_to_dict(parsed, 'parsed'))
+                        track.update(add_prefix_to_dict(get_id3_tags(trackpath), 'id3'))
 
-                    if count in COUNTS:
-                        print('[mongo] loading {} tracks'.format(count))
+                        collection.insert_one(track)
+                        count += 1
+
+                        if count in COUNTS:
+                            print('[mongo] loading {} tracks'.format(count))
 
     info = 'new database loaded : {} track{} loaded'.format(count, 's'[count == 1:])
     logger.info(info)
