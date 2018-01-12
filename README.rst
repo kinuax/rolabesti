@@ -31,7 +31,7 @@ The main motivation is to answer a question that music fans, DJs, bartenders and
 Description
 -----------
 
-**rolabesti** is an command-line application to manage a music library, performing the following actions on mp3 files: loading to database, parsing, searching, playing, enqueueing, copying, and tagging.
+**rolabesti** is a command-line application to manage a music library, performing the following actions on mp3 files: loading to database, parsing, searching, playing, enqueueing, copying, and tagging.
 
 Requirements
 ------------

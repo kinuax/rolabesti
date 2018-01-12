@@ -3,7 +3,7 @@
 rolabesti
 ~~~~~~~~~
 
-rolabesti is an command-line application to manage a music collection,
+rolabesti is a command-line application to manage a music collection,
 performing the following actions on mp3 files: loading to database, parsing,
 searching, playing, enqueueing, copying, and tagging.
 """
