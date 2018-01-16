@@ -65,17 +65,26 @@ The default settings can be overriden in ``~/.config/rolabesti/rolabesti.conf``.
 - ``MONGO_DBNAME``: MongoDB database name, default is ``rolabesti``.
 - ``MONGO_COLNAME``: MongoDB collection name, default is ``tracks``.
 
-Before running the application, locating the mp3 files in ``MUSIC_DIR`` is enough. Besides, the searching results become more accurate when the path to the track has one of these patterns. ``<place>``, ``<genre>``, ``<artist>``, ``<album>``, ``<side>`` and ``<title>`` are placeholders of any length and character. The square brackets denote optional.
+Before running the application, locating the mp3 files in ``MUSIC_DIR`` is enough. Besides, the searching results become more accurate when the track path has one of following patterns.
 
 - ``MUSIC_DIR/Places/<place>/Genres/<genre>/Albums/<album>/[<side>/]<title>.mp3``
 - ``MUSIC_DIR/Places/<place>/Genres/<genre>/<artist>/<album>/[<side>/]<title>.mp3``
 - ``MUSIC_DIR/Places/<place>/Genres/<genre>/<artist>/<title>.mp3``
+- ``MUSIC_DIR/Places/<place>/Genres/<genre>/`<title>.mp3``
 - ``MUSIC_DIR/Places/<place>/Albums/<album>/[<side>/]<title>.mp3``
 - ``MUSIC_DIR/Places/<place>/<artist>/<album>/[<side>/]<title>.mp3``
 - ``MUSIC_DIR/Places/<place>/<artist>/<title>.mp3``
+- ``MUSIC_DIR/Places/<place>/<title>.mp3``
 - ``MUSIC_DIR/Genres/<genre>/Albums/<album>/[<side>/]<title>.mp3``
 - ``MUSIC_DIR/Genres/<genre>/<artist>/<album>/[<side>/]<title>.mp3``
 - ``MUSIC_DIR/Genres/<genre>/<artist>/<title>.mp3``
+- ``MUSIC_DIR/Genres/<genre>/<title>.mp3``
+- ``MUSIC_DIR/Artists/<artist>/<album>/[<side>/]<title>.mp3``
+- ``MUSIC_DIR/Artists/<artist>/<title>.mp3``
+- ``MUSIC_DIR/Albums/<album>/[<side>/]<title>.mp3``
+- ``MUSIC_DIR/[some/path/]<title>.mp3``
+
+``<place>``, ``<genre>``, ``<artist>``, ``<album>``, ``<side>`` and ``<title>`` are placeholders of any length and character. The square brackets denote optional.
 
 The database is loaded with tracks metadata running the ``load`` subcommand.
 
