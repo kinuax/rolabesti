@@ -62,8 +62,8 @@ def search(arguments):
     tracks = []
     length = 0.0
     collection = get_collection()
-    and_list = [{}]
     length_filters = {}
+    filters = []
     logger = getLogger(__name__)
 
     if arguments['max'] > 0:
@@ -73,17 +73,22 @@ def search(arguments):
         length_filters['$gte'] = arguments['min']
 
     if length_filters:
-        and_list[0] = {'length': length_filters}
+        filters.append({'length': length_filters})
 
     print('[mongo] searching tracks')
 
-    for key_field, fields in TRACK_FIELDS.items():
-        if key_field in arguments:
-            value = re.compile(arguments[key_field], re.IGNORECASE)
-            or_list = [{field: value} for field in fields]
-            and_list.append({'$or': or_list})
+    for arg in set.intersection(set(arguments), set(TRACK_FIELDS)):
+        value = re.compile(arguments[arg], re.IGNORECASE)
+        fields = TRACK_FIELDS[arg]
 
-    for track in collection.find({'$and': and_list}):
+        if len(fields) == 1:
+            filter_ = {fields[0]: value}
+        else:  # len(fields) = 2
+            filter_ = {'$or': [{fields[0]: value}, {'$and': [{fields[0]: {'$exists': False}}, {fields[1]: value}]}]}
+
+        filters.append(filter_)
+
+    for track in collection.find({'$and': filters}):
         if exists(track['path']):
             tracks.append(track)
             length += track['length']
