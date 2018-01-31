@@ -7,43 +7,33 @@ This module is in charge of printing tracks data to the standard output.
 """
 
 from .constants import TRACK_FIELDS
-from .utils import format_length
+from .utils import format_length, track_to_string
 
 SUMMARY_FIELDS = ('artist', 'album', 'genre', 'place')
 
 
 def display(tracks, length):
     """Print tracklist and summary of tracks."""
-    summary = {}
-
-    for key_field in TRACK_FIELDS:
-        summary[key_field] = []
+    summary = {field: set() for field in SUMMARY_FIELDS}
 
     print('[rolabesti] ------------ TRACKLIST ------------')
 
     for track in tracks:
-        string = []
-
-        for key_field, fields in TRACK_FIELDS.items():
-            for field in fields:
+        for sum_field in SUMMARY_FIELDS:
+            for field in TRACK_FIELDS[sum_field]:
                 if field in track:
-                    string.append('{} = {}'.format(key_field.capitalize(), track[field]))
+                    summary[sum_field].add(track[field])
 
-                    if key_field in SUMMARY_FIELDS and track[field] not in summary[key_field]:
-                        summary[key_field].append(track[field])
+                break
 
-                    break
-
-        string.append('Length = {}'.format(format_length(track['length'])))
-
-        print(' | '.join(string))
+        print(track_to_string(track))
 
     print('[rolabesti] ------------ SUMMARY --------------')
     print('Number of tracks: {}'.format(len(tracks)))
     print('Length: {}'.format(format_length(length)))
 
-    for key_field in TRACK_FIELDS:
-        if summary[key_field]:
-            values = ' | '.join(sorted(summary[key_field]))
+    for field in SUMMARY_FIELDS:
+        if summary[field]:
+            values = ' | '.join(sorted(summary[field]))
 
-            print('{}s ({}): {}'.format(key_field.capitalize(), len(summary[key_field]), values))
+            print('{}s ({}): {}'.format(field.capitalize(), len(summary[field]), values))
