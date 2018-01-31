@@ -33,9 +33,10 @@ def get_length(trackpath):
 
 
 def get_id3_obj(trackpath):
-    """Return an instance of mutagen.easyid3.EasyID3 defined by the track located at trackpath.
+    """Return an instance of mutagen.easyid3.EasyID3 (dictionary-like object)
+    defined by the track located at trackpath.
 
-    If there is an error instantiating, log the error and return None.
+    If there is an error while instantiating, log the error and return an empty dictionary.
     """
     try:
         return EasyID3(trackpath)
@@ -46,6 +47,7 @@ def get_id3_obj(trackpath):
         error = sys.exc_info()
         error = 'getting EasyID3 | {} - {} | {}'.format(str(error[0]), str(error[1]), trackpath)
         getLogger(__name__).error(error)
+        return {}
 
 
 def get_id3_tags(trackpath):
@@ -58,10 +60,9 @@ def get_id3_tags(trackpath):
     tags = {}
     id3 = get_id3_obj(trackpath)
 
-    if id3:
-        for tag, values in id3.items():
-            if values and tag in ID3_TAGS:
-                tags[tag] = values[0]
+    for tag in set.intersection(set(id3), set(ID3_TAGS)):
+        if id3[tag] and id3[tag][0].strip():
+            tags[tag] = id3[tag][0].strip()
 
     return tags
 
@@ -92,10 +93,10 @@ def track_to_string(track):
     """Convert track into a string."""
     string = []
 
-    for key_field, fields in TRACK_FIELDS.items():
+    for field_id, fields in TRACK_FIELDS.items():
         for field in fields:
             if field in track:
-                string.append('{} = {}'.format(key_field.capitalize(), track[field]))
+                string.append('{} = {}'.format(field_id.capitalize(), track[field]))
 
                 break
 
