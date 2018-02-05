@@ -6,6 +6,7 @@ rolabesti.mongo
 This module contains all the MongoDB related functionality.
 """
 
+from contextlib import contextmanager
 from logging import getLogger
 from os import walk
 from os.path import exists, join
@@ -21,34 +22,34 @@ from .utils import add_prefix_to_dict, get_length, get_id3_tags
 
 def load(music_dir):
     """Load the collection with mp3 files from music_dir."""
-    collection = get_collection()
-    collection.remove({})
     count = 0
-
     info = 'loading new database from scratch : MUSIC_DIR = {}'.format(music_dir)
     logger = getLogger(__name__)
     logger.info(info)
     print('[mongo]', info)
 
-    for dirpath, dirnames, filenames in walk(music_dir):
-        for filename in filenames:
-            if filename.lower().endswith('.mp3'):
-                trackpath = join(dirpath, filename)
-                length = get_length(trackpath)
+    with get_collection() as collection:
+        collection.remove({})
 
-                if length:
-                    parsed = parse(trackpath)
+        for dirpath, dirnames, filenames in walk(music_dir):
+            for filename in filenames:
+                if filename.lower().endswith('.mp3'):
+                    trackpath = join(dirpath, filename)
+                    length = get_length(trackpath)
 
-                    if parsed:
-                        track = {'path': trackpath, 'length': length}
-                        track.update(add_prefix_to_dict(parsed, 'parsed'))
-                        track.update(add_prefix_to_dict(get_id3_tags(trackpath), 'id3'))
+                    if length:
+                        parsed = parse(trackpath)
 
-                        collection.insert_one(track)
-                        count += 1
+                        if parsed:
+                            track = {'path': trackpath, 'length': length}
+                            track.update(add_prefix_to_dict(parsed, 'parsed'))
+                            track.update(add_prefix_to_dict(get_id3_tags(trackpath), 'id3'))
 
-                        if count in COUNTS:
-                            print('[mongo] loading {} tracks'.format(count))
+                            collection.insert_one(track)
+                            count += 1
+
+                            if count in COUNTS:
+                                print('[mongo] loading {} tracks'.format(count))
 
     info = 'new database loaded : {} track{} loaded'.format(count, 's'[count == 1:])
     logger.info(info)
@@ -60,11 +61,17 @@ def search(arguments):
     based on arguments and length is the length of tracks.
     """
     tracks = []
-    length = 0.0
-    collection = get_collection()
+    length = 0
     length_filters = {}
     filters = []
     logger = getLogger(__name__)
+
+    with get_collection() as collection:
+        if not collection.count():
+            print('[mongo] there is no track loaded to the database, load subcommand should be run first')
+            return tracks, length
+
+    print('[mongo] searching tracks')
 
     if arguments['max'] > 0:
         length_filters['$lte'] = arguments['max']
@@ -74,8 +81,6 @@ def search(arguments):
 
     if length_filters:
         filters.append({'length': length_filters})
-
-    print('[mongo] searching tracks')
 
     for arg in set.intersection(set(arguments), set(TRACK_FIELDS)):
         value = re.compile(arguments[arg], re.IGNORECASE)
@@ -88,31 +93,33 @@ def search(arguments):
 
         filters.append(filter_)
 
-    for track in collection.find({'$and': filters}):
-        if exists(track['path']):
-            tracks.append(track)
-            length += track['length']
-        else:
-            warning = 'loaded track does not exist in file system | {}'.format(track['path'])
-            logger.warning(warning)
+    with get_collection() as collection:
+        for track in collection.find({'$and': filters}):
+            if exists(track['path']):
+                tracks.append(track)
+                length += track['length']
+            else:
+                warning = 'loaded track does not exist in file system | {}'.format(track['path'])
+                logger.warning(warning)
 
     if tracks:
         print('[mongo] {} track{} found'.format(len(tracks), 's'[len(tracks) == 1:]))
     else:
         print('[mongo] no track found')
 
-        if not get_collection().find().count():
-            print('[mongo] there is no track loaded to the database, load subcommand should be run first')
-
     return tracks, length
 
 
-def update(_id, field, value):
+def update(id_, field, value):
     """Update track with a new field."""
-    get_collection().update({"_id": _id}, {"$set": {field: value}})
+    with get_collection() as collection:
+        collection.update({"_id": id_}, {"$set": {field: value}})
 
 
+@contextmanager
 def get_collection():
     client = MongoClient(host=MONGO_HOST, port=MONGO_PORT)
 
-    return client[MONGO_DBNAME][MONGO_COLNAME]
+    yield client[MONGO_DBNAME][MONGO_COLNAME]
+
+    client.close()
