@@ -18,12 +18,12 @@ from .constants import ID3_TAGS, TRACK_FIELDS
 
 
 def get_length(trackpath):
-    """Return the length of the track located at trackpath.
+    """Return the length of the track located at trackpath in integer seconds.
 
     If there is an error retrieving the length, log the error and return None.
     """
     try:
-        return MP3(trackpath).info.length
+        return int(MP3(trackpath).info.length)
     except:
         error = sys.exc_info()
         error = 'getting length | {} - {} | {}'.format(str(error[0]), str(error[1]), trackpath)
