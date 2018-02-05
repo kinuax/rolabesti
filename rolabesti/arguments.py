@@ -13,9 +13,9 @@ import sys
 
 from . import __description__, __version__
 from .conf.settings import MAX_TRACKLIST_LENGTH, MAX_TRACK_LENGTH, MIN_TRACK_LENGTH, MUSIC_DIR, OVERLAP_LENGTH, PLAYER, SORTING
+from .constants import ID3_TAGS
 from .player import MAXIMUM_OVERLAP_LENGTH, MINIMUM_OVERLAP_LENGTH, PLAYERS
 from .sorter import SORTINGS
-from .tagger import ID3_TAGS
 
 
 def parse_arguments():

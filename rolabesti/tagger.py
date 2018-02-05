@@ -12,8 +12,6 @@ from .constants import COUNTS
 from .mongo import update
 from .utils import get_id3_obj
 
-ID3_TAGS = ('artist', 'title', 'album', 'genre')
-
 
 def tag(tracks, id3_tag):
     """Update tracks with new ID3 tag value given by corresponding parsed field,

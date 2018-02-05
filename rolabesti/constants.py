@@ -15,4 +15,6 @@ TRACK_FIELDS['album'] = ('parsed_album', 'id3_album')
 TRACK_FIELDS['genre'] = ('parsed_genre', 'id3_genre')
 TRACK_FIELDS['place'] = ('parsed_place',)
 
+ID3_TAGS = ('album', 'artist', 'genre', 'title')
+
 COUNTS = (5, 10, 50, 100, 500, 1000, 2000, 5000, 10000, 15000, 20000, 25000, 30000, 40000, 50000)

@@ -14,9 +14,7 @@ from mutagen.easyid3 import EasyID3
 from mutagen.id3._util import ID3NoHeaderError
 from mutagen.mp3 import MP3
 
-from .constants import TRACK_FIELDS
-
-ID3_TAGS = ('album', 'artist', 'genre', 'title')
+from .constants import ID3_TAGS, TRACK_FIELDS
 
 
 def get_length(trackpath):
