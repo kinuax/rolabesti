@@ -41,7 +41,7 @@ def parse(trackpath):
         match = re.search(regex, trackpath)
 
         if match:
-            return {field: value for field, value in zip(fields, match.groups())}
+            return {field: value for field, value in zip(fields, match.groups()) if value}
 
     info = 'parsing not found : {}'.format(trackpath)
     logger.info(info)
