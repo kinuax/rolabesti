@@ -26,6 +26,8 @@ setup(
     packages=['rolabesti', 'rolabesti.conf'],
     install_requires=['mutagen==1.31', 'pymongo==3.2.1', 'python-vlc==1.1.2'],
     entry_points={'console_scripts': ['rolabesti = rolabesti.__main__:main']},
+    setup_requires=['pytest-runner'],
+    tests_require=['pytest'],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
