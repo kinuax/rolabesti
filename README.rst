@@ -26,7 +26,7 @@ rolabesti
 Motivation
 ----------
 
-The main motivation is to solve the scenario where some music fan, DJ, bartender, or melomaniac, with tons of mp3 files, may face: 'Considering these tons of mp3 files around, what music do I play?'. For instance, 'what genre would I want to listen?' and 'which random songs can fill up the available time that I have?' are the type of questions that **rolabesti** answers.
+The main motivation is to solve the scenario where some music fan, DJ, bartender, or melomaniac may face: 'Considering these tons of mp3 files around, what music do I play?'. For instance, 'what genre would I want to listen?' and 'which random songs can fill up the available time that I have?' are the type of questions that **rolabesti** answers.
 
 Description
 -----------
