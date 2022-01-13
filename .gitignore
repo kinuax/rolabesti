@@ -1,5 +1,10 @@
-.cache/
+# Byte-compiled / optimized
+__pycache__/
+*.pyc
+
+# Distribution / packaging
 build/
 dist/
-rolabesti.egg-info
-*.pyc
+.cache/
+.eggs/
+*.egg-info
