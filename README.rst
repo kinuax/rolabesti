@@ -2,19 +2,19 @@ rolabesti
 =========
 
 .. image:: https://img.shields.io/pypi/v/rolabesti.svg
-    :target: https://pypi.python.org/pypi/rolabesti
+    :target: https://pypi.org/project/rolabesti/
 
 .. image:: https://img.shields.io/pypi/pyversions/rolabesti.svg
-    :target: https://pypi.python.org/pypi/rolabesti
+    :target: https://pypi.org/project/rolabesti/
 
 .. image:: https://img.shields.io/pypi/wheel/rolabesti.svg
-    :target: https://pypi.python.org/pypi/rolabesti
+    :target: https://pypi.org/project/rolabesti/
 
-.. image:: https://travis-ci.org/kinuax/rolabesti.svg?branch=master
-    :target: https://travis-ci.org/kinuax/rolabesti
+.. image:: https://circleci.com/gh/kinuax/rolabesti.svg?style=shield
+    :target: https://circleci.com/gh/kinuax/rolabesti
 
 .. image:: https://img.shields.io/pypi/l/rolabesti.svg
-    :target: https://pypi.python.org/pypi/rolabesti
+    :target: https://pypi.org/project/rolabesti/
 
 - `Motivation <#motivation>`__
 - `Description <#description>`__
@@ -26,7 +26,7 @@ rolabesti
 Motivation
 ----------
 
-The main motivation is to answer a question that music fans, DJs, bartenders and melomaniacs with tons of audio files may face: 'What music do I play?' That is, 'what genre do I want now?' or 'which random songs can fill up the time I am able to listen?' are the type of questions that **rolabesti** replies.
+The main motivation is to solve the scenario where some music fan, DJ, bartender, or melomaniac, with tons of mp3 files, may face: 'Considering these tons of mp3 files around, what music do I play?'. For instance, 'what genre would I want to listen?' and 'which random songs can fill up the available time that I have?' are the type of questions that **rolabesti** answers.
 
 Description
 -----------
