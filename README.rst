@@ -36,10 +36,10 @@ Description
 Requirements
 ------------
 
--  Linux environment.
--  Python 3.7. A `virtual environment <https://github.com/pypa/virtualenv>`__ is recommended.
+-  Linux platform.
+-  Python 3.7. A virtual environment is highly recommended.
 -  MongoDB instance.
--  vlc player. When selecting ``shell`` player, only the ``libvlc`` library is required.
+-  vlc player.
 
 Installation
 ------------

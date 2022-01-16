@@ -55,15 +55,14 @@ def play(tracks, player, overlap_length=OVERLAP_LENGTH):
         elif sys.platform.startswith('darwin'):
             command = ['/Applications/VLC.app/Contents/MacOS/VLC']
         else:
-            error = '[system] platform not supported'
+            error = '[rolabesti] platform not supported'
             sys.exit(error)
 
         if not is_running('vlc'):
             count -= 1
 
-            print('[system] vlc closed')
-            print('[system] opening vlc')
-            print('[vlc] now playing : {}'.format(track_to_string(tracks[0])))
+            print('[rolabesti] vlc is down, running it')
+            print('[vlc] playing | {}'.format(track_to_string(tracks[0])))
 
         if count:
             print('[vlc] {} track{} enqueued'.format(count, 's'[count == 1:]))
