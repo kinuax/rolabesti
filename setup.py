@@ -21,7 +21,7 @@ setup(
     url='https://github.com/kinuax/rolabesti/',
     download_url='https://github.com/kinuax/rolabesti/',
     license='GPLv2',
-    keywords='mp3 mutagen vlc',
+    keywords='mp3 id3 vlc mongo',
     zip_safe=False,
     packages=['rolabesti', 'rolabesti.conf'],
     install_requires=['mutagen==1.31', 'pymongo==3.2.1', 'python-vlc==1.1.2'],
