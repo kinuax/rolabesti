@@ -34,7 +34,11 @@ def play(tracks, player):
             players[player].set_media(media)
             players[player].play()
 
-            sleep(int(track['length']) - OVERLAP_LENGTH)  # Stop running until the next track begins
+            try:
+                sleep(int(track['length']) - OVERLAP_LENGTH)  # Wait for the next track to begin.
+            except KeyboardInterrupt:
+                print('\n[rolabesti] exiting')
+                sys.exit(0)
     else:
         if sys.platform.startswith('linux'):
             command = ['vlc']
