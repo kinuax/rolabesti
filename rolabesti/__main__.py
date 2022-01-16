@@ -58,7 +58,7 @@ def main(args=sys.argv[1:]):
                 display(tracks, length)
 
                 if subcommand == 'play':
-                    play(tracks, arguments['player'])
+                    play(tracks, arguments['player'], arguments['overlap_length'])
                 else:
                     copy(tracks, arguments['directory'])
 

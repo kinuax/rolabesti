@@ -19,23 +19,33 @@ MINIMUM_OVERLAP_LENGTH = 0
 PLAYERS = ('shell', 'vlc')
 
 
-def play(tracks, player):
+def play(tracks, player, overlap_length=OVERLAP_LENGTH):
     count = len(tracks)
 
     if player == 'shell':
+        # Create two players to manage contiguous tracks.
         instance = vlc.Instance()
         players = {0: instance.media_player_new(), 1: instance.media_player_new()}
 
         for i, track in enumerate(tracks):
-            print('[rolabesti] now playing : {}'.format(track_to_string(track)))
+            print('[rolabesti] playing | {}'.format(track_to_string(track)))
 
+            # Select player and play track.
             media = instance.media_new(track['path'])
             player = i % 2
             players[player].set_media(media)
             players[player].play()
 
+            # Adjust waiting_length. Filter out last track and too short tracks.
+            track_length = int(track['length'])
+            if i < count - 1 and overlap_length < track_length:
+                waiting_length = track_length - overlap_length
+            else:
+                waiting_length = track_length
+
             try:
-                sleep(int(track['length']) - OVERLAP_LENGTH)  # Wait for the next track to begin.
+                # Wait for the next track to play.
+                sleep(waiting_length)
             except KeyboardInterrupt:
                 print('\n[rolabesti] exiting')
                 sys.exit(0)
