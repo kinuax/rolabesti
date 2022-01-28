@@ -11,16 +11,21 @@ from collections import OrderedDict
 import re
 
 PARSINGS = OrderedDict()
-PARSINGS[r'/Places/([^/]+)/Genres/([^/]+)/Albums/([^/]+)/(?:([^/]+)/)?([^/]+)\.[mM][pP]3$'] = ('place', 'genre', 'album', 'side', 'title')
-PARSINGS[r'/Places/([^/]+)/Genres/([^/]+)/([^/]+)/([^/]+)/(?:([^/]+)/)?([^/]+)\.[mM][pP]3$'] = ('place', 'genre', 'artist', 'album', 'side', 'title')
+PARSINGS[r'/Places/([^/]+)/Genres/([^/]+)/Albums/([^/]+)/(?:([^/]+)/)?([^/]+)\.[mM][pP]3$'] = ('place', 'genre',
+                                                                                               'album', 'side', 'title')
+PARSINGS[r'/Places/([^/]+)/Genres/([^/]+)/([^/]+)/([^/]+)/(?:([^/]+)/)?([^/]+)\.[mM][pP]3$'] = ('place', 'genre',
+                                                                                                'artist', 'album',
+                                                                                                'side', 'title')
 PARSINGS[r'/Places/([^/]+)/Genres/([^/]+)/([^/]+)/([^/]+)\.[mM][pP]3$'] = ('place', 'genre', 'artist', 'title')
 PARSINGS[r'/Places/([^/]+)/Genres/([^/]+)/([^/]+)\.[mM][pP]3$'] = ('place', 'genre', 'title')
 PARSINGS[r'/Places/([^/]+)/([^/]+)\.[mM][pP]3$'] = ('place', 'title')
 PARSINGS[r'/Places/([^/]+)/Albums/([^/]+)/(?:([^/]+)/)?([^/]+)\.[mM][pP]3$'] = ('place', 'album', 'side', 'title')
-PARSINGS[r'/Places/([^/]+)/([^/]+)/([^/]+)/(?:([^/]+)/)?([^/]+)\.[mM][pP]3$'] = ('place', 'artist', 'album', 'side', 'title')
+PARSINGS[r'/Places/([^/]+)/([^/]+)/([^/]+)/(?:([^/]+)/)?([^/]+)\.[mM][pP]3$'] = ('place', 'artist', 'album', 'side',
+                                                                                 'title')
 PARSINGS[r'/Places/([^/]+)/([^/]+)/([^/]+)\.[mM][pP]3$'] = ('place', 'artist', 'title')
 PARSINGS[r'/Genres/([^/]+)/Albums/([^/]+)/(?:([^/]+)/)?([^/]+)\.[mM][pP]3$'] = ('genre', 'album', 'side', 'title')
-PARSINGS[r'/Genres/([^/]+)/([^/]+)/([^/]+)/(?:([^/]+)/)?([^/]+)\.[mM][pP]3$'] = ('genre', 'artist', 'album', 'side', 'title')
+PARSINGS[r'/Genres/([^/]+)/([^/]+)/([^/]+)/(?:([^/]+)/)?([^/]+)\.[mM][pP]3$'] = ('genre', 'artist', 'album', 'side',
+                                                                                 'title')
 PARSINGS[r'/Genres/([^/]+)/([^/]+)/([^/]+)\.[mM][pP]3$'] = ('genre', 'artist', 'title')
 PARSINGS[r'/Genres/([^/]+)/([^/]+)\.[mM][pP]3$'] = ('genre', 'title')
 PARSINGS[r'/Artists/([^/]+)/([^/]+)/(?:([^/]+)/)?([^/]+)\.[mM][pP]3$'] = ('artist', 'album', 'side', 'title')

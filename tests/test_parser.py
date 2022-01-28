@@ -18,20 +18,25 @@ def test_parse_with_supported_trackpaths():
     assert type(track) == dict and len(track) == 4
     assert track['place'] == place and track['genre'] == genre and track['album'] == album and track['title'] == title
 
-    trackpath = '/path/to/music/directory/Places/{}/Genres/{}/Albums/{}/{}/{}.mp3'.format(place, genre, album, side, title)
+    trackpath = '/path/to/music/directory/Places/{}/Genres/{}/Albums/{}/{}/{}.mp3'.format(place, genre, album, side,
+                                                                                          title)
     track = parse(trackpath)
     assert type(track) == dict and len(track) == 5
-    assert track['place'] == place and track['genre'] == genre and track['side'] == side and track['album'] == album and track['title'] == title
+    assert (track['place'] == place and track['genre'] == genre and track['side'] == side and
+            track['album'] == album and track['title'] == title)
 
     trackpath = '/path/to/music/directory/Places/{}/Genres/{}/{}/{}/{}.mp3'.format(place, genre, artist, album, title)
     track = parse(trackpath)
     assert type(track) == dict and len(track) == 5
-    assert track['place'] == place and track['genre'] == genre and track['artist'] == artist and track['album'] == album and track['title'] == title
+    assert (track['place'] == place and track['genre'] == genre and track['artist'] == artist and
+            track['album'] == album and track['title'] == title)
 
-    trackpath = '/path/to/music/directory/Places/{}/Genres/{}/{}/{}/{}/{}.mp3'.format(place, genre, artist, album, side, title)
+    trackpath = '/path/to/music/directory/Places/{}/Genres/{}/{}/{}/{}/{}.mp3'.format(place, genre, artist, album, side,
+                                                                                      title)
     track = parse(trackpath)
     assert type(track) == dict and len(track) == 6
-    assert track['place'] == place and track['genre'] == genre and track['artist'] == artist and track['album'] == album and track['side'] == side and track['title'] == title
+    assert (track['place'] == place and track['genre'] == genre and track['artist'] == artist and
+            track['album'] == album and track['side'] == side and track['title'] == title)
 
     trackpath = '/path/to/music/directory/Places/{}/Genres/{}/{}/{}.mp3'.format(place, genre, artist, title)
     track = parse(trackpath)
@@ -66,7 +71,8 @@ def test_parse_with_supported_trackpaths():
     trackpath = '/path/to/music/directory/Places/{}/{}/{}/{}/{}.mp3'.format(place, artist, album, side, title)
     track = parse(trackpath)
     assert type(track) == dict and len(track) == 5
-    assert track['place'] == place and track['artist'] == artist and track['album'] == album and track['side'] == side and track['title'] == title
+    assert (track['place'] == place and track['artist'] == artist and track['album'] == album and
+            track['side'] == side and track['title'] == title)
 
     trackpath = '/path/to/music/directory/Places/{}/{}/{}.mp3'.format(place, artist, title)
     track = parse(trackpath)
@@ -91,7 +97,8 @@ def test_parse_with_supported_trackpaths():
     trackpath = '/path/to/music/directory/Genres/{}/{}/{}/{}/{}.mp3'.format(genre, artist, album, side, title)
     track = parse(trackpath)
     assert type(track) == dict and len(track) == 5
-    assert track['genre'] == genre and track['artist'] == artist and track['album'] == album and track['side'] == side and track['title'] == title
+    assert (track['genre'] == genre and track['artist'] == artist and track['album'] == album and
+            track['side'] == side and track['title'] == title)
 
     trackpath = '/path/to/music/directory/Genres/{}/{}/{}.mp3'.format(genre, artist, title)
     track = parse(trackpath)

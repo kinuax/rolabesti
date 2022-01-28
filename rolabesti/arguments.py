@@ -12,7 +12,8 @@ from os.path import isdir
 import sys
 
 from . import __description__, __version__
-from .conf.settings import MAX_TRACKLIST_LENGTH, MAX_TRACK_LENGTH, MIN_TRACK_LENGTH, MUSIC_DIR, OVERLAP_LENGTH, PLAYER, SORTING
+from .conf.settings import (MAX_TRACKLIST_LENGTH, MAX_TRACK_LENGTH, MIN_TRACK_LENGTH, MUSIC_DIR, OVERLAP_LENGTH, PLAYER,
+                            SORTING)
 from .constants import ID3_TAGS
 from .player import MAXIMUM_OVERLAP_LENGTH, MINIMUM_OVERLAP_LENGTH, PLAYERS
 from .sorter import SORTINGS
@@ -46,20 +47,34 @@ def parse_arguments():
         parser.add_argument('-al', '--album', type=str, help='track album')
         parser.add_argument('-g', '--genre', type=str, help='track genre')
         parser.add_argument('-p', '--place', type=str, help='track place')
-        parser.add_argument('--max', type=non_negative_integer, default=MAX_TRACK_LENGTH, help='maximum track length in minutes, 0 denotes no maximum track length, default is {}'.format(MAX_TRACK_LENGTH))
-        parser.add_argument('--min', type=non_negative_integer, default=MIN_TRACK_LENGTH, help='minimum track length in minutes, 0 denotes no minimum track length, default is {}'.format(MIN_TRACK_LENGTH))
+        parser.add_argument('--max', type=non_negative_integer, default=MAX_TRACK_LENGTH,
+                            help='maximum track length in minutes, 0 denotes no maximum track length, '
+                                 'default is {}'.format(MAX_TRACK_LENGTH))
+        parser.add_argument('--min', type=non_negative_integer, default=MIN_TRACK_LENGTH,
+                            help='minimum track length in minutes, 0 denotes no minimum track length, '
+                                 'default is {}'.format(MIN_TRACK_LENGTH))
 
     for parser in [play_parser, copy_parser]:
         parser.add_argument('-l', '--max_tracklist_length', type=non_negative_integer, default=MAX_TRACKLIST_LENGTH,
-                            help='maximum tracklist length in minutes, 0 denotes no maximum tracklist length, default is {}'.format(MAX_TRACKLIST_LENGTH))
-        parser.add_argument('-s', '--sorting', choices=SORTINGS, default=SORTING, help='tracklist sorting, default is {}'.format(SORTING))
+                            help='maximum tracklist length in minutes, 0 denotes no maximum tracklist length, '
+                                 'default is {}'.format(MAX_TRACKLIST_LENGTH))
+        parser.add_argument('-s', '--sorting', choices=SORTINGS, default=SORTING,
+                            help='tracklist sorting, default is {}'.format(SORTING))
 
-    play_parser.add_argument('--player', choices=PLAYERS, default=PLAYER, help='player to play and enqueue tracks, default is {}'.format(PLAYER))
+    play_parser.add_argument('--player', choices=PLAYERS, default=PLAYER,
+                             help='player to play and enqueue tracks, default is {}'.format(PLAYER))
     play_parser.add_argument('-o', '--overlap_length', type=overlap_length, default=OVERLAP_LENGTH,
-                             help='with shell player, overlap length in seconds between two consecutive tracks, minimum is {}, maximum is {}, default is {}'.format(MINIMUM_OVERLAP_LENGTH, MAXIMUM_OVERLAP_LENGTH, OVERLAP_LENGTH))
-    load_parser.add_argument('-d', '--music_dir', type=readable_directory, default=MUSIC_DIR, help='path where the mp3 files are located, default is {}'.format(MUSIC_DIR))
-    copy_parser.add_argument('-d', '--directory', type=writable_directory, default=os.getcwd(), help='path where the tracks will be copied, default is current directory {}'.format(os.getcwd()))
-    tag_parser.add_argument('--id3_tag', choices=ID3_TAGS, required=True, help='ID3 tag to be updated with corresponding parsed value, required')
+                             help='with shell player, overlap length in seconds between two consecutive tracks, '
+                                  'minimum is {}, maximum is {}, default is {}'.format(MINIMUM_OVERLAP_LENGTH,
+                                                                                       MAXIMUM_OVERLAP_LENGTH,
+                                                                                       OVERLAP_LENGTH))
+    load_parser.add_argument('-d', '--music_dir', type=readable_directory, default=MUSIC_DIR,
+                             help='path where the mp3 files are located, default is {}'.format(MUSIC_DIR))
+    copy_parser.add_argument('-d', '--directory', type=writable_directory, default=os.getcwd(),
+                             help='path where the tracks will be copied, '
+                                  'default is current directory {}'.format(os.getcwd()))
+    tag_parser.add_argument('--id3_tag', choices=ID3_TAGS, required=True,
+                            help='ID3 tag to be updated with corresponding parsed value, required')
 
     parsed_args = root_parser.parse_args()
 

@@ -66,7 +66,8 @@ def validate_settings():
     overlap_length = get_value('OVERLAP_LENGTH')
 
     if not(type(overlap_length) is int and MINIMUM_OVERLAP_LENGTH <= overlap_length <= MAXIMUM_OVERLAP_LENGTH):
-        error += 'OVERLAP_LENGTH should be an integer between {} and {}'.format(MINIMUM_OVERLAP_LENGTH, MAXIMUM_OVERLAP_LENGTH)
+        error += 'OVERLAP_LENGTH should be an integer between {} and {}'.format(MINIMUM_OVERLAP_LENGTH,
+                                                                                MAXIMUM_OVERLAP_LENGTH)
         sys.exit(error)
 
     directory = get_value('MUSIC_DIR')

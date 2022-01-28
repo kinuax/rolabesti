@@ -34,8 +34,8 @@ SORTING = 'random'
 conf_file = '{}/.config/rolabesti/rolabesti.conf'.format(expanduser('~'))
 
 if exists(conf_file):
-    SETTINGS = ('MAX_TRACK_LENGTH', 'MIN_TRACK_LENGTH', 'MONGO_HOST', 'MONGO_PORT', 'MONGO_DBNAME', 'MONGO_COLNAME', 'MUSIC_DIR',
-                'OVERLAP_LENGTH', 'PLAYER', 'MAX_TRACKLIST_LENGTH', 'SORTING')
+    SETTINGS = ('MAX_TRACK_LENGTH', 'MIN_TRACK_LENGTH', 'MONGO_HOST', 'MONGO_PORT', 'MONGO_DBNAME', 'MONGO_COLNAME',
+                'MUSIC_DIR', 'OVERLAP_LENGTH', 'PLAYER', 'MAX_TRACKLIST_LENGTH', 'SORTING')
     config = configparser.ConfigParser()
     config.read(conf_file)
 
