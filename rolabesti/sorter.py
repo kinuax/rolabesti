@@ -16,6 +16,6 @@ def sort(tracks, sorting):
     if sorting == 'asc':
         return tracks
     elif sorting == 'desc':
-        return reversed(tracks)
+        return list(reversed(tracks))
     else:
         return random.sample(tracks, len(tracks))
