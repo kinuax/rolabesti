@@ -31,13 +31,13 @@ The main motivation is to solve the scenario where some music fan, DJ, bartender
 Description
 -----------
 
-**rolabesti** is a command-line application to manage a music library, performing the following actions on mp3 files: loading to database, parsing, searching, playing, enqueueing, copying, and tagging.
+**rolabesti** is a CLI application to manage a music library, performing the following actions on mp3 files: loading to database, parsing, searching, playing, enqueueing, copying, and tagging.
 
 Requirements
 ------------
 
 -  Linux platform.
--  Python 3.7. A virtual environment is highly recommended.
+-  Python 3.7+. A virtual environment is highly recommended.
 -  MongoDB instance.
 -  vlc player.
 
@@ -56,10 +56,10 @@ The default settings can be overriden in ``~/.config/rolabesti/rolabesti.conf``.
 - ``MUSIC_DIR``: path where the mp3 files are located, default is ``~/Music``.
 - ``MAX_TRACK_LENGTH``: maximum track length in minutes, corresponding to the ``MAX`` argument, default is ``10``.
 - ``MIN_TRACK_LENGTH``: minimum track length in minutes, corresponding to the ``MIN`` argument, default is ``0``.
-- ``MAX_TRACKLIST_LENGTH``: maximum tracklist length in minutes, corresponding to the ``MAX_TRACKLIST_LENGTH`` argument; ``0`` denotes no tracklist length limit, default is ``60``.
-- ``SORTING``: tracklist sorting, corresponding to the ``SORTING`` argument; choices are ``asc`` (ascending), ``desc`` (descending) and ``random``, default is ``random``.
-- ``PLAYER``: player to play and enqueue tracks, corresponding to the ``PLAYER`` argument; choices are ``shell`` (play tracks directly in the shell) and ``vlc`` (play tracks in the vlc player, opening it if necessary), default is ``vlc``.
-- ``OVERLAP_LENGTH``: when selecting ``shell`` player, overlap length in seconds between two consecutive tracks, corresponding to the ``OVERLAP_LENGTH`` argument; minimum is ``0``, maximum is ``30``, default is ``3``.
+- ``MAX_TRACKLIST_LENGTH``: maximum tracklist length in minutes, corresponding to the ``MAX_TRACKLIST_LENGTH`` argument -  ``0`` denotes no tracklist length limit, default is ``60``.
+- ``SORTING``: tracklist sorting by trackpath, corresponding to the ``SORTING`` argument -  choices are ``asc`` (ascending), ``desc`` (descending) and ``random``, default is ``random``.
+- ``PLAYER``: player to play and enqueue tracks, corresponding to the ``PLAYER`` argument -  choices are ``shell`` (play tracks directly in the shell) and ``vlc`` (play tracks in the vlc player, opening it if necessary), default is ``vlc``.
+- ``OVERLAP_LENGTH``: when selecting ``shell`` player, overlap length in seconds of two consecutive tracks, corresponding to the ``OVERLAP_LENGTH`` argument -  minimum is ``0``, maximum is ``30``, default is ``3``. The overlap length determines the period where the last seconds of the previous track and the first seconds of the next track are playing simultaneously.
 - ``MONGO_HOST``: MongoDB host, default is ``localhost``.
 - ``MONGO_PORT``: MongoDB port, default is ``27017``.
 - ``MONGO_DBNAME``: MongoDB database name, default is ``rolabesti``.
