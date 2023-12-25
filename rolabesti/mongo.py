@@ -63,7 +63,7 @@ def search(arguments):
     tracks = []
     length = 0
     length_filters = {}
-    filters = []
+    filters = [{}]
     logger = getLogger(__name__)
 
     with get_collection() as collection:
