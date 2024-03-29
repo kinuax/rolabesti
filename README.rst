@@ -37,7 +37,7 @@ Requirements
 ------------
 
 -  Linux platform.
--  Python 3.7+. A virtual environment is highly recommended.
+-  Python 3.10+. A virtual environment is highly recommended.
 -  MongoDB instance.
 -  vlc player.
 
