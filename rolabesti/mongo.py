@@ -29,7 +29,7 @@ def load(music_dir):
     print('[mongo]', info)
 
     with get_collection() as collection:
-        collection.remove({})
+        collection.delete_many({})
 
         for dirpath, dirnames, filenames in walk(music_dir):
             for filename in filenames:
@@ -67,7 +67,7 @@ def search(arguments):
     logger = getLogger(__name__)
 
     with get_collection() as collection:
-        if not collection.count():
+        if not collection.count_documents({}):
             print('[mongo] there is no track loaded to the database, load subcommand should be run first')
             return tracks, length
 
