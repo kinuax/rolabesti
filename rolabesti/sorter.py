@@ -12,7 +12,7 @@ import random
 SORTINGS = ('asc', 'desc', 'random')
 
 
-def sort(tracks, sorting):
+def sort(tracks, sorting: str):
     """Return tracks sorted by sorting type."""
     if sorting == 'asc':
         return sorted(tracks, key=itemgetter('path'))

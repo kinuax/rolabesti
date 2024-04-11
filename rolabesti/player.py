@@ -19,7 +19,7 @@ MINIMUM_OVERLAP_LENGTH = 0
 PLAYERS = ('shell', 'vlc')
 
 
-def play(tracks, player, overlap_length=OVERLAP_LENGTH):
+def play(tracks, player: str, overlap_length=OVERLAP_LENGTH):
     count = len(tracks)
 
     if player == 'shell':
