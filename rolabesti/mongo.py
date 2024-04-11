@@ -73,11 +73,11 @@ def search(arguments):
 
     print('[mongo] searching tracks')
 
-    if arguments['max'] > 0:
-        length_filters['$lte'] = arguments['max']
+    if arguments["max_track_length"] > 0:
+        length_filters['$lte'] = arguments["max_track_length"]
 
-    if arguments['min'] > 0:
-        length_filters['$gte'] = arguments['min']
+    if arguments["min_track_length"] > 0:
+        length_filters['$gte'] = arguments["min_track_length"]
 
     if length_filters:
         filters.append({'length': length_filters})
@@ -111,9 +111,9 @@ def search(arguments):
 
 
 def update(id_, field, value):
-    """Update track with a new field."""
+    """Update track field."""
     with get_collection() as collection:
-        collection.update({"_id": id_}, {"$set": {field: value}})
+        collection.update_one({"_id": id_}, {"$set": {field: value}})
 
 
 @contextmanager
