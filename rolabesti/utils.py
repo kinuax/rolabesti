@@ -6,6 +6,7 @@ rolabesti.utils
 This module contains some utility functions.
 """
 
+from datetime import datetime
 from logging import getLogger
 import subprocess
 import sys
@@ -126,3 +127,9 @@ def is_running(process):
     output, error = execute(command, shell=True, background=False)
 
     return bool(output)
+
+
+def length_to_string(length: int) -> str:
+    """Return the string representation of length."""
+    length_format = "%M:%S" if length < 3600 else "%H:%M:%S"
+    return datetime.fromtimestamp(length).strftime(length_format)
