@@ -1,11 +1,13 @@
 import random
+from pathlib import Path
+from shutil import copyfile
 from time import sleep
 
 import typer
 
 from .utils import play_audio
-from rolabesti.logger import Logger
 from rolabesti.models import FIELD_FILTERS, Track
+from rolabesti.logger import Logger
 from rolabesti.utils import length_to_string
 
 
@@ -19,62 +21,13 @@ class Tracklist:
         self.length = length
         self.logger = Logger()
 
-    def sort(self, sorting: str) -> None:
-        """Sort tracks by path on `sorting` order."""
-        match sorting:
-            case "asc":
-                self.tracks.sort(key=lambda track: track.path)
-            case "desc":
-                self.tracks.sort(key=lambda track: track.path, reverse=True)
-            case "random":
-                random.shuffle(self.tracks)
-
-    def truncate(self, max_tracklist_length: int) -> None:
-        """
-        Truncate tracklist so that the length is less than or equal to max_tracklist_length.
-        Preconditions:
-            -self.count >= 1
-            -any track length <= max_tracklist_length
-        """
-        length = 0
-        for i, track in enumerate(self.tracks):
-            if length + track.length <= max_tracklist_length:
-                length += track.length
-            else:
-                i -= 1
-                break
-        self.tracks = self.tracks[:i + 1]
-        self.count = i + 1
-        self.length = length
-
-    def print(self) -> None:
-        """
-        Print tracklist and summary.
-        Precondition: self.count >= 1
-        """
-        self.logger.log("[italic green]--------------- TRACKLIST ---------------[/italic green]")
-
-        summary_fields = {summary_field: set() for summary_field in SUMMARY_FIELDS}
+    def copy(self, directory: Path) -> None:
+        """Copy tracklist to directory."""
+        self.logger.log(f"[green]copying tracklist to[/green] [blue]{directory}[/blue]")
         for track in self.tracks:
-            for summary_field in SUMMARY_FIELDS:
-                for field in FIELD_FILTERS[summary_field]:
-                    if value := getattr(track, field):
-                        summary_fields[summary_field].add(value)
-                        break
-            self.logger.log(str(track))
-
-        self.logger.log("[italic green]--------------- SUMMARY -----------------[/italic green]")
-        self.logger.log(f"[bold blue]Tracks[/bold blue]: [bold yellow]{self.count}[/bold yellow]")
-        self.logger.log(f"[bold blue]Length[/bold blue]: [bold yellow]{length_to_string(self.length)}[/bold yellow]")
-
-        for summary_field in SUMMARY_FIELDS:
-            if summary_fields[summary_field]:
-                values = "[bold red] | [/bold red]".join(sorted(summary_fields[summary_field]))
-                self.logger.log(f"[bold blue]{summary_field.capitalize()}s[/bold blue]: "
-                                f"[bold yellow]{len(summary_fields[summary_field])}[/bold yellow] - "
-                                f"[bold green]{values}[/bold green]")
-
-        self.logger.log("[green]-----------------------------------------[/green]")
+            trackpath = directory / f"{track.path_title}.mp3"
+            copyfile(track.path, trackpath)
+        self.logger.log(f"[yellow]{self.count}[/yellow] [green]track{'s'[:self.count != 1]} copied[/green]")
 
     def play(self, cli: bool, overlap_length: int) -> None:
         """
@@ -106,3 +59,60 @@ class Tracklist:
 
             for track in self.tracks[1:]:
                 typer.launch(str(track.path))
+
+    def print(self) -> None:
+        """
+        Print tracklist and summary.
+        Precondition: self.count >= 1
+        """
+        self.logger.log("[italic green]--------------- TRACKLIST ---------------[/italic green]")
+
+        summary_fields = {summary_field: set() for summary_field in SUMMARY_FIELDS}
+        for track in self.tracks:
+            for summary_field in SUMMARY_FIELDS:
+                for field in FIELD_FILTERS[summary_field]:
+                    if value := getattr(track, field):
+                        summary_fields[summary_field].add(value)
+                        break
+            self.logger.log(str(track))
+
+        self.logger.log("[italic green]--------------- SUMMARY -----------------[/italic green]")
+        self.logger.log(f"[bold blue]Tracks[/bold blue]: [bold yellow]{self.count}[/bold yellow]")
+        self.logger.log(f"[bold blue]Length[/bold blue]: [bold yellow]{length_to_string(self.length)}[/bold yellow]")
+
+        for summary_field in SUMMARY_FIELDS:
+            if summary_fields[summary_field]:
+                values = "[bold red] | [/bold red]".join(sorted(summary_fields[summary_field]))
+                self.logger.log(f"[bold blue]{summary_field.capitalize()}s[/bold blue]: "
+                                f"[bold yellow]{len(summary_fields[summary_field])}[/bold yellow] - "
+                                f"[bold green]{values}[/bold green]")
+
+        self.logger.log("[green]-----------------------------------------[/green]")
+
+    def sort(self, sorting: str) -> None:
+        """Sort tracks by path on `sorting` order."""
+        match sorting:
+            case "asc":
+                self.tracks.sort(key=lambda track: track.path)
+            case "desc":
+                self.tracks.sort(key=lambda track: track.path, reverse=True)
+            case "random":
+                random.shuffle(self.tracks)
+
+    def truncate(self, max_tracklist_length: int) -> None:
+        """
+        Truncate tracklist so that the length is less than or equal to max_tracklist_length.
+        Preconditions:
+            -self.count >= 1
+            -any track length <= max_tracklist_length
+        """
+        length = 0
+        for i, track in enumerate(self.tracks):
+            if length + track.length <= max_tracklist_length:
+                length += track.length
+            else:
+                i -= 1
+                break
+        self.tracks = self.tracks[:i + 1]
+        self.count = i + 1
+        self.length = length

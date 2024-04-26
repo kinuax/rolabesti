@@ -1,13 +1,21 @@
 from enum import Enum
-from typing import Annotated
+from typing import Annotated, Optional
 
 import typer
 
+from rolabesti.models import Sortings
 
-class SortingEnum(str, Enum):
-    asc = "asc"
-    desc = "desc"
-    random = "random"
+
+def enum_callback(enum: Enum):
+    """Return enum's value."""
+    return enum.value
+
+
+def field_callback(field: str | None):
+    """Ensure non-empty string."""
+    if field == "":
+        raise typer.BadParameter("should not be empty.")
+    return field
 
 
 def length_callback(length: int):
@@ -15,6 +23,46 @@ def length_callback(length: int):
     return length * 60
 
 
+artist_option = Annotated[Optional[str], typer.Option(
+    "--artist",
+    "-ar",
+    help="Track artist.",
+    rich_help_panel="Search filters",
+    show_default=False,
+    callback=field_callback,
+)]
+title_option = Annotated[Optional[str], typer.Option(
+    "--title",
+    "-t",
+    help="Track title.",
+    rich_help_panel="Search filters",
+    show_default=False,
+    callback=field_callback,
+)]
+album_option = Annotated[Optional[str], typer.Option(
+    "--album",
+    "-al",
+    help="Track album.",
+    rich_help_panel="Search filters",
+    show_default=False,
+    callback=field_callback,
+)]
+genre_option = Annotated[Optional[str], typer.Option(
+    "--genre",
+    "-g",
+    help="Track genre.",
+    rich_help_panel="Search filters",
+    show_default=False,
+    callback=field_callback,
+)]
+place_option = Annotated[Optional[str], typer.Option(
+    "--place",
+    "-p",
+    help="Track place.",
+    rich_help_panel="Search filters",
+    show_default=False,
+    callback=field_callback,
+)]
 max_track_length_option = Annotated[int, typer.Option(
     "--max",
     help="Maximum track length in minutes (0 means disabled).",
@@ -29,41 +77,6 @@ min_track_length_option = Annotated[int, typer.Option(
     min=0,
     callback=length_callback,
 )]
-artist_option = Annotated[str, typer.Option(
-    "--artist",
-    "-ar",
-    help="Track artist.",
-    rich_help_panel="Search filters",
-    show_default=False,
-)]
-title_option = Annotated[str, typer.Option(
-    "--title",
-    "-t",
-    help="Track title.",
-    rich_help_panel="Search filters",
-    show_default=False,
-)]
-album_option = Annotated[str, typer.Option(
-    "--album",
-    "-al",
-    help="Track album.",
-    rich_help_panel="Search filters",
-    show_default=False,
-)]
-genre_option = Annotated[str, typer.Option(
-    "--genre",
-    "-g",
-    help="Track genre.",
-    rich_help_panel="Search filters",
-    show_default=False,
-)]
-place_option = Annotated[str, typer.Option(
-    "--place",
-    "-p",
-    help="Track place.",
-    rich_help_panel="Search filters",
-    show_default=False,
-)]
 max_tracklist_length_option = Annotated[int, typer.Option(
     "--length",
     "-l",
@@ -72,9 +85,10 @@ max_tracklist_length_option = Annotated[int, typer.Option(
     min=0,
     callback=length_callback,
 )]
-sorting_option = Annotated[SortingEnum, typer.Option(
+sorting_option = Annotated[Sortings, typer.Option(
     "--sorting",
     "-s",
     help="Order by track path.",
     rich_help_panel="Tracklist selectors",
+    callback=enum_callback,
 )]

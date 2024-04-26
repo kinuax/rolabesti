@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "rolabesti"
 version = "0.5.3"
-description = "CLI app to manage and play collections of mp3 tracks."
+description = "CLI app to manage, search, and play collections of mp3 tracks."
 authors = ["Kinuax <kinuax@protonmail.com>"]
 license = "GPLv2"
 readme = "README.rst"
@@ -30,11 +30,12 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.10"
 mutagen = "1.47.0"
-platformdirs = "^4.2.0"
-pydantic = "^2.7.0"
+platformdirs = "4.2.0"
+pydantic = "2.7.0"
+pygame = "2.5.2"
 pymongo = "4.6.2"
-python-vlc = "3.0.20123"
-typer = "^0.12.3"
+typer = "0.12.3"
+wurlitzer = "3.0.3"
 
 [tool.poetry.group.dev]
 optional = true

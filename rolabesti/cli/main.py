@@ -1,21 +1,31 @@
 from typing import Annotated
 
 import typer
+from click import Context
+from typer.core import TyperGroup
 
-from .commands.copy import copy_command
-from .commands.init import init_command
-from .commands.list import list_command
-from .commands.play import play_command
-from .commands.tag import tag_command
+from .commands.copy import copy
+from .commands.init import init
+from .commands.list import list_
+from .commands.play import play
+from .commands.tag import tag
 from rolabesti import __app_name__, __description__, __version__
 
 
-app = typer.Typer()
-app.command("copy")(copy_command)
-app.command("init")(init_command)
-app.command("list")(list_command)
-app.command("play")(play_command)
-app.command("tag")(tag_command)
+class OrderCommandsTyperGroup(TyperGroup):
+    def list_commands(self, ctx: Context):
+        return list(self.commands)
+
+
+app = typer.Typer(
+    cls=OrderCommandsTyperGroup,
+    context_settings={"help_option_names": ["-h", "--help"]},
+)
+app.command()(init)
+app.command("list")(list_)
+app.command()(play)
+app.command()(copy)
+app.command()(tag)
 
 
 def version_callback(value: bool) -> None:
@@ -32,4 +42,4 @@ def callback(
         callback=version_callback,
     )] = False,
 ) -> None:
-    return
+    pass
