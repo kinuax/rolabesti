@@ -21,7 +21,6 @@ MAX_TRACK_LENGTH = 10
 MIN_TRACK_LENGTH = 0
 MAX_TRACKLIST_LENGTH = 60
 SORTING = "random"
-PLAYER = "vlc"
 OVERLAP_LENGTH = 3
 MUSIC_DIR = user_music_dir()
 COPY_DIR = user_documents_dir()

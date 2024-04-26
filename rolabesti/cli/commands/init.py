@@ -4,7 +4,7 @@ from typing import Annotated
 import typer
 
 from rolabesti.conf.settings import MUSIC_DIR
-from rolabesti.mongo import load
+from rolabesti.controllers import InitController
 
 
 app = typer.Typer()
@@ -21,8 +21,8 @@ music_directory_option = Annotated[Path, typer.Option(
 
 
 @app.command()
-def init_command(
+def init(
     music_directory: music_directory_option = MUSIC_DIR,
 ):
     """Initialize database."""
-    load(music_directory)
+    InitController(locals())()
