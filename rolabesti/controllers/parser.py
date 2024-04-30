@@ -1,6 +1,7 @@
 import re
 from pathlib import Path
 
+from mutagen import MutagenError
 from mutagen.mp3 import MP3
 from pydantic import ValidationError
 
@@ -84,7 +85,7 @@ class Parser:
         """
         try:
             return int(MP3(trackpath).info.length)
-        except:
+        except MutagenError:
             return
 
     @staticmethod
