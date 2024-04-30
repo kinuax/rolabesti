@@ -1,7 +1,7 @@
 from pathlib import Path
 
+from mutagen import MutagenError
 from mutagen.easyid3 import EasyID3
-from mutagen.id3._util import ID3NoHeaderError
 
 
 def add_prefix_to_dict(d: dict, prefix: str) -> dict:
@@ -16,5 +16,5 @@ def get_id3_dict(trackpath: Path) -> EasyID3 | None:
     """
     try:
         return EasyID3(trackpath)
-    except ID3NoHeaderError:
+    except MutagenError:
         return
