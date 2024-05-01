@@ -1,13 +1,18 @@
 from abc import ABC, abstractmethod
 
-from rolabesti.database import MongoDB
+from rolabesti.conf.settings import DB
+from rolabesti.database import MongoDB, TinyDB
 from rolabesti.logger import Logger
 
 
 class Controller(ABC):
     def __init__(self, parameters: dict) -> None:
         self.parameters = parameters
-        self.db = MongoDB()
+        match DB:
+            case "mongo":
+                self.db = MongoDB()
+            case "tiny":
+                self.db = TinyDB()
         self.logger = Logger()
 
     @abstractmethod
