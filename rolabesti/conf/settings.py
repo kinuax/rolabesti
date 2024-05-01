@@ -8,10 +8,11 @@ by the user in the ~/.config/rolabesti/rolabesti.conf file.
 """
 
 import configparser
+import os
 import sys
 from os.path import exists
 
-from platformdirs import user_config_path, user_documents_dir, user_music_dir
+from platformdirs import user_config_path, user_data_path, user_documents_dir, user_music_dir
 
 from rolabesti import __app_name__
 
@@ -24,6 +25,7 @@ SORTING = "random"
 OVERLAP_LENGTH = 3
 MUSIC_DIR = user_music_dir()
 COPY_DIR = user_documents_dir()
+DB = "tiny"
 
 # MongoDB.
 MONGO_HOST = "localhost"
@@ -31,13 +33,20 @@ MONGO_PORT = 27017
 MONGO_DBNAME = "rolabesti"
 MONGO_COLNAME = "tracks"
 
+# TinyDB.
+TINY_DIR = user_data_path(__app_name__)
+TINY_FILE = TINY_DIR / "tracks.json"
+
+if DB == "tiny" and not exists(TINY_DIR):
+    os.mkdir(TINY_DIR)
+
 # Override settings
 conf_file = user_config_path(__app_name__) / f"{__app_name__}.conf"
 
 
 if exists(conf_file):
-    SETTINGS = ("MAX_TRACK_LENGTH", "MIN_TRACK_LENGTH", "MONGO_HOST", "MONGO_PORT", "MONGO_DBNAME", "MONGO_COLNAME",
-                "MUSIC_DIR", "PLAYER", "OVERLAP_LENGTH", "MAX_TRACKLIST_LENGTH", "SORTING", "COPY_DIR")
+    SETTINGS = ("MAX_TRACK_LENGTH", "MIN_TRACK_LENGTH", "MAX_TRACKLIST_LENGTH", "SORTING", "OVERLAP_LENGTH",
+                "MUSIC_DIR", "COPY_DIR", "DB", "MONGO_HOST", "MONGO_PORT", "MONGO_DBNAME", "MONGO_COLNAME")
     config = configparser.ConfigParser()
     config.read(conf_file)
 
