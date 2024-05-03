@@ -1,18 +1,13 @@
-# -*- coding: utf-8 -*-
-"""
-rolabesti.validator
-~~~~~~~~~~~~~~~~~~~
-
-This module contains validation related functionality.
-"""
-
 import os
 from os.path import isdir
 import sys
 
-from .conf import settings
-from .player import MAXIMUM_OVERLAP_LENGTH, MINIMUM_OVERLAP_LENGTH, PLAYERS
-from .sorter import SORTINGS
+from . import settings
+
+
+MAXIMUM_OVERLAP_LENGTH = 30
+MINIMUM_OVERLAP_LENGTH = 0
+SORTINGS = ('asc', 'desc', 'random')
 
 
 def get_value(variable):
@@ -49,12 +44,6 @@ def validate_settings():
 
     if max_track_length > max_tracklist_length:
         error += 'MAX_TRACKLIST_LENGTH should be greater than or equal to MAX_TRACK_LENGTH'
-        sys.exit(error)
-
-    player = get_value('PLAYER')
-
-    if player not in PLAYERS:
-        error += 'PLAYER should be a valid value : {}'.format(', '.join(PLAYERS))
         sys.exit(error)
 
     sorting = get_value('SORTING')
