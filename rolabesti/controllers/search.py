@@ -41,6 +41,7 @@ class SearchController(Controller):
         search_filters = {}
         for search_filter in set.intersection(SEARCH_FILTERS, set(self.parameters)):
             if (value := self.parameters[search_filter]) is not None:
-                if not (search_filter in LENGTH_FILTERS and value == 0):  # Disable zero length filters.
+                # Disable zero length filters.
+                if not (search_filter in LENGTH_FILTERS and value == 0):
                     search_filters[search_filter] = value
         return search_filters

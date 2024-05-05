@@ -1,3 +1,4 @@
+from .config import ConfigController
 from .copy import CopyController
 from .init import InitController
 from .list import ListController

@@ -6,22 +6,15 @@ from pathlib import Path
 from pymongo import MongoClient, collection
 
 from .db import DB
-from rolabesti.conf.settings import MONGO_HOST, MONGO_PORT, MONGO_DBNAME, MONGO_COLNAME
 from rolabesti.models import FIELD_FILTERS
 
 
 class MongoDB(DB):
-    def __init__(
-        self,
-        mongo_host: str = MONGO_HOST,
-        mongo_port: int = MONGO_PORT,
-        mongo_dbname: str = MONGO_DBNAME,
-        mongo_colname: str = MONGO_COLNAME,
-    ) -> None:
-        self.mongo_host = mongo_host
-        self.mongo_port = mongo_port
-        self.mongo_dbname = mongo_dbname
-        self.mongo_colname = mongo_colname
+    def __init__(self, mongodb_host: str, mongodb_port: int, mongodb_dbname: str, mongodb_colname: str) -> None:
+        self.mongodb_host = mongodb_host
+        self.mongodb_port = mongodb_port
+        self.mongodb_dbname = mongodb_dbname
+        self.mongodb_colname = mongodb_colname
 
     def count(self) -> int:
         with self._get_collection() as collection:
@@ -49,8 +42,8 @@ class MongoDB(DB):
     @contextmanager
     def _get_collection(self) -> collection.Collection:
         """Get PyMongo collection."""
-        client = MongoClient(host=self.mongo_host, port=self.mongo_port)
-        yield client[self.mongo_dbname][self.mongo_colname]
+        client = MongoClient(host=self.mongodb_host, port=self.mongodb_port)
+        yield client[self.mongodb_dbname][self.mongodb_colname]
         client.close()
 
     @staticmethod

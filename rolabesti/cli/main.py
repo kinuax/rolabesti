@@ -4,11 +4,7 @@ import typer
 from click import Context
 from typer.core import TyperGroup
 
-from .commands.copy import copy
-from .commands.init import init
-from .commands.list import list_
-from .commands.play import play
-from .commands.tag import tag
+from .commands import config, copy, init, list_, play, tag
 from rolabesti import __app_name__, __description__, __version__
 
 
@@ -21,6 +17,7 @@ app = typer.Typer(
     cls=OrderCommandsTyperGroup,
     context_settings={"help_option_names": ["-h", "--help"]},
 )
+app.command()(config)
 app.command()(init)
 app.command("list")(list_)
 app.command()(play)

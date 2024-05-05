@@ -11,12 +11,12 @@ from ..options import (
     sorting_option,
 )
 from ..utils import validate_length_limits
-from rolabesti.conf.settings import MAX_TRACK_LENGTH, MIN_TRACK_LENGTH, SORTING
+from rolabesti.config import get_settings
 from rolabesti.controllers import ListController
-from rolabesti.models import Sortings
 
 
 app = typer.Typer()
+settings = get_settings()
 
 
 @app.command()
@@ -26,9 +26,9 @@ def list_(
     album: album_option = None,
     genre: genre_option = None,
     place: place_option = None,
-    max_track_length: max_track_length_option = MAX_TRACK_LENGTH,
-    min_track_length: min_track_length_option = MIN_TRACK_LENGTH,
-    sorting: sorting_option = Sortings[SORTING],
+    max_track_length: max_track_length_option = settings.max_track_length,
+    min_track_length: min_track_length_option = settings.min_track_length,
+    sorting: sorting_option = settings.sorting,
 ):
     """List matching tracks."""
     validate_length_limits(max_track_length, min_track_length)

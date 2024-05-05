@@ -1,18 +1,22 @@
+import os
 from abc import ABC, abstractmethod
 
-from rolabesti.conf.settings import DB
-from rolabesti.database import MongoDB, TinyDB
+from rolabesti.config import get_settings, tinydb_directory, tinydb_file
+from rolabesti.database import TinyDB
 from rolabesti.logger import Logger
+
+
+settings = get_settings()
 
 
 class Controller(ABC):
     def __init__(self, parameters: dict) -> None:
         self.parameters = parameters
-        match DB:
-            case "mongo":
-                self.db = MongoDB()
-            case "tiny":
-                self.db = TinyDB()
+        match settings.database:
+            case "tinydb":
+                if not tinydb_directory.exists():
+                    os.mkdir(tinydb_directory)
+                self.db = TinyDB(tinydb_file)
         self.logger = Logger()
 
     @abstractmethod

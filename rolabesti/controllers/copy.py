@@ -8,4 +8,4 @@ class CopyController(SearchController):
         if max_tracklist_length := self.parameters["max_tracklist_length"]:
             self.tracklist.truncate(max_tracklist_length)
         self.tracklist.print()
-        self.tracklist.copy(self.parameters["directory"])
+        self.tracklist.copy(self.parameters["copy_directory"])

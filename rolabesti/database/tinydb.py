@@ -5,13 +5,12 @@ from pathlib import Path
 from tinydb import Query, TinyDB as BaseTinyDB, where
 
 from .db import DB
-from rolabesti.conf.settings import TINY_FILE
 from rolabesti.models import FIELD_FILTERS
 
 
 class TinyDB(DB):
-    def __init__(self) -> None:
-        self.db = BaseTinyDB(TINY_FILE)
+    def __init__(self, tinydb_file: Path) -> None:
+        self.db = BaseTinyDB(tinydb_file)
 
     def count(self) -> int:
         return len(self.db.all())
