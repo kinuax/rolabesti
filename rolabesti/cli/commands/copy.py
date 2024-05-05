@@ -15,14 +15,14 @@ from ..options import (
     sorting_option,
 )
 from ..utils import validate_length_limits
-from rolabesti.conf.settings import MAX_TRACK_LENGTH, MIN_TRACK_LENGTH, MAX_TRACKLIST_LENGTH, SORTING, COPY_DIR
+from rolabesti.config import get_settings
 from rolabesti.controllers import CopyController
-from rolabesti.models import Sortings
 
 
 app = typer.Typer()
-directory_option = Annotated[Path, typer.Option(
-    "--directory",
+settings = get_settings()
+copy_directory_option = Annotated[Path, typer.Option(
+    "--copy-directory",
     "-d",
     help="Path to destiny directory.",
     exists=True,
@@ -40,11 +40,11 @@ def copy(
     album: album_option = None,
     genre: genre_option = None,
     place: place_option = None,
-    max_track_length: max_track_length_option = MAX_TRACK_LENGTH,
-    min_track_length: min_track_length_option = MIN_TRACK_LENGTH,
-    max_tracklist_length: max_tracklist_length_option = MAX_TRACKLIST_LENGTH,
-    sorting: sorting_option = Sortings[SORTING],
-    directory: directory_option = COPY_DIR,
+    max_track_length: max_track_length_option = settings.max_track_length,
+    min_track_length: min_track_length_option = settings.min_track_length,
+    max_tracklist_length: max_tracklist_length_option = settings.max_tracklist_length,
+    sorting: sorting_option = settings.sorting,
+    copy_directory: copy_directory_option = settings.copy_directory,
 ):
     """Copy matching tracks to a directory."""
     validate_length_limits(max_track_length, min_track_length, max_tracklist_length)
