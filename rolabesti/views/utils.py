@@ -1,9 +1,17 @@
-import contextlib
+from contextlib import contextmanager, redirect_stdout
 from pathlib import Path
-from wurlitzer import pipes
+
+try:
+    from wurlitzer import pipes
+except ModuleNotFoundError:
+    # wurlitzer is not supported on Windows.
+    @contextmanager
+    def pipes():
+        yield
+
 
 # Avoid messages from pygame while importing.
-with contextlib.redirect_stdout(None):
+with redirect_stdout(None):
     import pygame
 
 
