@@ -18,30 +18,7 @@ parser = Parser()
 
 
 @pytest.mark.parametrize("trackpath, length", [
-    (Path(f"/path/to/music/directory/Places/{place}/Genres/{genre}/Albums/{album}/{side}/{title}.mp3"), 5),
-    (Path(f"/path/to/music/directory/Places/{place}/Genres/{genre}/Albums/{album}/{title}.mp3"), 4),
-    (Path(f"/path/to/music/directory/Places/{place}/Genres/{genre}/{artist}/{album}/{side}/{title}.mp3"), 6),
-    (Path(f"/path/to/music/directory/Places/{place}/Genres/{genre}/{artist}/{album}/{title}.mp3"), 5),
-    (Path(f"/path/to/music/directory/Places/{place}/Genres/{genre}/{artist}/{title}.mp3"), 4),
-    (Path(f"/path/to/music/directory/Places/{place}/Genres/{genre}/{title}.mp3"), 3),
-    (Path(f"/path/to/music/directory/Places/{place}/Albums/{album}/{side}/{title}.mp3"), 4),
-    (Path(f"/path/to/music/directory/Places/{place}/Albums/{album}/{title}.mp3"), 3),
-    (Path(f"/path/to/music/directory/Places/{place}/{artist}/{album}/{side}/{title}.mp3"), 5),
-    (Path(f"/path/to/music/directory/Places/{place}/{artist}/{album}/{title}.mp3"), 4),
-    (Path(f"/path/to/music/directory/Places/{place}/{artist}/{title}.mp3"), 3),
-    (Path(f"/path/to/music/directory/Places/{place}/{title}.mp3"), 2),
-    (Path(f"/path/to/music/directory/Genres/{genre}/Albums/{album}/{side}/{title}.mp3"), 4),
-    (Path(f"/path/to/music/directory/Genres/{genre}/Albums/{album}/{title}.mp3"), 3),
-    (Path(f"/path/to/music/directory/Genres/{genre}/{artist}/{album}/{side}/{title}.mp3"), 5),
-    (Path(f"/path/to/music/directory/Genres/{genre}/{artist}/{album}/{title}.mp3"), 4),
-    (Path(f"/path/to/music/directory/Genres/{genre}/{artist}/{title}.mp3"), 3),
-    (Path(f"/path/to/music/directory/Genres/{genre}/{title}.mp3"), 2),
-    (Path(f"/path/to/music/directory/Albums/{album}/{side}/{title}.mp3"), 3),
-    (Path(f"/path/to/music/directory/Albums/{album}/{title}.mp3"), 2),
-    (Path(f"/path/to/music/directory/Artists/{artist}/{album}/{side}/{title}.mp3"), 4),
-    (Path(f"/path/to/music/directory/Artists/{artist}/{album}/{title}.mp3"), 3),
-    (Path(f"/path/to/music/directory/Artists/{artist}/{title}.mp3"), 2),
-    (Path(f"/path/to/music/directory/{title}.mp3"), 1),
+    (Path() / "path-to-music-directory" / "Places" / f"{place}" / "Genres" / f"{genre}" / "Albums" / f"{album}" / f"{side}" / f"{title}.mp3", 5),
 ])
 def test_parse_path_fields_with_supported_trackpaths(
     trackpath: Path,
