@@ -20,7 +20,6 @@ def create_directories(directories: list[Path]) -> None:
     for path in directories:
         if not path.exists():
             path.mkdir(parents=True)
-            print(f"created {path}")  # TODO remove
 
 
 max_overlap_length = 30
