@@ -22,7 +22,6 @@ def create_directories(directories: list[Path]) -> None:
             path.mkdir(parents=True)
 
 
-max_overlap_length = 30
 copy_path = user_documents_path()
 music_path = user_music_path()
 tinydb_path = user_data_path(__app_name__)
@@ -30,6 +29,7 @@ toml_path = user_config_path(__app_name__)
 create_directories([copy_path, music_path, tinydb_path, toml_path])
 tinydb_file = tinydb_path / "tracks.json"
 toml_file = toml_path / "config.toml"
+max_overlap_length = 30
 
 
 class Databases(str, Enum):
