@@ -18,7 +18,7 @@ parser = Parser()
 
 
 @pytest.mark.parametrize("trackpath, length", [
-    (Path() / "path-to-music-directory" / "Places" / f"{place}" / "Genres" / f"{genre}" / "Albums" / f"{album}" / f"{side}" / f"{title}.mp3", 5),
+    (Path().joinpath("path-to-music-directory", "Places", f"{place}", "Genres", f"{genre}", "Albums", f"{album}", f"{side}", f"{title}.mp3"), 5),
 ])
 def test_parse_path_fields_with_supported_trackpaths(
     trackpath: Path,
