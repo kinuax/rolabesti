@@ -1,4 +1,5 @@
 from enum import Enum
+from pathlib import Path
 from typing import Type
 
 from platformdirs import user_config_path, user_data_path, user_music_path, user_documents_path
@@ -10,9 +11,16 @@ from pydantic_settings import (
     TomlConfigSettingsSource,
 )
 
-from .utils import create_directories
 from rolabesti import __app_name__
 from rolabesti.models import Sortings
+
+
+def create_directories(directories: list[Path]) -> None:
+    """Ensure directories are created."""
+    for path in directories:
+        if not path.exists():
+            path.mkdir(parents=True)
+            print(f"created {path}")  # TODO remove
 
 
 max_overlap_length = 30

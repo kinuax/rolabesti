@@ -1,18 +1,9 @@
 from functools import lru_cache
-from pathlib import Path
 
 from pydantic import ValidationError
 from tomlkit import dumps
 
 from .settings import Settings, toml_file
-
-
-def create_directories(directories: list[Path]) -> None:
-    # Ensure directories are created.
-    for path in directories:
-        if not path.exists():
-            path.mkdir(parents=True)
-            print(f"created {path}")  # TODO remove
 
 
 @lru_cache
