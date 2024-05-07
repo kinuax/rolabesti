@@ -10,14 +10,19 @@ from pydantic_settings import (
     TomlConfigSettingsSource,
 )
 
+from .utils import create_directories
 from rolabesti import __app_name__
 from rolabesti.models import Sortings
 
 
 max_overlap_length = 30
-tinydb_directory = user_data_path(__app_name__)
-tinydb_file = tinydb_directory / "tracks.json"
-toml_file = user_config_path(__app_name__) / "config.toml"
+copy_path = user_documents_path()
+music_path = user_music_path()
+tinydb_path = user_data_path(__app_name__)
+toml_path = user_config_path(__app_name__)
+create_directories([copy_path, music_path, tinydb_path, toml_path])
+tinydb_file = tinydb_path / "tracks.json"
+toml_file = toml_path / "config.toml"
 
 
 class Databases(str, Enum):
@@ -31,8 +36,8 @@ class Settings(BaseSettings):
     max_tracklist_length: NonNegativeInt = 60
     sorting: Sortings = Sortings.random
     overlap_length: int = Field(3, ge=0, le=max_overlap_length)
-    music_directory: DirectoryPath = user_music_path()
-    copy_directory: DirectoryPath = user_documents_path()
+    music_directory: DirectoryPath = music_path
+    copy_directory: DirectoryPath = copy_path
     database: Databases = Databases.tinydb
     model_config = SettingsConfigDict(
         toml_file=toml_file,
