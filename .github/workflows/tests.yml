@@ -1,0 +1,33 @@
+name: Tests
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+
+jobs:
+  Tests:
+    name: ${{ matrix.os }} - ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: [3.10]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Poetry
+        run: pipx install poetry
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: poetry
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Test
+        run: poetry run pytest -v
