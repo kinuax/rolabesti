@@ -18,6 +18,7 @@ parser = Parser()
 
 
 @pytest.mark.parametrize("trackpath, length", [
+    (Path() / "Places" / place / "Genres" / genre / "Albums" / album / side / f"{title}.mp3", 3),
     (Path() / "Places" / place / "Genres" / genre / "Albums" / album / f"{title}.mp3", 3),
     (Path() / "Places" / place / "Genres" / genre / artist / album / side / f"{title}.mp3", 4),
     (Path() / "Places" / place / "Genres" / genre / artist / album / f"{title}.mp3", 4),
