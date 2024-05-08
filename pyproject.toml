@@ -3,28 +3,28 @@ name = "rolabesti"
 version = "0.5.3"
 description = "CLI app to manage, search, and play collections of mp3 tracks."
 authors = ["Kinuax <kinuax@protonmail.com>"]
-license = "GPLv2"
+license = "MIT"
 readme = "README.rst"
 homepage = "https://github.com/kinuax/rolabesti"
 repository = "https://github.com/kinuax/rolabesti"
 documentation = "https://github.com/kinuax/rolabesti"
 keywords = ["mp3", "id3", "vlc", "mongo"]
 classifiers = [
-    'Development Status :: 4 - Beta',
-    'Intended Audience :: Developers',
-    'Intended Audience :: Other Audience',
-    'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',
-    'Natural Language :: English',
-    'Operating System :: POSIX :: Linux',
-    'Programming Language :: Python',
-    'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3.10',
-    'Programming Language :: Python :: 3.11',
-    'Programming Language :: Python :: 3.12',
-    'Topic :: Multimedia',
-    'Topic :: Multimedia :: Sound/Audio',
-    'Topic :: Multimedia :: Sound/Audio :: Players',
-    'Topic :: Multimedia :: Sound/Audio :: Players :: MP3',
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Other Audience",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia",
+    "Topic :: Multimedia :: Sound/Audio",
+    "Topic :: Multimedia :: Sound/Audio :: Players",
+    "Topic :: Multimedia :: Sound/Audio :: Players :: MP3",
 ]
 
 [tool.poetry.dependencies]
