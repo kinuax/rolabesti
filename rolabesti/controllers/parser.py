@@ -1,4 +1,3 @@
-import re
 from pathlib import Path
 
 from mutagen import MutagenError
@@ -9,56 +8,65 @@ from .utils import add_prefix_to_dict, get_id3_dict
 from rolabesti.models import ID3Tags, Track
 
 
-PATTERNS = {
-    r"/Places/([^/]+)/Genres/([^/]+)/Albums/([^/]+)/(?:([^/]+)/)?([^/]+)\.[mM][pP]3$": (
-        "place", "genre", "album", "side", "title"),
-    r"/Places/([^/]+)/Genres/([^/]+)/([^/]+)/([^/]+)/(?:([^/]+)/)?([^/]+)\.[mM][pP]3$": (
-        "place", "genre", "artist", "album", "side", "title"),
-    r"/Places/([^/]+)/Genres/([^/]+)/([^/]+)/([^/]+)\.[mM][pP]3$": ("place", "genre", "artist", "title"),
-    r"/Places/([^/]+)/Genres/([^/]+)/([^/]+)\.[mM][pP]3$": ("place", "genre", "title"),
-    r"/Places/([^/]+)/([^/]+)\.[mM][pP]3$": ("place", "title"),
-    r"/Places/([^/]+)/Albums/([^/]+)/(?:([^/]+)/)?([^/]+)\.[mM][pP]3$": ("place", "album", "side", "title"),
-    r"/Places/([^/]+)/([^/]+)/([^/]+)/(?:([^/]+)/)?([^/]+)\.[mM][pP]3$": ("place", "artist", "album", "side", "title"),
-    r"/Places/([^/]+)/([^/]+)/([^/]+)\.[mM][pP]3$": ("place", "artist", "title"),
-    r"/Genres/([^/]+)/Albums/([^/]+)/(?:([^/]+)/)?([^/]+)\.[mM][pP]3$": ("genre", "album", "side", "title"),
-    r"/Genres/([^/]+)/([^/]+)/([^/]+)/(?:([^/]+)/)?([^/]+)\.[mM][pP]3$": ("genre", "artist", "album", "side", "title"),
-    r"/Genres/([^/]+)/([^/]+)/([^/]+)\.[mM][pP]3$": ("genre", "artist", "title"),
-    r"/Genres/([^/]+)/([^/]+)\.[mM][pP]3$": ("genre", "title"),
-    r"/Artists/([^/]+)/([^/]+)/(?:([^/]+)/)?([^/]+)\.[mM][pP]3$": ("artist", "album", "side", "title"),
-    r"/Artists/([^/]+)/([^/]+)\.[mM][pP]3$": ("artist", "title"),
-    r"/Albums/([^/]+)/(?:([^/]+)/)?([^/]+)\.[mM][pP]3$": ("album", "side", "title"),
-    r"/([^/]+)\.[mM][pP]3$": ("title",),
-}
+patterns = [
+    [{"Places": -8, "Genres": -6, "Albums": -4}, {"place": -7, "genre": -5, "album": -3}],
+    [{"Places": -7, "Genres": -5, "Albums": -3}, {"place": -6, "genre": -4, "album": -2}],
+    [{"Places": -8, "Genres": -6}, {"place": -7, "genre": -5, "artist": -4, "album": -3}],
+    [{"Places": -7, "Genres": -5}, {"place": -6, "genre": -4, "artist": -3, "album": -2}],
+    [{"Places": -6, "Genres": -4}, {"place": -5, "genre": -3, "artist": -2}],
+    [{"Places": -5, "Genres": -3}, {"place": -4, "genre": -2}],
+    [{"Places": -6, "Albums": -4}, {"place": -5, "album": -3}],
+    [{"Places": -5, "Albums": -3}, {"place": -4, "album": -2}],
+    [{"Places": -6}, {"place": -5, "artist": -4, "album": -3}],
+    [{"Places": -5}, {"place": -4, "artist": -3, "album": -2}],
+    [{"Places": -4}, {"place": -3, "artist": -2}],
+    [{"Places": -3}, {"place": -2}],
+    [{"Genres": -6, "Albums": -4}, {"genre": -5, "album": -3}],
+    [{"Genres": -5, "Albums": -3}, {"genre": -4, "album": -2}],
+    [{"Genres": -6}, {"genre": -5, "artist": -4, "album": -3}],
+    [{"Genres": -5}, {"genre": -4, "artist": -3, "album": -2}],
+    [{"Genres": -4}, {"genre": -3, "artist": -2}],
+    [{"Genres": -3}, {"genre": -2}],
+    [{"Artists": -5}, {"artist": -4, "album": -3}],
+    [{"Artists": -4}, {"artist": -3, "album": -2}],
+    [{"Artists": -3}, {"artist": -2}],
+    [{"Albums": -4}, {"album": -3}],
+    [{"Albums": -3}, {"album": -2}],
+]
 
 
 class Parser:
     """Parsing related functionality."""
+
     def parse(self, trackpath: Path) -> Track | None:
         """
         Parse track located at trackpath and return a Track object.
         If there is an error, return None.
         """
-        if (path_fields := self._parse_path_fields(trackpath)) is None:
-            return
         if (id3_tags := self._parse_id3_tags(trackpath)) is None:
             return
         if (length := self._parse_length(trackpath)) is None:
             return
+        path_fields = self._parse_path_fields(trackpath)
+        path_fields["title"] = trackpath.stem
         if (track := self._build_track(trackpath, path_fields, id3_tags, length)) is None:
             return
         return track
 
     @staticmethod
-    def _parse_path_fields(trackpath: Path) -> dict | None:
+    def _parse_path_fields(trackpath: Path) -> dict:
         """
-        Match and parse trackpath against PATTERNS.
-        Return a dictionary with parsed fields if there is a match.
-        If there is no matching pattern, return None.
+        Parse trackpath and return a dictionary with the path fields.
+        If there is no matching pattern, return an empty dictionary.
         """
-        for regex, fields in PATTERNS.items():
-            match = re.search(regex, str(trackpath))
-            if match:
-                return {field: value for field, value in zip(fields, match.groups()) if value}
+        for pattern in patterns:
+            try:
+                if all(field == trackpath.parts[index] for field, index in pattern[0].items()):
+                    return {field: trackpath.parts[index] for field, index in pattern[1].items()}
+            except IndexError:
+                # Discard trackpath unable to match pattern.
+                pass
+        return {}
 
     @staticmethod
     def _parse_id3_tags(trackpath: Path) -> dict | None:

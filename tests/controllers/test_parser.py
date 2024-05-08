@@ -18,7 +18,28 @@ parser = Parser()
 
 
 @pytest.mark.parametrize("trackpath, length", [
-    (Path().joinpath("path-to-music-directory", "Places", f"{place}", "Genres", f"{genre}", "Albums", f"{album}", f"{side}", f"{title}.mp3"), 5),
+    (Path() / "Places" / place / "Genres" / genre / "Albums" / album / f"{title}.mp3", 3),
+    (Path() / "Places" / place / "Genres" / genre / artist / album / side / f"{title}.mp3", 4),
+    (Path() / "Places" / place / "Genres" / genre / artist / album / f"{title}.mp3", 4),
+    (Path() / "Places" / place / "Genres" / genre / artist / f"{title}.mp3", 3),
+    (Path() / "Places" / place / "Genres" / genre / f"{title}.mp3", 2),
+    (Path() / "Places" / place / "Albums" / album / side / f"{title}.mp3", 2),
+    (Path() / "Places" / place / "Albums" / album / f"{title}.mp3", 2),
+    (Path() / "Places" / place / artist / album / side / f"{title}.mp3", 3),
+    (Path() / "Places" / place / artist / album / f"{title}.mp3", 3),
+    (Path() / "Places" / place / artist / f"{title}.mp3", 2),
+    (Path() / "Places" / place / f"{title}.mp3", 1),
+    (Path() / "Genres" / genre / "Albums" / album / side / f"{title}.mp3", 2),
+    (Path() / "Genres" / genre / "Albums" / album / f"{title}.mp3", 2),
+    (Path() / "Genres" / genre / artist / album / side / f"{title}.mp3", 3),
+    (Path() / "Genres" / genre / artist / album / f"{title}.mp3", 3),
+    (Path() / "Genres" / genre / artist / f"{title}.mp3", 2),
+    (Path() / "Genres" / genre / f"{title}.mp3", 1),
+    (Path() / "Albums" / album / side / f"{title}.mp3", 1),
+    (Path() / "Albums" / album / f"{title}.mp3", 1),
+    (Path() / "Artists" / artist / album / side / f"{title}.mp3", 2),
+    (Path() / "Artists" / artist / album / f"{title}.mp3", 2),
+    (Path() / "Artists" / artist / f"{title}.mp3", 1),
 ])
 def test_parse_path_fields_with_supported_trackpaths(
     trackpath: Path,
@@ -31,13 +52,12 @@ def test_parse_path_fields_with_supported_trackpaths(
 
 
 @pytest.mark.parametrize("trackpath", [
-    (Path(f"/path/to/music/directory/Places/{place}/Genre/{genre}"), ),
-    (Path(f"/path/to/music/directory/Places/{place}/Genre/{genre}/{title}"), ),
-    (Path(f"/path/to/music/directory/Places/{place}/{title}.pdf"), ),
-    (Path("@#wW#$DS23VTW#@%$wsVWExEW234ER^#^#$%"), ),
+    Path() / "Places" / place,
+    Path() / "Albums" / album,
+    Path() / "some" / "path",
 ])
 def test_parse_path_fields_with_unsupported_trackpaths(
     trackpath: Path,
 ) -> None:
     path_fields = parser._parse_path_fields(trackpath)
-    assert path_fields is None
+    assert path_fields == {}

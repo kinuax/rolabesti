@@ -24,7 +24,7 @@ class ConfigController(Controller):
             del self.parameters["list_"]
             del self.parameters["reset"]
 
-            if all(map(lambda parameter: parameter is None, self.parameters.values())):
+            if all(parameter is None for parameter in self.parameters.values()):
                 self.logger.log("[green]no new settings to configure[/green]")
                 return
 
