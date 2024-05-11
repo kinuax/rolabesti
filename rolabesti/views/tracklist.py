@@ -5,7 +5,7 @@ from time import sleep
 
 import typer
 
-from .utils import play_audio
+from .utils import play_mp3
 from rolabesti.models import FIELD_FILTERS, Track
 from rolabesti.logger import Logger
 from rolabesti.utils import length_to_string
@@ -37,7 +37,7 @@ class Tracklist:
         if cli:
             for i, track in enumerate(self.tracks):
                 self.logger.log(f"[green]playing --> [/green]{track}")
-                play_audio(track.path)
+                play_mp3(track.path, i % 2)
 
                 # Adjust waiting_length. Filter out last track and too short tracks.
                 if i < self.count - 1 and overlap_length < track.length:
