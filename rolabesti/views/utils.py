@@ -19,12 +19,10 @@ with redirect_stdout(None):
     import pygame
 
 
-pygame.mixer.init()
-channels = [pygame.mixer.Channel(0), pygame.mixer.Channel(1)]
-
-
 def play_mp3(trackpath: Path, channel: int) -> None:
     """Play the track located at trackpath on the given channel."""
+    pygame.mixer.init()
+    channel = pygame.mixer.Channel(channel)
     # Avoid messages from C libraries.
     with pipes():
         try:
@@ -34,4 +32,4 @@ def play_mp3(trackpath: Path, channel: int) -> None:
             with tempfile.TemporaryFile() as wav_file:
                 AudioSegment.from_mp3(trackpath).export(wav_file, format="wav")
                 sound = pygame.mixer.Sound(wav_file)
-        channels[channel].play(sound)
+        channel.play(sound)
