@@ -3,7 +3,7 @@ from typing import Annotated
 
 import typer
 
-from ..utils import validate_length_limits
+from rolabesti.cli.utils import validate_length_limits
 from rolabesti.config import get_settings, max_overlap_length
 from rolabesti.controllers import ConfigController
 from rolabesti.models import Sortings
