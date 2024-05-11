@@ -1,6 +1,6 @@
 import typer
 
-from ..options import (
+from rolabesti.cli.options import (
     artist_option,
     title_option,
     album_option,
@@ -10,7 +10,7 @@ from ..options import (
     min_track_length_option,
     sorting_option,
 )
-from ..utils import validate_length_limits
+from rolabesti.cli.utils import validate_length_limits
 from rolabesti.config import get_settings
 from rolabesti.controllers import ListController
 
