@@ -4,10 +4,10 @@ version = "0.5.3"
 description = "CLI app to manage, search, and play collections of mp3 tracks."
 authors = ["Kinuax <kinuax@protonmail.com>"]
 license = "MIT"
-readme = "README.rst"
-homepage = "https://github.com/kinuax/rolabesti"
-repository = "https://github.com/kinuax/rolabesti"
-documentation = "https://github.com/kinuax/rolabesti"
+readme = "README.md"
+homepage = "https://github.com/kinuax/rolabesti/"
+repository = "https://github.com/kinuax/rolabesti/"
+documentation = "https://github.com/kinuax/rolabesti/"
 keywords = ["mp3", "id3", "vlc", "mongo"]
 classifiers = [
     "Development Status :: 4 - Beta",
