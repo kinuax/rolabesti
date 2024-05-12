@@ -5,17 +5,21 @@ description = "CLI app to manage, search, and play collections of mp3 tracks."
 authors = ["Kinuax <kinuax@protonmail.com>"]
 license = "MIT"
 readme = "README.md"
-homepage = "https://github.com/kinuax/rolabesti/"
-repository = "https://github.com/kinuax/rolabesti/"
-documentation = "https://github.com/kinuax/rolabesti/"
-keywords = ["mp3", "id3", "vlc", "mongo"]
+homepage = "https://github.com/kinuax/rolabesti"
+repository = "https://github.com/kinuax/rolabesti"
+documentation = "https://github.com/kinuax/rolabesti"
+keywords = ["audio", "sound", "music", "mp3", "player", "id3", "cli", "shell", "terminal", "typer", "click", "tinydb", "vlc"]
 classifiers = [
-    "Development Status :: 4 - Beta",
-    "Intended Audience :: Developers",
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Framework :: Pydantic",
+    "Framework :: Pydantic :: 2",
+    "Framework :: Pytest",
+    "Framework :: tox",
+    "Intended Audience :: End Users/Desktop",
     "Intended Audience :: Other Audience",
     "License :: OSI Approved :: MIT License",
-    "Natural Language :: English",
-    "Operating System :: POSIX :: Linux",
+    "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
@@ -23,6 +27,7 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Topic :: Multimedia",
     "Topic :: Multimedia :: Sound/Audio",
+    "Topic :: Multimedia :: Sound/Audio :: Mixers",
     "Topic :: Multimedia :: Sound/Audio :: Players",
     "Topic :: Multimedia :: Sound/Audio :: Players :: MP3",
 ]
