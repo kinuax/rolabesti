@@ -4,8 +4,8 @@ import typer
 from click import Context
 from typer.core import TyperGroup
 
+from .commands import config, copy, init, list_, play, tag
 from rolabesti import __app_name__, __description__, __version__
-from rolabesti.cli.commands import config, copy, init, list_, play, tag
 
 
 class OrderCommandsTyperGroup(TyperGroup):

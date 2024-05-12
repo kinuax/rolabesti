@@ -2,7 +2,7 @@ from typing import Annotated
 
 import typer
 
-from rolabesti.cli.options import (
+from ..options import (
     artist_option,
     title_option,
     album_option,
@@ -13,7 +13,7 @@ from rolabesti.cli.options import (
     max_tracklist_length_option,
     sorting_option,
 )
-from rolabesti.cli.utils import validate_length_limits
+from ..utils import validate_length_limits
 from rolabesti.config import get_settings, max_overlap_length
 from rolabesti.controllers import PlayController
 
