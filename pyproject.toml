@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "rolabesti"
-version = "0.5.3"
+version = "0.6.0"
 description = "CLI app to manage, search, and play collections of mp3 tracks."
 authors = ["Kinuax <kinuax@protonmail.com>"]
 license = "MIT"
